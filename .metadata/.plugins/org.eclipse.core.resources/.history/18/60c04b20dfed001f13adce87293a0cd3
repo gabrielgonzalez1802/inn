@@ -1,0 +1,83 @@
+package com.inn.products.services;
+
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.temporal.WeekFields;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Locale;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.inn.products.dtos.ProductMovementSummaryDTO;
+import com.inn.products.entities.Movement;
+import com.inn.products.repositories.MovementRepository;
+
+@Service
+public class MovementService {
+
+    @Autowired
+    private MovementRepository movementRepository;
+
+    public List<Movement> findAll() {
+        return movementRepository.findAll();
+    }
+
+    public Optional<Movement> findById(Long id) {
+        return movementRepository.findById(id);
+    }
+
+    public Movement save(Movement Movement) {
+        return movementRepository.save(Movement);
+    }
+
+    public void deleteById(Long id) {
+        movementRepository.deleteById(id);
+    }
+    
+    public List<ProductMovementSummaryDTO> findMovementsGroupedByProductName(LocalDateTime startDate, LocalDateTime endDate, 
+    		Long warehouseId, List<Long> movementIds) {
+    	
+    	List<Object[]> listaMovimientos = movementRepository.getMovementsSummaryGroupedByProductWithInvFinalWithAllProducts(startDate, endDate, warehouseId, movementIds);
+    	List<ProductMovementSummaryDTO> listaMovimientosDTO = new LinkedList<>();
+    	
+		ProductMovementSummaryDTO movementDTOTempForIssue = new ProductMovementSummaryDTO(1l, "test",
+				1.0, 1.0, 1.0, 1.0, 0.0);
+		
+		if(!listaMovimientos.isEmpty()) {
+			listaMovimientosDTO.add(movementDTOTempForIssue);
+		}
+    	
+		for (Object[] result : listaMovimientos) {
+			Long productId = (Long) result[0];
+			String productName = (String) result[1];
+			Double totalRecepcion = ((Long) result[2]).doubleValue();
+			Double totalDespacho = ((Long) result[3]).doubleValue();
+			Double totalMerma = ((Long) result[4]).doubleValue();
+			Double totalInvInicial = ((Long) result[5]).doubleValue();
+			Double totalInvFinal = ((Long) result[6]).doubleValue();
+
+			ProductMovementSummaryDTO movementDTO = new ProductMovementSummaryDTO(productId, productName,
+					totalRecepcion, totalDespacho, totalMerma, totalInvInicial, totalInvFinal);
+
+			listaMovimientosDTO.add(movementDTO);
+		}
+    	
+    	return listaMovimientosDTO;
+    }
+    
+    public static boolean fechaNoExcedeSemana(LocalDateTime fechaInicio, LocalDateTime fechaFin) {
+        WeekFields wf = WeekFields.of(Locale.getDefault());
+        int semanaInicio = fechaInicio.get(wf.weekOfYear());
+        int semanaFin = fechaFin.get(wf.weekOfYear());
+
+        // Ajustar para el caso de cambio de año
+        if (semanaFin < semanaInicio) {
+            semanaFin += wf.weekOfWeekBasedYear().range().getMaximum();
+        }
+
+        return semanaFin - semanaInicio <= 1; // 1 para incluir la semana inicial
+    }
+}

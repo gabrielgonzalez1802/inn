@@ -1,0 +1,38 @@
+package com.inn.products.entities;
+
+import jakarta.persistence.*;
+import lombok.Data;
+
+@Entity
+@Table(name = "products")
+@Data
+public class Product {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "product_id")
+    private Long productId;
+
+    @Column(name = "product_name", nullable = false)
+    private String productName;
+    @Column(name = "product_price")
+    private Double productPrice;
+    @Column(name = "product_category_id")
+    private Long prodCategoryId;
+    @Column(name = "presentation_type_id")
+    private Long presentationTypeId;
+    @Column(name = "product_code", nullable = false, unique = true)
+    private String productCode;
+    @Column(name = "product_description")
+    private String productDescription;
+    @Column(name = "product_unit_messure_id")
+    private Long productUnitMessureId;
+    
+    @ManyToOne
+    @JoinColumn(name = "product_category_id", nullable = false, insertable = false, updatable = false)
+    private ProductCategory productCategory;
+    
+    @ManyToOne
+    @JoinColumn(columnDefinition = "presentation_type_id", referencedColumnName = "presentation_type_id", nullable = false, insertable = false, updatable = false)
+    private ProductPresentation productPresentation;
+}

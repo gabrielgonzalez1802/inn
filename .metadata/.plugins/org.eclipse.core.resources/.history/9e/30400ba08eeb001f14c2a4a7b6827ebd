@@ -1,0 +1,5 @@
+package com.inn.orders.dtos;
+
+public class OrderStatusTypeDTO {
+
+}

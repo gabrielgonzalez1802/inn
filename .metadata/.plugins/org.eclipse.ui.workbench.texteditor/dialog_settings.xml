@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
+		<item key="selection" value="address_id"/>
+		<item key="wrap" value="true"/>
+		<item key="casesensitive" value="true"/>
+		<item key="wholeword" value="false"/>
+		<item key="incremental" value="false"/>
+		<item key="isRegEx" value="false"/>
+		<list key="findhistory">
+			<item value="address_id"/>
+			<item value="eureka-client"/>
+			<item value="config"/>
+			<item value="warehouseClientFeign"/>
+			<item value="movements"/>
+			<item value="uniq"/>
+			<item value="movement_type_id"/>
+			<item value="presentation_type_id"/>
+			<item value="type_presentation_id"/>
+			<item value="prod_category_id"/>
+			<item value="obtenerDatosReporteDesdeFuenteDeDatos"/>
+			<item value="blank"/>
+			<item value="double"/>
+			<item value="ds"/>
+			<item value="productos"/>
+		</list>
+		<list key="replacehistory">
+			<item value="Double"/>
+			<item value="Type"/>
+			<item value="Order"/>
+			<item value="Product"/>
+			<item value="rder"/>
+			<item value="movement"/>
+			<item value="Movement"/>
+			<item value="Measure"/>
+			<item value="Presentation"/>
+			<item value="product"/>
+			<item value="lot"/>
+			<item value="Lot"/>
+			<item value="Meassure"/>
+			<item value="Messure"/>
+			<item value="Client"/>
+		</list>
+	</section>
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
+		<item key="DIALOG_X_ORIGIN" value="1545"/>
+		<item key="DIALOG_Y_ORIGIN" value="341"/>
+		<item key="DIALOG_WIDTH" value="322"/>
+		<item key="DIALOG_HEIGHT" value="391"/>
+		<item key="DIALOG_FONT_NAME" value="1|Segoe UI|9.0|0|WINDOWS|1|-12|0|0|0|400|0|0|0|1|0|0|0|0|Segoe UI"/>
+	</section>
+	<section name="org.eclipse.ui.texteditor.GotoLineAction$GotoLineDialog_dialogBounds">
+		<item key="DIALOG_X_ORIGIN" value="724"/>
+		<item key="DIALOG_Y_ORIGIN" value="392"/>
+	</section>
+</section>

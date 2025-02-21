@@ -1,0 +1,5 @@
+package com.inn.orders.services;
+
+public class OrderStatusHistoryService {
+
+}

@@ -1,0 +1,25 @@
+package com.inn.products.dtos;
+
+import java.util.List;
+
+import lombok.Data;
+
+@Data
+public class ReportProductTerminatedDTO {
+	
+	private String almacen;
+    private String planta;
+    private String fechaInicio;
+    private String fechaFin;
+    private List<ProductTerminatedDTO> productos;
+    
+    @Data
+    public class ProductTerminatedDTO {
+        private String nombre;
+        private double invInicial;
+        private double recepcion;
+        private double despacho;
+        private double merma;
+        private double invFinal;
+    }
+}

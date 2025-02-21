@@ -1,0 +1,119 @@
+package com.inn.products.dtos;
+
+import java.util.List;
+
+public class ReportProductTerminatedDTO {
+	
+	private String almacen;
+    private String planta;
+    private String fechaInicio;
+    private String fechaFin;
+    private List<ProductTerminatedDTO> productos;
+    
+    
+    
+    public String getAlmacen() {
+		return almacen;
+	}
+
+
+
+	public void setAlmacen(String almacen) {
+		this.almacen = almacen;
+	}
+
+
+
+	public String getPlanta() {
+		return planta;
+	}
+
+
+
+	public void setPlanta(String planta) {
+		this.planta = planta;
+	}
+
+
+
+	public String getFechaInicio() {
+		return fechaInicio;
+	}
+
+
+
+	public void setFechaInicio(String fechaInicio) {
+		this.fechaInicio = fechaInicio;
+	}
+
+
+
+	public String getFechaFin() {
+		return fechaFin;
+	}
+
+
+
+	public void setFechaFin(String fechaFin) {
+		this.fechaFin = fechaFin;
+	}
+
+
+
+	public List<ProductTerminatedDTO> getProductos() {
+		return productos;
+	}
+
+
+
+	public void setProductos(List<ProductTerminatedDTO> productos) {
+		this.productos = productos;
+	}
+
+
+
+	public class ProductTerminatedDTO {
+        private String nombre;
+        private double invInicial;
+        private double recepcion;
+        private double despacho;
+        private double merma;
+        private double invFinal;
+		public String getNombre() {
+			return nombre;
+		}
+		public void setNombre(String nombre) {
+			this.nombre = nombre;
+		}
+		public double getInvInicial() {
+			return invInicial;
+		}
+		public void setInvInicial(double invInicial) {
+			this.invInicial = invInicial;
+		}
+		public double getRecepcion() {
+			return recepcion;
+		}
+		public void setRecepcion(double recepcion) {
+			this.recepcion = recepcion;
+		}
+		public double getDespacho() {
+			return despacho;
+		}
+		public void setDespacho(double despacho) {
+			this.despacho = despacho;
+		}
+		public double getMerma() {
+			return merma;
+		}
+		public void setMerma(double merma) {
+			this.merma = merma;
+		}
+		public double getInvFinal() {
+			return invFinal;
+		}
+		public void setInvFinal(double invFinal) {
+			this.invFinal = invFinal;
+		}
+    }
+}

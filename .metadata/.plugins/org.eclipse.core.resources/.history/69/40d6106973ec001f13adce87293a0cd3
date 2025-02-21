@@ -1,0 +1,220 @@
+<!-- Created with Jaspersoft Studio version 7.0.1.final using JasperReports Library version 7.0.1-573496633c2b4074e32f433154b543003f7d2498  -->
+<jasperReport name="reporteSemanal" language="java" pageWidth="595" pageHeight="842" whenNoDataType="BlankPage" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="4eedbb89-b4f6-4469-9ab6-f642a1688cf7">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="NO_DATA_ADAPTER"/>
+	<style name="Table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_CH" mode="Opaque" backcolor="#DADADA">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 1_TH" mode="Opaque" backcolor="#D9D0C3">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 1_CH" mode="Opaque" backcolor="#FFF5E6">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<dataset name="ds" uuid="fcb4cb86-1573-453d-a519-c66746d0e7f0">
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+		<query language="sql"><![CDATA[]]></query>
+		<field name="nombre" class="java.lang.String"/>
+		<field name="invInicial" class="java.lang.Double"/>
+		<field name="recepcion" class="java.lang.Double"/>
+		<field name="despacho" class="java.lang.Double"/>
+		<field name="merma" class="java.lang.Double"/>
+		<field name="invFinal" class="java.lang.Double"/>
+	</dataset>
+	<parameter name="semana" class="java.lang.String"/>
+	<parameter name="ds" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource"/>
+	<query language="sql"><![CDATA[]]></query>
+	<title height="112" splitType="Stretch">
+		<element kind="staticText" uuid="edbd74ac-0cbd-44c9-8a8e-ccf745191172" x="0" y="58" width="554" height="14" fontName="SansSerif" fontSize="11.0" bold="true" hTextAlign="Center">
+			<text><![CDATA[PLANILLA DE REGISTRO RELACIÓN DE MOVIMIENTOS DE PRODUCTO TERMINADO]]></text>
+		</element>
+		<element kind="staticText" uuid="0f86baff-6386-4f3f-b3fe-2388707babe8" x="415" y="10" width="50" height="20" fontName="SansSerif" hTextAlign="Right">
+			<text><![CDATA[Date:]]></text>
+			<box rightPadding="4"/>
+		</element>
+		<element kind="textField" uuid="bb10dbe1-0a4f-4722-9953-c163b63cf979" x="465" y="10" width="84" height="20" fontName="SansSerif" pattern="EEEEE dd MMMMM yyyy">
+			<expression><![CDATA[new java.util.Date()]]></expression>
+		</element>
+		<element kind="image" uuid="94883631-a913-43e2-b182-ab8d77d0181e" x="0" y="0" width="556" height="50" hImageAlign="Center">
+			<expression><![CDATA["bannerinn.png"]]></expression>
+		</element>
+		<element kind="staticText" uuid="96e138e7-3e77-413c-a016-a9e1a952a0f7" x="80" y="72" width="130" height="14" fontName="SansSerif" fontSize="11.0" bold="true" hTextAlign="Left">
+			<text><![CDATA[ALMACÉN O GALPÓN:]]></text>
+		</element>
+		<element kind="staticText" uuid="852da5f8-ae48-402b-aa8d-931dd7716dde" x="220" y="72" width="150" height="14" fontName="SansSerif" fontSize="11.0" bold="true" hTextAlign="Left">
+			<text><![CDATA[PLANTA AMAZONAS]]></text>
+		</element>
+		<element kind="staticText" uuid="63eac127-f7c5-4513-96f8-488c205fbb11" x="0" y="90" width="310" height="15" fontName="SansSerif" fontSize="11.0">
+			<text><![CDATA[Producto del movimiento de inventarios, entre la semana del:]]></text>
+		</element>
+		<element kind="textField" uuid="9f278df9-f387-4dbe-bef8-5c431f33421b" x="419" y="75" width="129" height="15" fontName="SansSerif" blankWhenNull="true" hTextAlign="Right">
+			<expression><![CDATA[$P{semana}]]></expression>
+		</element>
+	</title>
+	<pageHeader height="27">
+		<element kind="staticText" uuid="10d772b8-58aa-47b3-b2af-ee3559065420" x="-1" y="0" width="549" height="20" fontName="SansSerif" fontSize="11.0" bold="true">
+			<text><![CDATA[1.- RELACIÓN DE PRODUCTO TERMINADO: Recepción, Despachos y Merma.]]></text>
+		</element>
+	</pageHeader>
+	<detail>
+		<band height="74" splitType="Stretch">
+			<element kind="component" uuid="f506e826-e64a-4029-a340-8f3965104169" x="10" y="11" width="540" height="63">
+				<component kind="table">
+					<datasetRun uuid="4e8e0424-c530-496f-a654-ff0ae9c0dc26" subDataset="ds">
+						<dataSourceExpression><![CDATA[$P{ds}]]></dataSourceExpression>
+					</datasetRun>
+					<column kind="single" uuid="a968b974-e9c9-444e-9611-312457e897a1" width="90">
+						<columnHeader height="30" style="Table 1_CH">
+							<element kind="staticText" uuid="d6a49c83-4313-44a9-9537-0b3e34c15096" x="0" y="0" width="90" height="30">
+								<text><![CDATA[nombre]]></text>
+							</element>
+						</columnHeader>
+						<detailCell height="30" style="Table 1_TD">
+							<element kind="textField" uuid="991552ed-6026-4a72-b66c-22d4b5aed23f" x="0" y="0" width="90" height="30">
+								<expression><![CDATA[$F{nombre}]]></expression>
+							</element>
+						</detailCell>
+					</column>
+					<column kind="single" uuid="a43f462c-f46b-4eb8-9fd2-812f5285b474" width="90">
+						<columnHeader height="30" style="Table 1_CH">
+							<element kind="staticText" uuid="b5af0056-be2d-4e97-a6b8-c9c4d6f87346" x="0" y="0" width="90" height="30">
+								<text><![CDATA[invInicial]]></text>
+							</element>
+						</columnHeader>
+						<detailCell height="30" style="Table 1_TD">
+							<element kind="textField" uuid="11fcaabb-d50f-40e8-8d1a-c21b71b18b4a" x="0" y="0" width="90" height="30">
+								<expression><![CDATA[$F{invInicial}]]></expression>
+							</element>
+						</detailCell>
+					</column>
+					<column kind="single" uuid="e7dde447-3375-4147-925a-41e6c09a56f0" width="90">
+						<columnHeader height="30" style="Table 1_CH">
+							<element kind="staticText" uuid="2bca2370-b544-4bdc-91ca-55bb7a6bf140" x="0" y="0" width="90" height="30">
+								<text><![CDATA[recepcion]]></text>
+							</element>
+						</columnHeader>
+						<detailCell height="30" style="Table 1_TD">
+							<element kind="textField" uuid="83bd905d-47f5-4b7b-9fde-65a6bf8ee4c9" x="0" y="0" width="90" height="30">
+								<expression><![CDATA[$F{recepcion}]]></expression>
+							</element>
+						</detailCell>
+					</column>
+					<column kind="single" uuid="81a720f1-9ffa-4d92-bbf3-7593b16d4342" width="90">
+						<columnHeader height="30" style="Table 1_CH">
+							<element kind="staticText" uuid="f8bcb6b1-248f-432b-b0a2-2b40a17099a7" x="0" y="0" width="90" height="30">
+								<text><![CDATA[despacho]]></text>
+							</element>
+						</columnHeader>
+						<detailCell height="30" style="Table 1_TD">
+							<element kind="textField" uuid="ad3ab7d0-fd97-4c7b-84c0-6fb022bb1ca8" x="0" y="0" width="90" height="30">
+								<expression><![CDATA[$F{despacho}]]></expression>
+							</element>
+						</detailCell>
+					</column>
+					<column kind="single" uuid="e01ea56d-55c3-4cbd-a4f4-d10857b46924" width="90">
+						<columnHeader height="30" style="Table 1_CH">
+							<element kind="staticText" uuid="6270edd2-6187-49fa-9c95-c7e9ec5a463a" x="0" y="0" width="90" height="30">
+								<text><![CDATA[merma]]></text>
+							</element>
+						</columnHeader>
+						<detailCell height="30" style="Table 1_TD">
+							<element kind="textField" uuid="8c6ef50b-10bb-4a68-bd4c-0b24a9ed3d4f" x="0" y="0" width="90" height="30">
+								<expression><![CDATA[$F{merma}]]></expression>
+							</element>
+						</detailCell>
+					</column>
+					<column kind="single" uuid="cadf301c-0878-4716-9c25-5550ad7c6ff2" width="90">
+						<columnHeader height="30" style="Table 1_CH">
+							<element kind="staticText" uuid="4e6890a1-b2e1-487b-9347-82dbfdebbd53" x="0" y="0" width="90" height="30">
+								<text><![CDATA[invFinal]]></text>
+							</element>
+						</columnHeader>
+						<detailCell height="30" style="Table 1_TD">
+							<element kind="textField" uuid="f598abd6-e936-446a-b0b9-4e80eb2cf19d" x="0" y="0" width="90" height="30">
+								<expression><![CDATA[$F{invFinal}]]></expression>
+							</element>
+						</detailCell>
+					</column>
+				</component>
+				<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
+				<property name="com.jaspersoft.studio.table.style.table_header" value="Table 1_TH"/>
+				<property name="com.jaspersoft.studio.table.style.column_header" value="Table 1_CH"/>
+				<property name="com.jaspersoft.studio.table.style.detail" value="Table 1_TD"/>
+			</element>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</band>
+	</detail>
+	<pageFooter height="300" splitType="Stretch">
+		<element kind="rectangle" uuid="7671185f-1aee-4196-8eb9-7ff10fb66bcc" x="-1" y="20" width="557" height="100"/>
+		<element kind="staticText" uuid="7c910db7-ca90-4dd0-9938-cd3ee1165364" x="-1" y="0" width="80" height="20" fontName="SansSerif" fontSize="11.0" bold="true" vTextAlign="Bottom">
+			<text><![CDATA[Observaciones:]]></text>
+		</element>
+		<element kind="staticText" uuid="522144ed-9add-43a1-8226-b64aab614fe9" x="-1" y="129" width="556" height="31" fontName="SansSerif" fontSize="11.0" hTextAlign="Center">
+			<text><![CDATA[El detalle de las cifras anteriormente descritas son reportadas a la Dirección de Ingresos Propios a través de un formato digital (.xls). Firma en señal de conformidad con las cifras reportadas:]]></text>
+		</element>
+		<element kind="staticText" uuid="753aef15-48fa-41e8-a416-34663da3d447" x="0" y="170" width="80" height="20" fontName="SansSerif" fontSize="11.0" bold="false" vTextAlign="Bottom">
+			<text><![CDATA[Responsable:]]></text>
+		</element>
+		<element kind="rectangle" uuid="da9b8776-bb9f-4e67-9813-d33cccfcffe5" x="-1" y="189" width="556" height="101"/>
+		<element kind="rectangle" uuid="f2612ea5-f47c-410a-a400-bbd274cb6e8d" x="-1" y="189" width="556" height="80"/>
+		<element kind="rectangle" uuid="b41733b5-e5a7-43fb-bfbf-0468b2645911" x="-1" y="189" width="269" height="80"/>
+		<element kind="rectangle" uuid="58008db7-ab51-4b39-a20a-c98bffd3337c" x="-1" y="269" width="269" height="21"/>
+		<element kind="rectangle" uuid="4daf6428-119b-448d-a8e7-a92db8741087" x="268" y="269" width="287" height="21"/>
+		<element kind="staticText" uuid="320073ef-4839-4bfb-873e-8d6062754cc0" x="270" y="170" width="80" height="20" fontName="SansSerif" fontSize="11.0" bold="false" vTextAlign="Bottom">
+			<text><![CDATA[Firma y Sello:]]></text>
+		</element>
+		<element kind="staticText" uuid="9a61bbd8-9f79-4a76-b0dd-524553135753" x="10" y="220" width="80" height="20" fontName="SansSerif" vTextAlign="Middle">
+			<text><![CDATA[Nombre:]]></text>
+		</element>
+		<element kind="staticText" uuid="e5ef1177-c5d0-40d7-b7b4-29f816bdd967" x="23" y="240" width="67" height="20" fontName="SansSerif" vTextAlign="Middle">
+			<text><![CDATA[CI:]]></text>
+		</element>
+		<element kind="staticText" uuid="2593b5ab-7f2a-4eb6-88a2-7f5f94322c51" x="0" y="269" width="80" height="20" fontName="SansSerif" vTextAlign="Middle">
+			<text><![CDATA[Cargo:]]></text>
+		</element>
+	</pageFooter>
+</jasperReport>

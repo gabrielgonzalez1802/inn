@@ -1,0 +1,31 @@
+package com.inn.address.entities;
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import jakarta.persistence.*;
+
+import java.util.List;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@Entity
+@Table(name = "states")
+public class State {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "state_id")
+    private Long stateId;
+
+    @Column(name = "state_name")
+    private String stateName;
+
+    @OneToMany(mappedBy = "state")
+    private List<City> cities;
+
+    @OneToMany(mappedBy = "state")
+    private List<Address> addresses;
+}

@@ -1,0 +1,22 @@
+package com.inn.orders.entities;
+
+import jakarta.persistence.*;
+import lombok.Data;
+
+@Entity
+@Table(name = "products")
+@Data
+public class Product {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long productId;
+
+    private String productName;
+    private Long productPrice;
+    private Long prodCategoryId;
+    private Long presentationTypeId;
+    private String productCode;
+    private String productDescription;
+    private Long productUnitMessureId;
+}

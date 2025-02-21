@@ -1,0 +1,459 @@
+<!-- Created with Jaspersoft Studio version 7.0.1.final using JasperReports Library version 7.0.0  -->
+<jasperReport name="reporteSemanal" language="java" pageWidth="595" pageHeight="842" whenNoDataType="BlankPage" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="37b6122f-0f56-4281-a2cb-a8bfb7a69619">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="NO_DATA_ADAPTER"/>
+	<style name="Table_TH" mode="Opaque" backcolor="#EBF1DE">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_CH" mode="Opaque" backcolor="#DADADA">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<dataset name="ds" uuid="694cceea-69ff-421a-83d5-6c57eb219542">
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+		<query language="sql"><![CDATA[]]></query>
+		<field name="productName" class="java.lang.String"/>
+		<field name="semana1" class="java.lang.Double"/>
+		<field name="semana2" class="java.lang.Double"/>
+		<field name="semana3" class="java.lang.Double"/>
+		<field name="semana4" class="java.lang.Double"/>
+		<field name="semana5" class="java.lang.Double"/>
+		<field name="totalRecepcion" class="java.lang.Double"/>
+		<variable name="sumaSemana1" calculation="Sum" class="java.lang.Double">
+			<expression><![CDATA[$F{semana1}]]></expression>
+			<initialValueExpression><![CDATA[0.0]]></initialValueExpression>
+		</variable>
+		<variable name="sumaSemana2" calculation="Sum" class="java.lang.Double">
+			<expression><![CDATA[$F{semana2}]]></expression>
+			<initialValueExpression><![CDATA[0.0]]></initialValueExpression>
+		</variable>
+		<variable name="sumaSemana3" calculation="Sum" class="java.lang.Double">
+			<expression><![CDATA[$F{semana3}]]></expression>
+			<initialValueExpression><![CDATA[0.0]]></initialValueExpression>
+		</variable>
+		<variable name="sumaSemana4" calculation="Sum" class="java.lang.Double">
+			<expression><![CDATA[$F{semana4}]]></expression>
+			<initialValueExpression><![CDATA[0.0]]></initialValueExpression>
+		</variable>
+		<variable name="sumaSemana5" calculation="Sum" class="java.lang.Double">
+			<expression><![CDATA[$F{semana5}]]></expression>
+			<initialValueExpression><![CDATA[0.0]]></initialValueExpression>
+		</variable>
+		<variable name="sumaTotalRecepcion" calculation="Sum" class="java.lang.Double">
+			<expression><![CDATA[$F{totalRecepcion}]]></expression>
+			<initialValueExpression><![CDATA[0.0]]></initialValueExpression>
+		</variable>
+	</dataset>
+	<parameter name="fecha" class="java.lang.String"/>
+	<parameter name="productos" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource"/>
+	<parameter name="fechaInicio" class="java.lang.String"/>
+	<parameter name="fechaFin" class="java.lang.String"/>
+	<parameter name="almacen" class="java.lang.String"/>
+	<query language="sql"><![CDATA[]]></query>
+	<title height="156" splitType="Stretch">
+		<element kind="staticText" uuid="8b1c8921-c105-4b0e-9d06-0a77e9478355" x="0" y="58" width="554" height="14" fontName="SansSerif" fontSize="11.0" bold="true" hTextAlign="Center">
+			<text><![CDATA[PLANILLA DE REGISTRO RELACIÓN DE MOVIMIENTOS DE PRODUCTO TERMINADO]]></text>
+		</element>
+		<element kind="staticText" uuid="ec72029b-8a01-4e07-9561-d761070fa137" x="415" y="10" width="50" height="20" fontName="SansSerif" hTextAlign="Right">
+			<text><![CDATA[Date:]]></text>
+			<box rightPadding="4"/>
+		</element>
+		<element kind="textField" uuid="a6bcf68e-bf1e-4451-aca1-f601a6f9a789" x="465" y="10" width="84" height="20" fontName="SansSerif" pattern="EEEEE dd MMMMM yyyy">
+			<expression><![CDATA[new java.util.Date()]]></expression>
+		</element>
+		<element kind="image" uuid="af792e03-8d0b-4f77-a60f-b9836b2693bd" x="0" y="0" width="556" height="50" hImageAlign="Center">
+			<expression><![CDATA["bannerinn.png"]]></expression>
+		</element>
+		<element kind="staticText" uuid="09cb6222-6a9b-4a8f-b676-14807290c993" x="140" y="80" width="130" height="14" fontName="SansSerif" fontSize="11.0" bold="true" hTextAlign="Left">
+			<text><![CDATA[ALMACÉN O GALPÓN:]]></text>
+		</element>
+		<element kind="staticText" uuid="9a1782d6-5fe9-4cd9-a0b4-ddc0dac1db06" x="40" y="100" width="310" height="15" fontName="SansSerif" fontSize="11.0">
+			<text><![CDATA[Producto del movimiento de inventarios, entre la semana del:]]></text>
+		</element>
+		<element kind="textField" uuid="40d55d99-b127-4635-86ac-736dd450d04f" x="397" y="120" width="95" height="15" fontName="SansSerif" blankWhenNull="true" hTextAlign="Left">
+			<expression><![CDATA[$P{fecha}]]></expression>
+		</element>
+		<element kind="textField" uuid="7b7d683b-3c69-4c21-9276-647ff7a3fb13" x="350" y="100" width="80" height="15">
+			<expression><![CDATA[$P{fechaInicio}]]></expression>
+		</element>
+		<element kind="staticText" uuid="9d7e7ebb-8d4f-4f0d-8323-f9154b371554" x="430" y="100" width="30" height="15" hTextAlign="Center">
+			<text><![CDATA[al]]></text>
+		</element>
+		<element kind="textField" uuid="a2378d3c-56af-4638-a24b-a397841c5c8e" x="460" y="100" width="80" height="15">
+			<expression><![CDATA[$P{fechaFin}]]></expression>
+		</element>
+		<element kind="staticText" uuid="f166db80-dc12-438a-bcaf-7a14b3cbee1b" x="80" y="120" width="310" height="15" fontName="SansSerif" fontSize="11.0">
+			<text><![CDATA[Se reportan las siguientes cifras globales a la presente fecha:]]></text>
+		</element>
+		<element kind="staticText" uuid="f4eea3d0-5620-437f-b5f0-35b2b6063cc4" mode="Opaque" x="180" y="140" width="159" height="14" backcolor="#EBF1DE" fontName="SansSerif" fontSize="11.0" bold="true" underline="true" hTextAlign="Left">
+			<text><![CDATA[     DESPACHOS DEL MES      ]]></text>
+			<box>
+				<pen lineColor="#FFFFFF"/>
+				<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+			</box>
+		</element>
+		<element kind="textField" uuid="1570c5f6-3809-4a2b-8a37-dd4671b43d48" x="270" y="80" width="190" height="14" bold="true">
+			<expression><![CDATA[$P{almacen}]]></expression>
+		</element>
+	</title>
+	<pageHeader height="27">
+		<element kind="staticText" uuid="914e4635-2eae-41a7-904f-15263963969c" x="-1" y="0" width="549" height="20" fontName="SansSerif" fontSize="11.0" bold="true">
+			<text><![CDATA[1.- Relación de "DESPACHO" Producto terminado:]]></text>
+		</element>
+	</pageHeader>
+	<detail>
+		<band height="50">
+			<element kind="component" uuid="ede1ede1-d3cb-45f7-b922-9a41a49faf1e" key="" stretchType="ContainerBottom" x="0" y="0" width="555" height="50">
+				<component kind="table">
+					<datasetRun uuid="a9c907ea-15e1-4ee0-91d7-922ea0617cfd" subDataset="ds">
+						<dataSourceExpression><![CDATA[$P{productos}]]></dataSourceExpression>
+					</datasetRun>
+					<columnFooter splitType="Stretch"/>
+					<detail/>
+					<column kind="single" uuid="e534c7af-2ac2-41ff-8b5b-80cfd5f0bef7" width="170">
+						<columnHeader height="30" rowSpan="1" style="Table_TH">
+							<element kind="staticText" uuid="d3fd4e9a-717a-43d1-815e-85647465c243" x="0" y="0" width="170" height="30" fontName="SansSerif" bold="true" italic="true" hTextAlign="Center" vTextAlign="Middle">
+								<text><![CDATA[Producto Terminado]]></text>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+							</element>
+						</columnHeader>
+						<columnFooter height="19" rowSpan="1">
+							<element kind="staticText" uuid="b5e0e810-38ca-4ac8-8452-c398ec8edf08" x="0" y="0" width="170" height="19" bold="true" hTextAlign="Right">
+								<text><![CDATA[Total Despachos]]></text>
+								<box rightPadding="10"/>
+							</element>
+							<box>
+								<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+						</columnFooter>
+						<detailCell height="21">
+							<element kind="textField" uuid="51fd22d1-8dde-437d-86d2-1df5ac9551dd" x="0" y="0" width="170" height="21" italic="true">
+								<expression><![CDATA[$F{productName}]]></expression>
+								<box leftPadding="1" rightPadding="0">
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+							</element>
+						</detailCell>
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
+					</column>
+					<column kind="single" uuid="5555b6b2-6fac-4cc4-9a8a-f22f0edba9a0" width="70">
+						<columnHeader height="30" rowSpan="1" style="Table_TH">
+							<element kind="staticText" uuid="bdcb92a6-21d4-477b-b6cf-7ee544a9e641" x="0" y="0" width="70" height="30" fontName="SansSerif" bold="true" italic="true" hTextAlign="Center" vTextAlign="Middle">
+								<text><![CDATA[1era 
+Semana]]></text>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+							</element>
+						</columnHeader>
+						<columnFooter height="19" rowSpan="1">
+							<element kind="textField" uuid="971ef28e-618b-4a6c-9a5d-b49e4e3d5d4d" x="0" y="0" width="70" height="19" linkType="None" linkTarget="Self" bold="true" hTextAlign="Center">
+								<expression><![CDATA[$V{sumaSemana1}]]></expression>
+							</element>
+							<box>
+								<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+						</columnFooter>
+						<detailCell height="21">
+							<element kind="textField" uuid="5fca13f1-7af8-4940-9856-6d99fbcd230c" x="0" y="0" width="70" height="21" italic="true" hTextAlign="Center">
+								<expression><![CDATA[$F{semana1}]]></expression>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+							</element>
+							<box>
+								<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+						</detailCell>
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column2"/>
+					</column>
+					<column kind="single" uuid="8271704c-c402-4dac-8449-44eb875d6225" width="65">
+						<columnHeader height="30" rowSpan="1" style="Table_TH">
+							<element kind="staticText" uuid="be1aa92f-c75e-4795-9ed0-5c6bf60fce2a" x="0" y="0" width="65" height="30" fontName="SansSerif" bold="true" italic="true" hTextAlign="Center" vTextAlign="Middle">
+								<text><![CDATA[2da
+Semana]]></text>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+							</element>
+						</columnHeader>
+						<columnFooter height="19" rowSpan="1">
+							<element kind="textField" uuid="f9fbf3dd-9c73-47a5-8f41-49f7080ec8fd" x="0" y="0" width="65" height="19" bold="true" hTextAlign="Center">
+								<expression><![CDATA[$V{sumaSemana2}]]></expression>
+							</element>
+							<box>
+								<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+						</columnFooter>
+						<detailCell height="21">
+							<element kind="textField" uuid="2ff02347-3a0c-478b-934b-86cfeaf36c2d" x="0" y="0" width="65" height="21" italic="true" hTextAlign="Center">
+								<expression><![CDATA[$F{semana2}]]></expression>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+							</element>
+							<box>
+								<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+						</detailCell>
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
+					</column>
+					<column kind="single" uuid="1af022b6-bc37-4f10-9ad1-ef706ee8197e" width="65">
+						<columnHeader height="30" rowSpan="1" style="Table_TH">
+							<element kind="staticText" uuid="2c19aeab-16b7-4a82-a4a8-2f38da6ca521" x="0" y="0" width="65" height="30" fontName="SansSerif" bold="true" italic="true" hTextAlign="Center" vTextAlign="Middle">
+								<text><![CDATA[3era 
+Semana]]></text>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+							</element>
+						</columnHeader>
+						<columnFooter height="19" rowSpan="1">
+							<element kind="textField" uuid="ab529208-6494-4000-a53d-30e7c2b4f144" x="0" y="0" width="65" height="19" bold="true" hTextAlign="Center">
+								<expression><![CDATA[$V{sumaSemana3}]]></expression>
+							</element>
+							<box>
+								<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+						</columnFooter>
+						<detailCell height="21">
+							<element kind="textField" uuid="0d3efd38-5301-4dae-aef3-8964c1282bb6" x="0" y="0" width="65" height="21" italic="true" hTextAlign="Center">
+								<expression><![CDATA[$F{semana3}]]></expression>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+							</element>
+							<box>
+								<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+						</detailCell>
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column4"/>
+					</column>
+					<column kind="single" uuid="ce17ef1d-5494-4bd2-b497-fc9cce00b77c" width="59">
+						<columnHeader height="30" rowSpan="1" style="Table_TH">
+							<element kind="staticText" uuid="3bdcb841-9317-4d59-9f6e-2daf8fc89c96" mode="Transparent" x="0" y="0" width="59" height="30" fontName="SansSerif" bold="true" italic="true" hTextAlign="Center" vTextAlign="Middle">
+								<text><![CDATA[3ta
+Semana]]></text>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+							</element>
+						</columnHeader>
+						<columnFooter height="19" rowSpan="1">
+							<element kind="textField" uuid="09028bc1-3a2d-40d7-ba33-d39db45f8757" x="0" y="0" width="59" height="19" bold="true" hTextAlign="Center">
+								<expression><![CDATA[$V{sumaSemana4}]]></expression>
+							</element>
+							<box>
+								<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+						</columnFooter>
+						<detailCell height="21">
+							<element kind="textField" uuid="9a63dab5-0661-4f70-96e8-df4f48338a01" x="0" y="0" width="59" height="21" italic="true" hTextAlign="Center">
+								<expression><![CDATA[$F{semana4}]]></expression>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+							</element>
+							<box>
+								<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+						</detailCell>
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column5"/>
+					</column>
+					<column kind="single" uuid="f9716392-cc77-4683-b8a5-0ec6f04378be" width="71">
+						<columnHeader height="30" rowSpan="1" style="Table_TH">
+							<element kind="staticText" uuid="0b8a46b2-2d75-4792-a983-acdc7f060892" x="0" y="0" width="71" height="30" fontName="SansSerif" bold="true" italic="true" hTextAlign="Center" vTextAlign="Middle">
+								<text><![CDATA[5ta
+Semana]]></text>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+							</element>
+						</columnHeader>
+						<columnFooter height="19" rowSpan="1">
+							<element kind="textField" uuid="71bb37d6-1f5a-4de1-81a5-4229b26a4066" x="0" y="0" width="71" height="19" bold="true" hTextAlign="Center">
+								<expression><![CDATA[$V{sumaSemana5}]]></expression>
+							</element>
+							<box>
+								<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+						</columnFooter>
+						<detailCell height="21">
+							<element kind="textField" uuid="e12c09d8-b748-4fcd-a583-2ab656b72fd8" x="0" y="0" width="71" height="21" italic="true" hTextAlign="Center">
+								<expression><![CDATA[$F{semana5}]]></expression>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+							</element>
+							<box>
+								<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+						</detailCell>
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column6"/>
+					</column>
+					<column kind="single" uuid="538b321d-926b-499a-9764-2174232cc3e5" width="55">
+						<columnHeader height="30" rowSpan="1" style="Table_TH">
+							<element kind="staticText" uuid="ce57c842-dc35-48ed-bcb1-0ad4bba60061" x="0" y="0" width="55" height="30" fontName="SansSerif" bold="true" italic="true" hTextAlign="Center" vTextAlign="Middle">
+								<text><![CDATA[Total 
+Despacho]]></text>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+							</element>
+						</columnHeader>
+						<columnFooter height="19" rowSpan="1">
+							<element kind="textField" uuid="e3889339-4f24-4040-a28a-c2f1bbb4ac9c" x="0" y="0" width="55" height="19" bold="true" hTextAlign="Center">
+								<expression><![CDATA[$V{sumaTotalRecepcion}]]></expression>
+							</element>
+							<box>
+								<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+						</columnFooter>
+						<detailCell height="21">
+							<element kind="textField" uuid="77bf45a7-0ce3-4487-aa20-4cfce59ee3bf" x="0" y="0" width="55" height="21" bold="true" italic="true" hTextAlign="Center">
+								<expression><![CDATA[$F{totalRecepcion}]]></expression>
+							</element>
+							<box>
+								<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+						</detailCell>
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column7"/>
+					</column>
+				</component>
+				<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
+				<property name="com.jaspersoft.studio.table.style.table_header" value="Table 1_TH"/>
+				<property name="com.jaspersoft.studio.table.style.column_header" value="Table 1_CH"/>
+				<property name="com.jaspersoft.studio.table.style.detail" value="Table 1_TD"/>
+			</element>
+		</band>
+	</detail>
+	<pageFooter height="260" splitType="Stretch">
+		<element kind="rectangle" uuid="c21fdb27-dba6-409c-a2a1-3161daf344f5" x="-1" y="20" width="557" height="100"/>
+		<element kind="staticText" uuid="dd698dd9-da8b-48ed-b6ea-1a3d3d70a84f" x="-1" y="0" width="80" height="20" fontName="SansSerif" fontSize="11.0" bold="true" vTextAlign="Bottom">
+			<text><![CDATA[Observaciones:]]></text>
+		</element>
+		<element kind="staticText" uuid="ebd50ba0-9468-4d3a-a7e7-26c486ce0089" x="-1" y="129" width="556" height="31" fontName="SansSerif" fontSize="11.0" hTextAlign="Center">
+			<text><![CDATA[El detalle de las cifras anteriormente descritas son reportadas a la Dirección de Ingresos Propios a través de un formato digital (.xls). Firma en señal de conformidad con las cifras reportadas:]]></text>
+		</element>
+		<element kind="staticText" uuid="91899b8b-3a6f-4abb-87fe-d54915244a4a" x="0" y="170" width="80" height="20" fontName="SansSerif" fontSize="11.0" bold="false" vTextAlign="Bottom">
+			<text><![CDATA[Responsable:]]></text>
+		</element>
+		<element kind="rectangle" uuid="3f4ca334-3515-4747-8900-35a711f64526" x="-1" y="190" width="556" height="69"/>
+		<element kind="staticText" uuid="eb7dbf67-c2bb-476c-b53a-99d82bd9527a" x="270" y="170" width="80" height="20" fontName="SansSerif" fontSize="11.0" bold="false" vTextAlign="Bottom">
+			<text><![CDATA[Firma y Sello:]]></text>
+		</element>
+		<element kind="staticText" uuid="1425cb81-9322-4a21-8357-90310991f017" x="10" y="191" width="80" height="20" fontName="SansSerif" vTextAlign="Middle">
+			<text><![CDATA[Nombre:]]></text>
+		</element>
+		<element kind="staticText" uuid="c6930df1-3eed-4275-a0de-3991c0795739" x="23" y="210" width="67" height="20" fontName="SansSerif" vTextAlign="Middle">
+			<text><![CDATA[CI:]]></text>
+		</element>
+		<element kind="staticText" uuid="c3448510-bf6a-4934-9599-3364a711e88c" x="0" y="240" width="80" height="20" fontName="SansSerif" vTextAlign="Middle">
+			<text><![CDATA[Cargo:]]></text>
+		</element>
+		<element kind="line" uuid="9dbbef7c-5a12-4476-ab5e-74c6ab2c3d40" x="270" y="190" width="1" height="69"/>
+		<element kind="line" uuid="12343803-f001-46da-9477-e055759b4ba4" x="-1" y="240" width="556" height="1"/>
+	</pageFooter>
+</jasperReport>

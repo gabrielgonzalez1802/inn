@@ -1,0 +1,112 @@
+package com.inn.products.services;
+
+import java.time.LocalDateTime;
+import java.time.Period;
+import java.time.temporal.ChronoUnit;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.inn.products.dtos.ProductMovementSummaryDTO;
+import com.inn.products.dtos.ProductMovementWeeklyDTO;
+import com.inn.products.entities.Movement;
+import com.inn.products.repositories.MovementRepository;
+
+@Service
+public class MovementService {
+
+    @Autowired
+    private MovementRepository movementRepository;
+
+    public List<Movement> findAll() {
+        return movementRepository.findAll();
+    }
+
+    public Optional<Movement> findById(Long id) {
+        return movementRepository.findById(id);
+    }
+
+    public Movement save(Movement Movement) {
+        return movementRepository.save(Movement);
+    }
+
+    public void deleteById(Long id) {
+        movementRepository.deleteById(id);
+    }
+    
+    public List<ProductMovementSummaryDTO> findMovementsGroupedByProductName(LocalDateTime startDate, LocalDateTime endDate, 
+    		Long warehouseId, List<Long> movementTypeIds) {
+    	
+    	List<Object[]> listaMovimientos = movementRepository.getMovementsSummaryGroupedByProductWithInvFinalWithAllProducts(startDate, endDate, warehouseId, movementTypeIds);
+    	List<ProductMovementSummaryDTO> listaMovimientosDTO = new LinkedList<>();
+    	
+		ProductMovementSummaryDTO movementDTOTempForIssue = new ProductMovementSummaryDTO(1l, "",
+				0.0, 0.0, 0.0, 0.0, 0.0);
+		
+		if(!listaMovimientos.isEmpty()) {
+			listaMovimientosDTO.add(movementDTOTempForIssue);
+		}
+    	
+		for (Object[] result : listaMovimientos) {
+			Long productId = (Long) result[0];
+			String productName = (String) result[1];
+			Double totalRecepcion = ((Long) result[2]).doubleValue();
+			Double totalDespacho = ((Long) result[3]).doubleValue();
+			Double totalMerma = ((Long) result[4]).doubleValue();
+			Double totalInvInicial = ((Long) result[5]).doubleValue();
+			Double totalInvFinal = ((Long) result[6]).doubleValue();
+
+			ProductMovementSummaryDTO movementDTO = new ProductMovementSummaryDTO(productId, productName,
+					totalRecepcion, totalDespacho, totalMerma, totalInvInicial, totalInvFinal);
+
+			listaMovimientosDTO.add(movementDTO);
+		}
+    	
+    	return listaMovimientosDTO;
+    }
+    
+    public boolean fechaNoExcedeSemana(LocalDateTime fechaInicio, LocalDateTime fechaFin) {
+        long diferenciaDias = ChronoUnit.DAYS.between(fechaInicio, fechaFin);
+        return diferenciaDias <= 7;
+    }
+    
+    public boolean fechaNoExcedeMes(LocalDateTime fechaInicio, LocalDateTime fechaFin) {
+        Period periodo = Period.between(fechaInicio.toLocalDate(), fechaFin.toLocalDate());
+        return periodo.getMonths() <= 1 && periodo.getYears() == 0; // Verifica que no haya pasado más de un mes y que no haya cambiado el año.
+    }
+
+	public List<ProductMovementWeeklyDTO> findMovementsMonthsGroupedByProductName(LocalDateTime fechaInicio,
+			LocalDateTime fechaFin, Long warehouseId, Long movementTypeId) {
+		
+    	List<Object[]> listaMovimientos = movementRepository.findMovementsSummaryByMovementTypeAndWeekly(fechaInicio, fechaFin, warehouseId, movementTypeId);
+    	List<ProductMovementWeeklyDTO> listaMovimientosDTO = new LinkedList<>();
+    	
+    	ProductMovementWeeklyDTO movementDTOTempForIssue = new ProductMovementWeeklyDTO(1l, "",
+				0.0, 0.0, 0.0, 0.0, 0.0);
+		
+		if(!listaMovimientos.isEmpty()) {
+			listaMovimientosDTO.add(movementDTOTempForIssue);
+		}
+    	
+		for (Object[] result : listaMovimientos) {
+			Long productId = (Long) result[0];
+			String productName = (String) result[1];
+			Double totalMovimiento = ((Long) result[2]).doubleValue();
+			Double semana1 = ((Long) result[3]).doubleValue();
+			Double semana2 = ((Long) result[4]).doubleValue();
+			Double semana3 = ((Long) result[5]).doubleValue();
+			Double semana4 = ((Long) result[6]).doubleValue();
+			Double semana5 = ((Long) result[7]).doubleValue();
+
+			ProductMovementWeeklyDTO movementDTO = new ProductMovementWeeklyDTO(productId, productName,
+					totalMovimiento, semana1, semana2, semana3, semana4, semana5);
+
+			listaMovimientosDTO.add(movementDTO);
+		}
+    	
+    	return listaMovimientosDTO;
+	}
+}

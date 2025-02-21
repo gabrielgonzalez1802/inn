@@ -1,0 +1,23 @@
+package com.inn.products.entities;
+
+import jakarta.persistence.*;
+import lombok.Data;
+
+import java.util.Date;
+
+@Entity
+@Table(name = "lots")
+@Data
+public class Lot {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "lot_id")
+    private Long lotId;
+
+    private Long productId;
+    private String lotNumber;
+    private Date manufactureDate;
+    private Date expirationDate;
+    private Long initialQuantity;
+}

@@ -1,0 +1,63 @@
+package com.inn.products.repositories;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
+
+import com.inn.products.entities.Movement;
+
+@Repository
+public interface MovementRepository extends JpaRepository<Movement, Long> {
+
+	@Query("SELECT m.product.productName, m.movementType.movementType, m.movementType.movementTypeId, SUM(m.quantity) " + "FROM Movement m "
+			+ "WHERE m.movementDate BETWEEN :startDate AND :endDate " + "AND m.warehouseId = :warehouseId "
+			+ "GROUP BY m.product.productName, m.movementType.movementType, m.movementType.movementTypeId")
+	List<Object[]> getMovementsSummary(@Param("startDate") LocalDateTime startDate,
+			@Param("endDate") LocalDateTime endDate, @Param("warehouseId") Long warehouseId);
+	
+	@Query("SELECT " +
+	           "p.productId, p.productName, " +
+	           "SUM(CASE WHEN mt.movementTypeId = 1 THEN m.quantity ELSE 0 END) AS totalRecepcion, " + // Recepción
+	           "SUM(CASE WHEN mt.movementTypeId = 2 THEN m.quantity ELSE 0 END) AS totalDespacho, " +  // Despacho
+	           "SUM(CASE WHEN mt.movementTypeId = 3 THEN m.quantity ELSE 0 END) AS totalMerma, " +     // Merma
+	           "SUM(CASE WHEN mt.movementTypeId = 4 THEN m.quantity ELSE 0 END) AS totalInvInicial " +  // Inventario Inicial
+	           "FROM Movement m " +
+	           "JOIN m.product p " +
+	           "JOIN m.movementType mt " +
+	           "WHERE m.movementDate BETWEEN :startDate AND :endDate " +
+	           "AND m.warehouseId = :warehouseId " +
+	           "AND mt.movementTypeId IN :movementTypeIds " +
+	           "GROUP BY p.productId, p.productName")
+	    List<Object[]> getMovementsSummaryGroupedByProduct(
+	            @Param("startDate") LocalDateTime startDate,
+	            @Param("endDate") LocalDateTime endDate,
+	            @Param("warehouseId") Long warehouseId,
+	            @Param("movementTypeIds") List<Long> movementTypeIds);
+	    
+	    @Query("SELECT " +
+	            "p.productId, p.productName, " +
+	            "SUM(CASE WHEN mt.movementTypeId = 1 THEN m.quantity ELSE 0 END) AS totalRecepcion, " +
+	            "SUM(CASE WHEN mt.movementTypeId = 2 THEN m.quantity ELSE 0 END) AS totalDespacho, " +
+	            "SUM(CASE WHEN mt.movementTypeId = 3 THEN m.quantity ELSE 0 END) AS totalMerma, " +
+	            "SUM(CASE WHEN mt.movementTypeId = 4 THEN m.quantity ELSE 0 END) AS totalInvInicial, " +
+	            "SUM(CASE WHEN mt.movementTypeId = 1 THEN m.quantity ELSE 0 END) + " + // Suma Recepción
+	            "SUM(CASE WHEN mt.movementTypeId = 4 THEN m.quantity ELSE 0 END) - " + // Suma Inventario Inicial
+	            "SUM(CASE WHEN mt.movementTypeId = 2 THEN m.quantity ELSE 0 END) - " + // Resta Despacho
+	            "SUM(CASE WHEN mt.movementTypeId = 3 THEN m.quantity ELSE 0 END) AS totalInvFinal " + // Resta Merma
+	            "FROM Movement m " +
+	            "LEFT JOIN m.product p " +
+	            "LEFT JOIN m.movementType mt " +
+	            "WHERE m.movementDate BETWEEN :startDate AND :endDate " +
+	            "AND m.warehouseId = :warehouseId " +
+	            "AND mt.movementTypeId IN :movementTypeIds " +
+	            "GROUP BY p.productId, p.productName")
+	     List<Object[]> getMovementsSummaryGroupedByProductWithInvFinal(
+	             @Param("startDate") LocalDateTime startDate,
+	             @Param("endDate") LocalDateTime endDate,
+	             @Param("warehouseId") Long warehouseId,
+	             @Param("movementTypeIds") List<Long> movementTypeIds);
+}

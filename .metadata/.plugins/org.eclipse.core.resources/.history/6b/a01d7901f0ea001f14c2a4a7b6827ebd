@@ -1,0 +1,18 @@
+package com.inn.orders.entities;
+
+import jakarta.persistence.*;
+import lombok.Data;
+
+@Entity
+@Table(name = "stock")
+@Data
+public class Stock {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long stockId;
+
+    private Long productId;
+    private Long quality;
+    private Long warehouseId;
+}

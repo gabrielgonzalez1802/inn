@@ -1,0 +1,25 @@
+package com.inn.products.entities;
+
+import jakarta.persistence.*;
+import lombok.Data;
+
+@Entity
+@Table(name = "products")
+@Data
+public class Product {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long productId;
+
+    @Column(name = "product_name", nullable = false, unique = true)
+    private String productName;
+    
+    @Column(name = "product_price")
+    private Double productPrice;
+    private Long prodCategoryId;
+    private Long presentationTypeId;
+    private String productCode;
+    private String productDescription;
+    private Long productUnitMessureId;
+}

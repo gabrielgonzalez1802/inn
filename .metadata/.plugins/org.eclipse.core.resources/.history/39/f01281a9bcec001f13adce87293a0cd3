@@ -1,0 +1,5 @@
+package com.inn.products.entities;
+
+public class MovementType {
+
+}

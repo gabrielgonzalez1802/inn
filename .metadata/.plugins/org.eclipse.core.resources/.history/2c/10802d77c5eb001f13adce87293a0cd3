@@ -1,0 +1,62 @@
+package com.inn.products.dtos;
+
+import java.util.List;
+
+public class ReportProductTerminatedDTO {
+	
+	private String almacen;
+    private String planta;
+    private String fechaInicio;
+    private String fechaFin;
+    private List<ProductTerminatedDTO> productos;
+    
+    public ReportProductTerminatedDTO() {
+	}
+    
+    
+    public String getAlmacen() {
+		return almacen;
+	}
+
+
+
+	public void setAlmacen(String almacen) {
+		this.almacen = almacen;
+	}
+
+
+
+	public String getPlanta() {
+		return planta;
+	}
+
+
+
+	public void setPlanta(String planta) {
+		this.planta = planta;
+	}
+
+
+
+	public String getFechaInicio() {
+		return fechaInicio;
+	}
+
+
+
+	public void setFechaInicio(String fechaInicio) {
+		this.fechaInicio = fechaInicio;
+	}
+
+
+
+	public String getFechaFin() {
+		return fechaFin;
+	}
+
+
+
+	public void setFechaFin(String fechaFin) {
+		this.fechaFin = fechaFin;
+	}
+}

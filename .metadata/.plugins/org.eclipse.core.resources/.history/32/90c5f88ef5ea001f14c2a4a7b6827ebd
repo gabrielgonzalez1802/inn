@@ -1,0 +1,13 @@
+package com.inn.orders.dtos;
+
+import jakarta.validation.constraints.NotBlank;
+import lombok.Data;
+
+@Data
+public class ProductPresentationDTO {
+
+    private Long typePresentationId;
+
+    @NotBlank(message = "Presentation name is mandatory")
+    private String presentationName;
+}

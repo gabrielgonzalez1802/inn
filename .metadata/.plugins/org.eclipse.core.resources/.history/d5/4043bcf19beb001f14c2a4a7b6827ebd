@@ -1,0 +1,78 @@
+package com.inn.payments.controllers;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.inn.payments.dtos.OrderStatusTypeDTO;
+import com.inn.payments.entities.OrderStatusType;
+import com.inn.payments.exceptions.ResourceNotFoundException;
+import com.inn.payments.services.OrderStatusTypeService;
+
+import jakarta.validation.Valid;
+
+@RestController
+@RequestMapping("/api/order-status-types")
+public class OrderStatusTypeController {
+
+    @Autowired
+    private OrderStatusTypeService orderStatusTypeService;
+
+    @Autowired
+    private ModelMapper modelMapper;
+
+    @GetMapping
+    public List<OrderStatusTypeDTO> getAllOrderStatusType() {
+        return orderStatusTypeService.findAll().stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<OrderStatusTypeDTO> getOrderStatusTypeById(@PathVariable Long id) {
+        OrderStatusType orderStatusType = orderStatusTypeService.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Order Status Type not found for this id :: " + id));
+        return ResponseEntity.ok(convertToDTO(orderStatusType));
+    }
+
+    @PostMapping
+    public OrderStatusTypeDTO createOrderStatusType(@Valid @RequestBody OrderStatusTypeDTO orderStatusTypeDTO) {
+        OrderStatusType orderStatusType = convertToEntity(orderStatusTypeDTO);
+        return convertToDTO(orderStatusTypeService.save(orderStatusType));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<OrderStatusTypeDTO> updateOrderStatusType(@PathVariable Long id, @Valid @RequestBody OrderStatusTypeDTO orderStatusTypeDTO) {
+        OrderStatusType orderStatusType = orderStatusTypeService.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Order Status Type not found for this id :: " + id));
+        modelMapper.map(orderStatusTypeDTO, orderStatusType);
+        return ResponseEntity.ok(convertToDTO(orderStatusTypeService.save(orderStatusType)));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteOrderStatusType(@PathVariable Long id) {
+        orderStatusTypeService.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Order Status Type not found for this id :: " + id));
+        orderStatusTypeService.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    private OrderStatusTypeDTO convertToDTO(OrderStatusType orderStatusType) {
+        return modelMapper.map(orderStatusType, OrderStatusTypeDTO.class);
+    }
+
+    private OrderStatusType convertToEntity(OrderStatusTypeDTO orderStatusTypeDTO) {
+        return modelMapper.map(orderStatusTypeDTO, OrderStatusType.class);
+    }
+}

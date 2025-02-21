@@ -1,0 +1,5 @@
+package com.inn.products.repositories;
+
+public interface ProductCategoryRepository {
+
+}

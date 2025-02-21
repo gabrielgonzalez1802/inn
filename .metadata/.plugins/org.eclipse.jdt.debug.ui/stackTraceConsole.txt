@@ -1,0 +1,2 @@
+    service-url:
+      default-zone: ${EUREKA_SERVER_MICROS:http://localhost:8761/eureka/}

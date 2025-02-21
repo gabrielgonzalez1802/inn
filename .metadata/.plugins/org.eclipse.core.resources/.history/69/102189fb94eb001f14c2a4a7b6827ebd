@@ -1,0 +1,33 @@
+package com.inn.orders.services;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.inn.payments.entities.OrderStatusType;
+import com.inn.payments.repositories.OrderStatusTypeRepository;
+
+@Service
+public class OrderStatusTypeService {
+
+    @Autowired
+    private OrderStatusTypeRepository orderStatusTypeRepository;
+
+    public List<OrderStatusType> findAll() {
+        return orderStatusTypeRepository.findAll();
+    }
+
+    public Optional<OrderStatusType> findById(Long id) {
+        return orderStatusTypeRepository.findById(id);
+    }
+
+    public OrderStatusType save(OrderStatusType orderStatusType) {
+        return orderStatusTypeRepository.save(orderStatusType);
+    }
+
+    public void deleteById(Long id) {
+        orderStatusTypeRepository.deleteById(id);
+    }
+}

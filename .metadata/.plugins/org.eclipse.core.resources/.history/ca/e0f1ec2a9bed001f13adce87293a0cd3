@@ -1,0 +1,15 @@
+package com.inn.products.dtos;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
+@Data
+@AllArgsConstructor
+public class ProductMovementSummaryDTO {
+	private Long productId;
+	private String productName;
+	private Long totalRecepcion;
+	private Long totalDespacho;
+	private Long totalMerma;
+	private Long totalInvInicial;
+}

@@ -1,0 +1,57 @@
+package com.inn.products.services;
+
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.inn.products.entities.Movement;
+import com.inn.products.repositories.MovementRepository;
+
+@Service
+public class MovementService {
+
+    @Autowired
+    private MovementRepository movementRepository;
+
+    public List<Movement> findAll() {
+        return movementRepository.findAll();
+    }
+
+    public Optional<Movement> findById(Long id) {
+        return movementRepository.findById(id);
+    }
+
+    public Movement save(Movement Movement) {
+        return movementRepository.save(Movement);
+    }
+
+    public void deleteById(Long id) {
+        movementRepository.deleteById(id);
+    }
+    
+    public Object findMovementsGroupedByProductName(LocalDateTime startDate, LocalDateTime endDate, 
+    		Long warehouseId, List<Long> movementIds) {
+    	List<Object[]> listaMovimientos = movementRepository.getMovementsSummary(startDate, endDate, warehouseId);
+    	
+    	Double invFinal = 0.0;
+    	
+    	for (Object[] result : listaMovimientos) {
+    	     String productName = (String) result[0];
+             Long movementTypeId = (Long) result[1];
+             Double quantity = (Double) result[2];
+             
+             if(movementTypeId.compareTo(1L) == 0 || movementTypeId.compareTo(4L) == 0) {
+            	 invFinal+=movementTypeId;
+             }else {
+            	 invFinal-=movementTypeId;
+             }
+          
+             System.out.println("Product: " + productName + ", Total Quantity: " + quantity);
+		}
+    	
+    	return null;
+    }
+}

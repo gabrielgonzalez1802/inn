@@ -1,0 +1,47 @@
+package com.inn.products.services;
+
+import java.io.InputStream;
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.stereotype.Service;
+
+import com.inn.products.dtos.ProductMovementSummaryDTO;
+import com.inn.products.dtos.ReportProductTerminatedDTO;
+
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+
+@Service
+public class ReportService {
+
+	public byte[] generarReporteSemanal(List<ProductMovementSummaryDTO> movements, LocalDateTime fechaInicio, LocalDateTime fechaFin) throws Exception {
+        // 1. Cargar el diseño del reporte (.jrxml)
+        InputStream reporteStream = getClass().getResourceAsStream("/reporteSemanal.jrxml");
+        JasperReport jasperReport = JasperCompileManager.compileReport(reporteStream);
+
+        // 2. Crear la fuente de datos (utilizando el DTO)
+        System.out.println(movements.size());
+        JRBeanCollectionDataSource productos = new JRBeanCollectionDataSource(movements);
+
+        // 3. Crear los parámetros del reporte (si los necesitas)
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("almacen", "testing"); //TODO: ggonzalez hacerlo dinamico con la relacion a warehouse
+        parameters.put("semana", "semana1"); //TODO: ggonzalez hacerlo dinamico con las semanas
+        parameters.put("fechaInicio", movements.getFechaInicio());
+        parameters.put("fechaFin", movements.getFechaFin());
+        parameters.put("productos", productos);
+
+        // 4. Generar el reporte
+        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, productos);
+
+        // 5. Exportar el reporte a PDF
+        return JasperExportManager.exportReportToPdf(jasperPrint);
+    }
+}

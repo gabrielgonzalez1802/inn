@@ -1,0 +1,19 @@
+package com.inn.products.clients;
+
+import java.util.List;
+
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+
+import com.inn.inventory.dto.WarehouseIdDTO;
+
+@FeignClient(name = "http://127.0.0.1:8004/api/warehouse")
+public interface WarehouseClientRest {
+
+	@GetMapping("/api/v1/warehouse")
+	public List<WarehouseIdDTO> listar();
+	
+    @GetMapping("/api/v1/warehouse/{id}")
+    public WarehouseIdDTO findById(@PathVariable Long id);
+}

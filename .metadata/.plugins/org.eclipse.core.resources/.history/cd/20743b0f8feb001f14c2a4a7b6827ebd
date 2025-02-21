@@ -1,0 +1,5 @@
+package com.inn.orders.repositories;
+
+public interface OrderStatusTypeRepository {
+
+}

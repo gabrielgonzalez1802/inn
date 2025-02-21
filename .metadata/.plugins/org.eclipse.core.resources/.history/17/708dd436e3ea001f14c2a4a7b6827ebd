@@ -1,0 +1,33 @@
+package com.inn.Product.services;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.inn.entities.entities.ProductPresentations;
+import com.inn.entities.repositories.ProductPresentationsRepository;
+
+@Service
+public class ProductPresentationsService {
+
+    @Autowired
+    private ProductPresentationsRepository ProductPresentationsRepository;
+
+    public List<ProductPresentations> findAll() {
+        return ProductPresentationsRepository.findAll();
+    }
+
+    public Optional<ProductPresentations> findById(Long id) {
+        return ProductPresentationsRepository.findById(id);
+    }
+
+    public ProductPresentations save(ProductPresentations ProductPresentations) {
+        return ProductPresentationsRepository.save(ProductPresentations);
+    }
+
+    public void deleteById(Long id) {
+        ProductPresentationsRepository.deleteById(id);
+    }
+}

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="MavenProjectImportWizardPage">
+		<list key="rootDirectory">
+			<item value="D:\STS-Workspaces\inn\msvc-users"/>
+			<item value="D:\STS-Workspaces\inn\msvc-gateway-server"/>
+			<item value="D:\STS-Workspaces\inn\msvc-warehouses"/>
+			<item value="D:\STS-Workspaces\inn\msvc-address"/>
+			<item value="D:\STS-Workspaces\inn\msvc-entities"/>
+			<item value="D:\STS-Workspaces\inn\msvc-warehouse"/>
+			<item value="D:\STS-Workspaces\inn\msvc-product"/>
+			<item value="D:\STS-Workspaces\inn\msvc-inventory"/>
+			<item value="D:\STS-Workspaces\inn\msvc-gateway"/>
+			<item value="D:\STS-Workspaces\inn\msvc-eureka-server"/>
+		</list>
+		<list key="projectNameTemplate">
+			<item value="[artifactId]"/>
+			<item value="[artifactId]-TRUNK"/>
+			<item value="[artifactId]-[version]"/>
+			<item value="[groupId].[artifactId]"/>
+			<item value="[groupId].[artifactId]-[version]"/>
+			<item value="[name]"/>
+		</list>
+	</section>
+	<section name="org.eclipse.m2e.core.pom.overview">
+	</section>
+	<section name="org.eclipse.m2e.core.pom.dependencies">
+	</section>
+</section>

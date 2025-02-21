@@ -1,0 +1,61 @@
+package com.inn.products.services;
+
+import java.time.LocalDateTime;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.inn.products.dtos.ProductMovementSummaryDTO;
+import com.inn.products.entities.Movement;
+import com.inn.products.repositories.MovementRepository;
+
+@Service
+public class MovementService {
+
+    @Autowired
+    private MovementRepository movementRepository;
+
+    public List<Movement> findAll() {
+        return movementRepository.findAll();
+    }
+
+    public Optional<Movement> findById(Long id) {
+        return movementRepository.findById(id);
+    }
+
+    public Movement save(Movement Movement) {
+        return movementRepository.save(Movement);
+    }
+
+    public void deleteById(Long id) {
+        movementRepository.deleteById(id);
+    }
+    
+    public String findMovementsGroupedByProductName(LocalDateTime startDate, LocalDateTime endDate, 
+    		Long warehouseId, List<Long> movementIds) {
+    	List<Object[]> listaMovimientos = movementRepository.getMovementsSummaryGroupedByProductWithInvFinal(startDate, endDate, warehouseId, movementIds);
+    	
+    	
+    	List<ProductMovementSummaryDTO> listaMovimientosDTO = new LinkedList<>();
+    	
+		for (Object[] result : listaMovimientos) {
+			Long productId = (Long) result[0];
+			String productName = (String) result[1];
+			Long totalRecepcion = (Long) result[2];
+			Long totalDespacho = (Long) result[3];
+			Long totalMerma = (Long) result[4];
+			Long totalInvInicial = (Long) result[5];
+			Long totalInvFinal = (Long) result[6];
+
+			ProductMovementSummaryDTO movementDTO = new ProductMovementSummaryDTO(productId, productName,
+					totalRecepcion, totalDespacho, totalMerma, totalInvInicial, totalInvFinal);
+
+			listaMovimientosDTO.add(movementDTO);
+		}
+    	
+    	return listaMovimientosDTO;
+    }
+}

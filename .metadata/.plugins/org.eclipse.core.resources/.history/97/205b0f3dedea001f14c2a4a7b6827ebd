@@ -1,0 +1,71 @@
+package com.inn.product.controllers;
+
+import com.inn.entities.dtos.ProductPresentationsDTO;
+import com.inn.entities.entities.ProductPresentations;
+import com.inn.entities.exceptions.ResourceNotFoundException;
+import com.inn.entities.services.ProductPresentationsService;
+
+import jakarta.validation.Valid;
+
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+@RestController
+@RequestMapping("/api/product-presentations")
+public class ProductPresentationsController {
+
+    @Autowired
+    private ProductPresentationsService productPresentationsService;
+
+    @Autowired
+    private ModelMapper modelMapper;
+
+    @GetMapping
+    public List<ProductPresentationsDTO> getAllProductPresentations() {
+        return productPresentationsService.findAll().stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ProductPresentationsDTO> getProductPresentationById(@PathVariable Long id) {
+        ProductPresentations productPresentation = productPresentationsService.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Product Presentation not found for this id :: " + id));
+        return ResponseEntity.ok(convertToDTO(productPresentation));
+    }
+
+    @PostMapping
+    public ProductPresentationsDTO createProductPresentation(@Valid @RequestBody ProductPresentationsDTO productPresentationsDTO) {
+        ProductPresentations productPresentation = convertToEntity(productPresentationsDTO);
+        return convertToDTO(productPresentationsService.save(productPresentation));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ProductPresentationsDTO> updateProductPresentation(@PathVariable Long id, @Valid @RequestBody ProductPresentationsDTO productPresentationsDTO) {
+        ProductPresentations productPresentation = productPresentationsService.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Product Presentation not found for this id :: " + id));
+        modelMapper.map(productPresentationsDTO, productPresentation);
+        return ResponseEntity.ok(convertToDTO(productPresentationsService.save(productPresentation)));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteProductPresentation(@PathVariable Long id) {
+        productPresentationsService.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Product Presentation not found for this id :: " + id));
+        productPresentationsService.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    private ProductPresentationsDTO convertToDTO(ProductPresentations productPresentation) {
+        return modelMapper.map(productPresentation, ProductPresentationsDTO.class);
+    }
+
+    private ProductPresentations convertToEntity(ProductPresentationsDTO productPresentationsDTO) {
+        return modelMapper.map(productPresentationsDTO, ProductPresentations.class);
+    }
+}

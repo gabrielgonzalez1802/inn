@@ -1,0 +1,5 @@
+package com.inn.payments.entities;
+
+public class CurrencyType {
+
+}

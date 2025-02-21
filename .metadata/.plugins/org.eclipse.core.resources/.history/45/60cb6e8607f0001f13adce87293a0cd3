@@ -1,0 +1,78 @@
+package com.inn.products.controllers;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.inn.products.dtos.UnitMeasureDTO;
+import com.inn.products.entities.UnitMeasure;
+import com.inn.products.exceptions.ResourceNotFoundException;
+import com.inn.products.services.UnitMeasureService;
+
+import jakarta.validation.Valid;
+
+@RestController
+@RequestMapping("/unit-measures")
+public class UnitMeasureController {
+
+    @Autowired
+    private UnitMeasureService unitMeasureService;
+
+    @Autowired
+    private ModelMapper modelMapper;
+
+    @GetMapping
+    public List<UnitMeasureDTO> getAllUnitMeasure() {
+        return unitMeasureService.findAll().stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<UnitMeasureDTO> getUnitMessureById(@PathVariable Long id) {
+        UnitMeasure unitMessure = unitMeasureService.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Unit Messure not found for this id :: " + id));
+        return ResponseEntity.ok(convertToDTO(unitMessure));
+    }
+
+    @PostMapping
+    public UnitMeasureDTO createUnitMessure(@Valid @RequestBody UnitMeasureDTO unitMeasureDTO) {
+        UnitMeasure unitMessure = convertToEntity(unitMeasureDTO);
+        return convertToDTO(unitMeasureService.save(unitMessure));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<UnitMeasureDTO> updateUnitMessure(@PathVariable Long id, @Valid @RequestBody UnitMeasureDTO unitMeasureDTO) {
+        UnitMeasure unitMessure = unitMeasureService.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Unit Messure not found for this id :: " + id));
+        modelMapper.map(unitMeasureDTO, unitMessure);
+        return ResponseEntity.ok(convertToDTO(unitMeasureService.save(unitMessure)));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteUnitMessure(@PathVariable Long id) {
+        unitMeasureService.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Unit Messure not found for this id :: " + id));
+        unitMeasureService.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    private UnitMeasureDTO convertToDTO(UnitMeasure unitMeasure) {
+        return modelMapper.map(unitMeasure, UnitMeasureDTO.class);
+    }
+
+    private UnitMeasure convertToEntity(UnitMeasureDTO unitMeasureDTO) {
+        return modelMapper.map(unitMeasureDTO, UnitMeasure.class);
+    }
+}

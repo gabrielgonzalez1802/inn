@@ -1,0 +1,50 @@
+package com.inn.products.dtos;
+
+public class ProductTerminatedDTO {
+    private String nombre;
+    private double invInicial;
+    private double recepcion;
+    private double despacho;
+    private double merma;
+    private double invFinal;
+    
+    public ProductTerminatedDTO() {
+	}
+    
+	public String getNombre() {
+		return nombre;
+	}
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+	public double getInvInicial() {
+		return invInicial;
+	}
+	public void setInvInicial(double invInicial) {
+		this.invInicial = invInicial;
+	}
+	public double getRecepcion() {
+		return recepcion;
+	}
+	public void setRecepcion(double recepcion) {
+		this.recepcion = recepcion;
+	}
+	public double getDespacho() {
+		return despacho;
+	}
+	public void setDespacho(double despacho) {
+		this.despacho = despacho;
+	}
+	public double getMerma() {
+		return merma;
+	}
+	public void setMerma(double merma) {
+		this.merma = merma;
+	}
+	public double getInvFinal() {
+		return invFinal;
+	}
+	public void setInvFinal(double invFinal) {
+		this.invFinal = invFinal;
+	}
+}

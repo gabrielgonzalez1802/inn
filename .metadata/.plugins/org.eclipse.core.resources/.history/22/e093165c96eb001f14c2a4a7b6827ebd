@@ -1,0 +1,5 @@
+package com.inn.payments.repositories;
+
+public interface CurrencyTypeRepository {
+
+}

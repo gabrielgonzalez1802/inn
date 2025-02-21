@@ -1,0 +1,144 @@
+package com.inn.products.services;
+
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+
+import com.inn.products.dtos.ProductMovementSummaryDTO;
+import com.inn.products.dtos.ProductMovementWeeklyDTO;
+
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
+import net.sf.jasperreports.export.SimpleExporterInput;
+import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
+import net.sf.jasperreports.export.SimpleXlsxReportConfiguration;
+
+@Service
+public class ReportService {
+
+	public byte[] generarReporteSemanalPDF(List<ProductMovementSummaryDTO> movements, LocalDateTime fechaInicio, LocalDateTime fechaFin, Integer semana) throws Exception {
+        // 1. Cargar el diseño del reporte (.jrxml)
+        InputStream reporteStream = getClass().getResourceAsStream("/reporteSemanal.jrxml");
+        JasperReport jasperReport = JasperCompileManager.compileReport(reporteStream);
+
+        // 2. Crear la fuente de datos (utilizando el DTO)
+        System.out.println(movements.size());
+        JRBeanCollectionDataSource productos = new JRBeanCollectionDataSource(movements);
+        
+        DateTimeFormatter formateador = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        String fechaInicioString = fechaInicio.format(formateador);
+        String fechaFinString = fechaFin.format(formateador);
+
+        // 3. Crear los parámetros del reporte (si los necesitas)
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("almacen", "testing"); //TODO: ggonzalez hacerlo dinamico con la relacion a warehouse
+        parameters.put("semana", semana+"ra Semana");
+        parameters.put("fechaInicio", fechaInicioString);
+        parameters.put("fechaFin", fechaFinString);
+        parameters.put("productos", productos);
+
+        // 4. Generar el reporte
+        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, productos);
+
+        // 5. Exportar el reporte a PDF
+        return JasperExportManager.exportReportToPdf(jasperPrint);
+    }
+	
+	public byte[] generarReporteSemanalXLSX(List<ProductMovementSummaryDTO> movements, LocalDateTime fechaInicio, LocalDateTime fechaFin, Integer semana) throws Exception {
+        // 1. Cargar el diseño del reporte (.jrxml)
+        InputStream reporteStream = getClass().getResourceAsStream("/reporteSemanal.jrxml");
+        JasperReport jasperReport = JasperCompileManager.compileReport(reporteStream);
+
+        // 2. Crear la fuente de datos (utilizando el DTO)
+        System.out.println(movements.size());
+        JRBeanCollectionDataSource productos = new JRBeanCollectionDataSource(movements);
+        
+        DateTimeFormatter formateador = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        String fechaInicioString = fechaInicio.format(formateador);
+        String fechaFinString = fechaFin.format(formateador);
+
+        // 3. Crear los parámetros del reporte (si los necesitas)
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("almacen", "testing"); //TODO: ggonzalez hacerlo dinamico con la relacion a warehouse
+        parameters.put("semana", semana+"ra Semana");
+        parameters.put("fechaInicio", fechaInicioString);
+        parameters.put("fechaFin", fechaFinString);
+        parameters.put("productos", productos);
+
+        // 4. Generar el reporte
+        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, productos);
+
+     // 5. Exporta el reporte a XLSX
+        JRXlsxExporter exporter = new JRXlsxExporter();
+        exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream(); // Usamos ByteArrayOutputStream
+        exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(baos));
+
+        SimpleXlsxReportConfiguration configuration = new SimpleXlsxReportConfiguration();
+        configuration.setOnePagePerSheet(false);
+        configuration.setDetectCellType(true);
+        exporter.setConfiguration(configuration);
+
+        exporter.exportReport();
+
+        return baos.toByteArray(); // Retorna el array de bytes
+    }
+	
+	public byte[] generarReporteMonthlyPDF(List<ProductMovementWeeklyDTO> movements, LocalDateTime fechaInicio, LocalDateTime fechaFin, Long movementTypeId) throws Exception {
+        // 1. Cargar el diseño del reporte (.jrxml)
+		InputStream reporteStream;
+        if(movementTypeId.equals(1l)) {
+             reporteStream = getClass().getResourceAsStream("/reporteMensualRecepcion.jrxml");
+        }else if(movementTypeId.equals(2l)) {
+            reporteStream = getClass().getResourceAsStream("/reporteMensualDespacho.jrxml");
+        }else if(movementTypeId.equals(3l)) {
+            reporteStream = getClass().getResourceAsStream("/reporteMensualMerma.jrxml");
+        }else {
+            return null;
+        }
+        
+        JasperReport jasperReport = JasperCompileManager.compileReport(reporteStream);
+
+        // 2. Crear la fuente de datos (utilizando el DTO)
+        System.out.println(movements.size());
+        JRBeanCollectionDataSource productos = new JRBeanCollectionDataSource(movements);
+        
+        DateTimeFormatter formateador = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        String fechaActual = LocalDateTime.now().format(formateador);
+        String fechaInicioString = fechaInicio.format(formateador);
+        String fechaFinString = fechaFin.format(formateador);
+
+        // 3. Crear los parámetros del reporte (si los necesitas)
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("almacen", "testing"); //TODO: ggonzalez hacerlo dinamico con la relacion a warehouse
+        parameters.put("fecha", fechaActual);
+        parameters.put("fechaInicio", fechaInicioString);
+        parameters.put("fechaFin", fechaFinString);
+        parameters.put("productos", productos);
+
+        // 4. Generar el reporte
+        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, productos);
+
+        // 5. Exportar el reporte a PDF
+        return JasperExportManager.exportReportToPdf(jasperPrint);
+    }
+
+	public byte[] generarReporteMonthlyXLSX(List<ProductMovementWeeklyDTO> movements, LocalDateTime fechaInicio,
+			LocalDateTime fechaFin, Long movementTypeId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+}

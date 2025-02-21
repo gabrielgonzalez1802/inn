@@ -1,0 +1,8 @@
+package com.inn.products.dtos;
+
+import lombok.Data;
+
+@Data
+public class ReportProductTerminated {
+
+}

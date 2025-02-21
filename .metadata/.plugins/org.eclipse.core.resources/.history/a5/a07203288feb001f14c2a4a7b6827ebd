@@ -1,0 +1,33 @@
+package com.inn.orders.services;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.inn.orders.entities.Movement;
+import com.inn.orders.repositories.MovementRepository;
+
+@Service
+public class MovementService {
+
+    @Autowired
+    private MovementRepository MovementRepository;
+
+    public List<Movement> findAll() {
+        return MovementRepository.findAll();
+    }
+
+    public Optional<Movement> findById(Long id) {
+        return MovementRepository.findById(id);
+    }
+
+    public Movement save(Movement Movement) {
+        return MovementRepository.save(Movement);
+    }
+
+    public void deleteById(Long id) {
+        MovementRepository.deleteById(id);
+    }
+}

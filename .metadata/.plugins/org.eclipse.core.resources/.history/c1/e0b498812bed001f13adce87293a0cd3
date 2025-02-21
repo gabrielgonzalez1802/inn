@@ -1,0 +1,30 @@
+spring.application.name=msvc-products
+
+# ===============================
+# = DATA SOURCE
+# ===============================
+spring.datasource.url=jdbc:postgresql://localhost:5432/products
+spring.datasource.username=postgres
+spring.datasource.password=postgres
+spring.datasource.driver-class-name=org.postgresql.Driver
+spring.datasource.testWhileIdle=true
+spring.datasource.validationQuery=SELECT 1
+
+# ===============================
+# = JPA / HIBERNATE
+# ===============================
+spring.jpa.show-sql=true
+spring.jpa.hibernate.ddl-auto=create-drop
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+
+# ===============================
+# = SERVER
+# ===============================
+server.port=8006
+
+# ===============================
+# = LOGGING
+# ===============================
+logging.file.name=logs/products-service.log
+
+spring.jpa.defer-datasource-inicial=true

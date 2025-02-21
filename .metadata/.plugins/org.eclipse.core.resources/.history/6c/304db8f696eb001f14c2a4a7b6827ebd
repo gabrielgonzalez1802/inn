@@ -1,0 +1,33 @@
+package com.inn.payments.services;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.inn.payments.entities.OrderStatusHistory;
+import com.inn.payments.repositories.OrderStatusHistoryRepository;
+
+@Service
+public class OrderStatusHistoryService {
+
+    @Autowired
+    private OrderStatusHistoryRepository orderStatusHistoryRepository;
+
+    public List<OrderStatusHistory> findAll() {
+        return orderStatusHistoryRepository.findAll();
+    }
+
+    public Optional<OrderStatusHistory> findById(Long id) {
+        return orderStatusHistoryRepository.findById(id);
+    }
+
+    public OrderStatusHistory save(OrderStatusHistory orderStatusHistory) {
+        return orderStatusHistoryRepository.save(orderStatusHistory);
+    }
+
+    public void deleteById(Long id) {
+        orderStatusHistoryRepository.deleteById(id);
+    }
+}

@@ -1,0 +1,5 @@
+package com.inn.orders.entities;
+
+public class OrderProduct {
+
+}

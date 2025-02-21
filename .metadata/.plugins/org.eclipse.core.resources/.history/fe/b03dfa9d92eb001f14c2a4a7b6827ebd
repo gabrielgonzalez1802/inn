@@ -1,0 +1,5 @@
+package com.inn.orders.controllers;
+
+public class OrderStatusHistoryController {
+
+}

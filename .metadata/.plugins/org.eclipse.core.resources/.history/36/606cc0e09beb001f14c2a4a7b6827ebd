@@ -1,0 +1,65 @@
+package com.inn.payments.services;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.inn.payments.dtos.PaymentTaxDto;
+import com.inn.payments.entities.PaymentTax;
+import com.inn.payments.exceptions.ResourceNotFoundException;
+import com.inn.payments.repositories.PaymentTaxRepository;
+
+@Service
+public class PaymentTaxServiceImpl implements PaymentTaxService {
+
+    @Autowired
+    private PaymentTaxRepository paymentTaxRepository;
+
+    @Override
+    public List<PaymentTaxDto> findAll() {
+        return paymentTaxRepository.findAll().stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public PaymentTaxDto findById(Long id) {
+        return paymentTaxRepository.findById(id)
+                .map(this::convertToDto)
+                .orElseThrow(() -> new ResourceNotFoundException("Impuesto no encontrado con id: " + id));
+    }
+
+    @Override
+    public PaymentTaxDto save(PaymentTaxDto paymentTaxDto) {
+        PaymentTax paymentTax = convertToEntity(paymentTaxDto);
+        paymentTax = paymentTaxRepository.save(paymentTax);
+        return convertToDto(paymentTax);
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        if (!paymentTaxRepository.existsById(id)) {
+            throw new ResourceNotFoundException("Impuesto no encontrado con id: " + id);
+        }
+        paymentTaxRepository.deleteById(id);
+    }
+
+    private PaymentTaxDto convertToDto(PaymentTax paymentTax) {
+        PaymentTaxDto dto = new PaymentTaxDto();
+        dto.setPayTaxId(paymentTax.getPayTaxId());
+        dto.setTypeTaxesId(paymentTax.getTypeTaxesId());
+        dto.setPaymentDetailId(paymentTax.getPaymentDetail().getPaymentDetailId());
+        return dto;
+    }
+
+    private PaymentTax convertToEntity(PaymentTaxDto dto) {
+        PaymentTax paymentTax = new PaymentTax();
+        paymentTax.setPayTaxId(dto.getPayTaxId());
+        paymentTax.setTypeTaxesId(dto.getTypeTaxesId());
+        // Aquí necesitarás obtener el OrderPaymentDetail correspondiente
+        // paymentTax.setPaymentDetail(...);
+        return paymentTax;
+    }
+}

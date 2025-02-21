@@ -1,0 +1,33 @@
+package com.inn.products.services;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.inn.orders.entities.Product;
+import com.inn.orders.repositories.ProductRepository;
+
+@Service
+public class ProductService {
+
+    @Autowired
+    private ProductRepository ProductRepository;
+
+    public List<Product> findAll() {
+        return ProductRepository.findAll();
+    }
+
+    public Optional<Product> findById(Long id) {
+        return ProductRepository.findById(id);
+    }
+
+    public Product save(Product Product) {
+        return ProductRepository.save(Product);
+    }
+
+    public void deleteById(Long id) {
+        ProductRepository.deleteById(id);
+    }
+}

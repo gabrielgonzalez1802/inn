@@ -1,0 +1,30 @@
+package com.inn.orders.entities;
+
+import jakarta.persistence.*;
+import lombok.Data;
+
+import java.util.Date;
+
+@Entity
+@Table(name = "movements")
+@Data
+public class Movement {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long movementId;
+
+    private Long warehouseId;
+    private Long productId;
+    private Long lotId;
+    private Date movementDate;
+    private String actionDescription;
+    private Long quantity;
+    private Long entityId;
+    private Long sunagroGuideId;
+    private String deliveryNote;
+    private String purchaseOrder;
+    private String observations;
+    private String responsibleUser;
+    private Date registrationDatetime;
+}

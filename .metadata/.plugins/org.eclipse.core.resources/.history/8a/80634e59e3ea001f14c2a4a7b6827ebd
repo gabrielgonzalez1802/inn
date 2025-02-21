@@ -1,0 +1,33 @@
+package com.inn.products.services;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.inn.entities.entities.UnitMessure;
+import com.inn.entities.repositories.UnitMessureRepository;
+
+@Service
+public class UnitMessureService {
+
+    @Autowired
+    private UnitMessureRepository unitMessureRepository;
+
+    public List<UnitMessure> findAll() {
+        return unitMessureRepository.findAll();
+    }
+
+    public Optional<UnitMessure> findById(Long id) {
+        return unitMessureRepository.findById(id);
+    }
+
+    public UnitMessure save(UnitMessure unitMessure) {
+        return unitMessureRepository.save(unitMessure);
+    }
+
+    public void deleteById(Long id) {
+        unitMessureRepository.deleteById(id);
+    }
+}

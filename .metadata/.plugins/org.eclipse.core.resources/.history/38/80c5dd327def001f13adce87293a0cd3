@@ -1,0 +1,15 @@
+package com.inn.products.clients;
+
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+
+import com.inn.products.dtos.WarehouseDTO;
+
+@FeignClient(name = "http://127.0.0.1:8004/api/warehouse")
+@FeignClient(name = "msvc-warehouses", url = "${warehouse.service.url}")
+public interface WarehouseClientRest {
+
+	@GetMapping("/api/warehouse/{id}")
+	public WarehouseDTO getEntityById(@PathVariable Long id);
+}

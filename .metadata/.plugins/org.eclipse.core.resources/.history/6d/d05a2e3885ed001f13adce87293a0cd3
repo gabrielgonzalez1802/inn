@@ -1,0 +1,34 @@
+package com.inn.products.enums;
+
+public enum MovementType {
+    RECEPCION(1L, "Recepción"),
+    DESPACHO(2L, "Despacho"),
+    MERMA(3L, "Merma"),
+    INVENTARIO_INICIAL(4L, "Inventario Inicial");
+
+    private final Long id;
+    private final String description;
+
+    MovementType(Long id, String description) {
+        this.id = id;
+        this.description = description;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    // Método para obtener un MovementType a partir de su ID
+    public static MovementType fromId(Long id) {
+        for (MovementType type : MovementType.values()) {
+            if (type.id == id) {
+                return type;
+            }
+        }
+        throw new IllegalArgumentException("ID de tipo de movimiento no válido: " + id);
+    }
+}

@@ -1,0 +1,5 @@
+package com.inn.products.services;
+
+public class OrderProductService {
+
+}

@@ -1,0 +1,5 @@
+package com.inn.payments.services;
+
+public interface PaymentTaxService {
+
+}

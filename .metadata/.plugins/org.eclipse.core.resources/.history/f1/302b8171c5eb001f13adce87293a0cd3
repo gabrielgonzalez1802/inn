@@ -1,0 +1,5 @@
+package com.inn.products.dtos;
+
+public class ProductTerminatedDTO {
+
+}

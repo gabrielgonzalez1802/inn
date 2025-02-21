@@ -1,0 +1,5 @@
+package com.inn.products.enums;
+
+public class MovementType {
+
+}

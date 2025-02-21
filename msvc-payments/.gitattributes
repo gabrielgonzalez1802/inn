@@ -1,0 +1,30 @@
+# gitattributes file for msvc-entities project
+
+* text=auto
+*.java text
+*.xml text
+*.properties text
+*.md text
+*.log text
+*.json text
+*.yml text
+*.yaml text
+*.csv text
+*.txt text
+*.html text
+*.css text
+*.js text
+*.ts text
+*.scss text
+*.less text
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.svg binary
+*.ico binary
+*.woff binary
+*.woff2 binary
+*.eot binary
+*.otf binary
+*.ttf binary

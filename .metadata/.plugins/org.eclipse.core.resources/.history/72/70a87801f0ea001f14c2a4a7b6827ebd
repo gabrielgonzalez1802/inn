@@ -1,0 +1,17 @@
+package com.inn.orders.entities;
+
+import jakarta.persistence.*;
+import lombok.Data;
+
+@Entity
+@Table(name = "order_products")
+@Data
+public class OrderProduct {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long ordProdId;
+
+    private Long orderId;
+    private Long productId;
+}

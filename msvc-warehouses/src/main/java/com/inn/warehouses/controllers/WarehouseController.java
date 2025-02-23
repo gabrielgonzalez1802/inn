@@ -23,7 +23,7 @@ import com.inn.warehouses.services.WarehouseService;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/api/warehouses")
+@RequestMapping("/api/warehouse")
 public class WarehouseController {
 
     @Autowired

@@ -71,12 +71,12 @@
 
 ## Swagger UI
 
-- msvc-warehouses: [http://localhost:8081/swagger-ui.html](http://localhost:8081/swagger-ui.html)
-- msvc-users: [http://localhost:8082/swagger-ui.html](http://localhost:8082/swagger-ui.html)
-- msvc-products: [http://localhost:8006/swagger-ui.html](http://localhost:8006/swagger-ui.html)
-- msvc-orders: [http://localhost:8085/swagger-ui.html](http://localhost:8085/swagger-ui.html)
-- msvc-gateway-server: [http://localhost:8086/swagger-ui.html](http://localhost:8086/swagger-ui.html)
-- msvc-eureka-server: [http://localhost:8087/swagger-ui.html](http://localhost:8087/swagger-ui.html)
-- msvc-entities: [http://localhost:8088/swagger-ui.html](http://localhost:8088/swagger-ui.html)
-- msvc-clients: [http://localhost:8089/swagger-ui.html](http://localhost:8089/swagger-ui.html)
-- msvc-address: [http://localhost:8090/swagger-ui.html](http://localhost:8090/swagger-ui.html)
+- msvc-warehouses: [http://localhost:8081/swagger-ui.html](http://172.20.10.2:8081/swagger-ui.html)
+- msvc-users: [http://172.20.10.2:8082/swagger-ui.html](http://172.20.10.2:8082/swagger-ui.html)
+- msvc-products: [http://172.20.10.2:8006/swagger-ui.html](http://172.20.10.2:8006/swagger-ui.html)
+- msvc-orders: [http://172.20.10.2:8085/swagger-ui.html](http://172.20.10.2:8085/swagger-ui.html)
+- msvc-gateway-server: [http://172.20.10.2:8086/swagger-ui.html](http://172.20.10.2:8086/swagger-ui.html)
+- msvc-eureka-server: [http://172.20.10.2:8087/swagger-ui.html](http://172.20.10.2:8087/swagger-ui.html)
+- msvc-entities: [http://172.20.10.2:8088/swagger-ui.html](http://172.20.10.2:8088/swagger-ui.html)
+- msvc-clients: [http://172.20.10.2:8089/swagger-ui.html](http://172.20.10.2:8089/swagger-ui.html)
+- msvc-address: [http://172.20.10.2:8090/swagger-ui.html](http://172.20.10.2:8090/swagger-ui.html)

@@ -1,13 +1,13 @@
 version: "3.8"
 
 services:
-  msvc-warehouses:
+  msvc-users:
     build:
-      context: ./msvc-warehouses
+      context: ./msvc-users
       dockerfile: Dockerfile
     command: mvn package install -DskipTests --also-make --threads=2 && mvn spring-boot:run
     ports:
-      - "8081:8081"
+      - "8082:8082"
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/postgres?searchPath=inn
       - SPRING_DATASOURCE_USERNAME=postgres
@@ -17,14 +17,13 @@ services:
       - eureka-server
     networks:
       - my-network
-
-  msvc-users:
+  msvc-payments:
     build:
-      context: ./msvc-users
+      context: ./msvc-payments
       dockerfile: Dockerfile
     command: mvn package install -DskipTests --also-make --threads=2 && mvn spring-boot:run
     ports:
-      - "8082:8082"
+      - "8008:8008"
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/postgres?searchPath=inn
       - SPRING_DATASOURCE_USERNAME=postgres
@@ -82,16 +81,6 @@ services:
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka
     depends_on:
       - eureka-server
-    networks:
-      - my-network
-
-  msvc-eureka-server:
-    build:
-      context: ./msvc-eureka-server
-      dockerfile: Dockerfile
-    command: mvn package install -DskipTests --also-make --threads=2 && mvn spring-boot:run
-    ports:
-      - "8087:8087"
     networks:
       - my-network
 

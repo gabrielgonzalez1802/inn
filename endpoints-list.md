@@ -80,3 +80,28 @@
 - msvc-entities: [http://172.20.10.2:8088/swagger-ui.html](http://172.20.10.2:8088/swagger-ui.html)
 - msvc-clients: [http://172.20.10.2:8089/swagger-ui.html](http://172.20.10.2:8089/swagger-ui.html)
 - msvc-address: [http://172.20.10.2:8090/swagger-ui.html](http://172.20.10.2:8090/swagger-ui.html)
+
+
+working: 
+
+http://localhost:8088/swagger-ui/index.html 
+
+entities 
+
+http://localhost:8008/swagger-ui/index.html 
+payments 
+
+http://localhost:8006/swagger-ui/index.html
+products 
+
+http://localhost:8085/swagger-ui/index.html
+orders
+
+http://localhost:8004/swagger-ui/index.html
+warehouse
+
+not working 
+
+http://localhost:8082/swagger-ui/index.html
+users no tiene swagger 
+

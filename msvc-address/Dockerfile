@@ -1,4 +1,9 @@
-FROM openjdk:17-alpine
-VOLUME /tmp
-ADD ./target/msvc-address-0.0.1-SNAPSHOT.jar msvc-address.jar
-ENTRYPOINT [ "java","-jar","/msvc-address.jar" ]
+FROM maven:3.8.4-openjdk-17 AS build
+WORKDIR /app
+COPY . .
+RUN mvn package install -DskipTests --also-make --threads=2
+
+FROM openjdk:17-jdk-slim
+WORKDIR /app
+COPY --from=build /app/target/msvc-address-1.0.0T.jar app.jar
+ENTRYPOINT ["java", "-jar", "app.jar"]

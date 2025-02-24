@@ -5,11 +5,14 @@ import lombok.Data;
 
 @Data
 public class OrderProductDTO {
+
     private Long ordProdId;
 
-    @NotNull
+    @NotNull(message = "Order ID is mandatory")
     private Long orderId;
 
-    @NotNull
+    @NotNull(message = "Product ID is mandatory")
     private Long productId;
+    
+    private ProductDTO product;
 }

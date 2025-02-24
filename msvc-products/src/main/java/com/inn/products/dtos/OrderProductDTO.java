@@ -13,4 +13,6 @@ public class OrderProductDTO {
 
     @NotNull(message = "Product ID is mandatory")
     private Long productId;
+    
+    private ProductDTO product;
 }

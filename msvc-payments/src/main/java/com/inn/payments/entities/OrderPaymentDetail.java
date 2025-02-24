@@ -27,8 +27,18 @@ public class OrderPaymentDetail {
     
     @Column(name = "order_id")
     private Long orderId;
+    
+    @Column(name = "currency_id")
+    private Long currencyId;
+    
+    @Column(name = "payment_type_id")
+    private Long paymentTypeId;
 
     @ManyToOne
-    @JoinColumn(name = "currency_id")
+	@JoinColumn(name = "currency_id", referencedColumnName = "currency_id", nullable = false, insertable = false, updatable = false)
     private CurrencyType currency;
+    
+    @ManyToOne
+	@JoinColumn(name = "payment_type_id", referencedColumnName = "payment_type_id", nullable = false, insertable = false, updatable = false)
+    private PaymentType paymentType;
 }

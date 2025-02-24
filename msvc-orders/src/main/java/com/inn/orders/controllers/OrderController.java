@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.inn.orders.dtos.OrderDTO;
+import com.inn.orders.dtos.OrderEnrichedDTO;
 import com.inn.orders.entities.Order;
 import com.inn.orders.exceptions.ResourceNotFoundException;
 import com.inn.orders.services.OrderService;
@@ -38,12 +39,30 @@ public class OrderController {
                 .map(this::convertToDTO)
                 .collect(Collectors.toList());
     }
-
+    
+    @GetMapping("/clients/{id}")
+    public List<OrderDTO> getAllOrderByClientId(@PathVariable Long clientId) {
+        return ordersService.findAllByClientId(clientId).stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+    }
+    
     @GetMapping("/{id}")
     public ResponseEntity<OrderDTO> getOrderById(@PathVariable Long id) {
         Order order = ordersService.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Order not found for this id :: " + id));
         return ResponseEntity.ok(convertToDTO(order));
+    }
+    
+    @GetMapping("/{id}/enriched")
+    public ResponseEntity<OrderEnrichedDTO> getOrderEnrichedById(@PathVariable Long id) {
+        OrderEnrichedDTO orderEnrichedDTO = ordersService.findOrderEnrichedById(id);
+        
+        if(orderEnrichedDTO==null) {
+        	throw new ResourceNotFoundException("Order not found for this id :: " + id);
+        }
+        
+        return ResponseEntity.ok(orderEnrichedDTO);
     }
 
     @PostMapping

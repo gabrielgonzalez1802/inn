@@ -29,7 +29,7 @@ public class Product {
     private Long productUnitMessureId;
     
     @ManyToOne
-    @JoinColumn(name = "product_category_id", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "product_category_id", referencedColumnName = "prod_category_id", nullable = false, insertable = false, updatable = false)
     private ProductCategory productCategory;
     
     @ManyToOne

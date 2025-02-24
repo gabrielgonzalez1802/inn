@@ -38,6 +38,13 @@ public class OrderProductController {
                 .map(this::convertToDTO)
                 .collect(Collectors.toList());
     }
+    
+    @GetMapping("/orders/{orderId}")
+    public List<OrderProductDTO> getAllOrderProductByOrderId(@PathVariable Long orderId) {
+        return orderProductService.findAllByOrderId(orderId).stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<OrderProductDTO> getOrderProductById(@PathVariable Long id) {

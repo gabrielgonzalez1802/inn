@@ -21,15 +21,17 @@ public class Address {
 
     @Column(name = "address")
     private String address;
-
-    @ManyToOne
-    @JoinColumn(name = "city_id", nullable = false)
-    private City city;
-
-    @ManyToOne
-    @JoinColumn(name = "state_id", nullable = false)
-    private State state;
+    
+    @Column(name = "city_id", nullable = false)
+    private Long cityId;
+    
+    @Column(name = "state_id", nullable = false)
+    private Long stateId;
 
     @Column(name = "address_comment")
     private String addressComment;
+    
+    @ManyToOne
+	@JoinColumn(name = "city_id", referencedColumnName = "city_id", nullable = false, insertable = false, updatable = false)
+    private City city;
 }

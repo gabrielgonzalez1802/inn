@@ -20,4 +20,6 @@ public class CityDTO {
 
     @NotNull(message = "State ID cannot be null")
     private Long stateId;
+    
+    private StateDTO state;
 }

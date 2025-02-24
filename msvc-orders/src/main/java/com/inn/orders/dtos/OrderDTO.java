@@ -17,4 +17,6 @@ public class OrderDTO {
 
     @NotNull
     private Long orderStatusId;
+    
+    private OrderStatusTypeDTO orderStatusType;
 }

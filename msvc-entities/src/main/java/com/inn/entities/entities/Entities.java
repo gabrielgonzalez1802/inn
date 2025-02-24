@@ -16,10 +16,6 @@ public class Entities {
     @Column(name = "entity_id")
     private Long entityId;
 
-    @ManyToOne
-    @JoinColumn(name = "entity_type_id", nullable = false)
-    private EntitiesType entityType;
-
     @Column(name = "entity_name", nullable = false, length = 50)
     private String entityName;
 
@@ -34,4 +30,8 @@ public class Entities {
 
     @Column(name = "entity_phone", nullable = false, length = 15)
     private String entityPhone;
+    
+    @ManyToOne
+    @JoinColumn(name = "entity_type_id", nullable = false)
+    private EntitiesType entityType;
 }

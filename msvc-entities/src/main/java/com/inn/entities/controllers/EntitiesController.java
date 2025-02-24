@@ -34,23 +34,23 @@ public class EntitiesController {
 
     @GetMapping("/{id}")
     public ResponseEntity<EntitiesDTO> getEntityById(@PathVariable Long id) {
-        Entities entity = entitiesService.findById(id)
+        Entities entities = entitiesService.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Entity not found for this id :: " + id));
-        return ResponseEntity.ok(convertToDTO(entity));
+        return ResponseEntity.ok(convertToDTO(entities));
     }
 
     @PostMapping
     public EntitiesDTO createEntity(@Valid @RequestBody EntitiesDTO entitiesDTO) {
-        Entities entity = convertToEntity(entitiesDTO);
-        return convertToDTO(entitiesService.save(entity));
+        Entities entities = convertToEntity(entitiesDTO);
+        return convertToDTO(entitiesService.save(entities));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<EntitiesDTO> updateEntity(@PathVariable Long id, @Valid @RequestBody EntitiesDTO entitiesDTO) {
-        Entities entity = entitiesService.findById(id)
+        Entities entities = entitiesService.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Entity not found for this id :: " + id));
-        modelMapper.map(entitiesDTO, entity);
-        return ResponseEntity.ok(convertToDTO(entitiesService.save(entity)));
+        modelMapper.map(entitiesDTO, entities);
+        return ResponseEntity.ok(convertToDTO(entitiesService.save(entities)));
     }
 
     @DeleteMapping("/{id}")
@@ -61,8 +61,8 @@ public class EntitiesController {
         return ResponseEntity.noContent().build();
     }
 
-    private EntitiesDTO convertToDTO(Entities entity) {
-        return modelMapper.map(entity, EntitiesDTO.class);
+    private EntitiesDTO convertToDTO(Entities entities) {
+        return modelMapper.map(entities, EntitiesDTO.class);
     }
 
     private Entities convertToEntity(EntitiesDTO entitiesDTO) {

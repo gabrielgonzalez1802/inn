@@ -1,8 +1,10 @@
 package com.inn.entities.dtos;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
-
-import jakarta.validation.constraints.*;
 
 @Data
 public class EntitiesDTO {
@@ -32,4 +34,6 @@ public class EntitiesDTO {
     @NotBlank
     @Size(max = 15)
     private String entityPhone;
+    
+    private EntitiesTypeDTO entityType;
 }

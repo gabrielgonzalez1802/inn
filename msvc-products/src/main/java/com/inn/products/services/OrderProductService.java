@@ -18,6 +18,10 @@ public class OrderProductService {
     public List<OrderProduct> findAll() {
         return orderProductRepository.findAll();
     }
+    
+    public List<OrderProduct> findAllByOrderId(Long idOrder) {
+        return orderProductRepository.findByOrderId(idOrder);
+    }
 
     public Optional<OrderProduct> findById(Long id) {
         return orderProductRepository.findById(id);

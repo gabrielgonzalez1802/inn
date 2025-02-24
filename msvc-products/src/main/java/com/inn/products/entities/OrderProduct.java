@@ -15,6 +15,11 @@ public class OrderProduct {
 
     @Column(name = "order_id", nullable = false)
     private Long orderId;
+    
     @Column(name = "product_id", nullable = false)
     private Long productId;
+    
+    @ManyToOne
+	@JoinColumn(name = "product_id", referencedColumnName = "product_id", nullable = false, insertable = false, updatable = false)
+    private Product product;
 }

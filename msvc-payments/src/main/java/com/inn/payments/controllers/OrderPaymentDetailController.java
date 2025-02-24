@@ -29,6 +29,12 @@ public class OrderPaymentDetailController {
         List<OrderPaymentDetailDto> orderPaymentDetails = orderPaymentDetailService.findAll();
         return ResponseEntity.ok(orderPaymentDetails);
     }
+    
+    @GetMapping("/order/{orderId}")
+    public ResponseEntity<OrderPaymentDetailDto> findByOrderId(@PathVariable Long orderId) {
+        OrderPaymentDetailDto orderPaymentDetailDto = orderPaymentDetailService.findByOrderId(orderId);
+        return ResponseEntity.ok(orderPaymentDetailDto);
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<OrderPaymentDetailDto> findById(@PathVariable Long id) {

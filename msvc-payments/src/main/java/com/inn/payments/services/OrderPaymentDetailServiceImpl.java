@@ -49,4 +49,15 @@ public class OrderPaymentDetailServiceImpl implements OrderPaymentDetailService 
         }
         orderPaymentDetailRepository.deleteById(id);
     }
+
+	@Override
+	public OrderPaymentDetailDto findByOrderId(Long orderId) {
+        OrderPaymentDetail orderPaymentDetail = orderPaymentDetailRepository.findByOrderId(orderId);
+        		
+        if(orderPaymentDetail==null) {
+        	throw new ResourceNotFoundException("Detalle de pago no encontrado con id de orden: " + orderId);
+        }
+        
+        return modelMapper.map(orderPaymentDetail, OrderPaymentDetailDto.class);
+	}
 }

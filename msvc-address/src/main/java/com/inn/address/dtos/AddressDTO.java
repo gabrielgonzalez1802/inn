@@ -29,4 +29,6 @@ public class AddressDTO {
 
     @Size(max = 255, message = "Address comment cannot exceed 255 characters")
     private String addressComment;
+    
+    private CityDTO city;
 }

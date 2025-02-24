@@ -7,4 +7,5 @@ import com.inn.payments.entities.OrderPaymentDetail;
 
 @Repository
 public interface OrderPaymentDetailRepository extends JpaRepository<OrderPaymentDetail, Long> {
+	OrderPaymentDetail findByOrderId(Long orderId);
 }

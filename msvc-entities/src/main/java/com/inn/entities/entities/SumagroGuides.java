@@ -25,5 +25,5 @@ public class SumagroGuides {
 
     @ManyToOne
     @JoinColumn(name = "entity_id", nullable = false)
-    private Entities entity;
+    private Entities entities;
 }

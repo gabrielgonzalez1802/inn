@@ -1,0 +1,182 @@
+version: "3.8"
+
+services:
+  msvc-warehouses:
+    build:
+      context: ./msvc-warehouses
+      dockerfile: Dockerfile
+    command: mvn package install -DskipTests --also-make --threads=2 && mvn spring-boot:run
+    ports:
+      - "8081:8081"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/postgres?searchPath=inn
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka
+    depends_on:
+      - eureka-server
+    networks:
+      - my-network
+
+  msvc-users:
+    build:
+      context: ./msvc-users
+      dockerfile: Dockerfile
+    command: mvn package install -DskipTests --also-make --threads=2 && mvn spring-boot:run
+    ports:
+      - "8082:8082"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/postgres?searchPath=inn
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka
+    depends_on:
+      - eureka-server
+    networks:
+      - my-network
+
+  msvc-products:
+    build:
+      context: ./msvc-products
+      dockerfile: Dockerfile
+    command: mvn package install -DskipTests --also-make --threads=2 && mvn spring-boot:run
+    ports:
+      - "8006:8006"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/postgres?searchPath=inn
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+      - WAREHOUSE_SERVICE_URL=http://warehouse-service:8004
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka
+    depends_on:
+      - eureka-server
+      - warehouse-service
+    networks:
+      - my-network
+
+  msvc-orders:
+    build:
+      context: ./msvc-orders
+      dockerfile: Dockerfile
+    command: mvn package install -DskipTests --also-make --threads=2 && mvn spring-boot:run
+    ports:
+      - "8085:8085"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/postgres?searchPath=inn
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka
+    depends_on:
+      - eureka-server
+    networks:
+      - my-network
+
+  msvc-gateway-server:
+    build:
+      context: ./msvc-gateway-server
+      dockerfile: Dockerfile
+    command: mvn package install -DskipTests --also-make --threads=2 && mvn spring-boot:run
+    ports:
+      - "8086:8086"
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka
+    depends_on:
+      - eureka-server
+    networks:
+      - my-network
+
+  msvc-eureka-server:
+    build:
+      context: ./msvc-eureka-server
+      dockerfile: Dockerfile
+    command: mvn package install -DskipTests --also-make --threads=2 && mvn spring-boot:run
+    ports:
+      - "8087:8087"
+    networks:
+      - my-network
+
+  msvc-entities:
+    build:
+      context: ./msvc-entities
+      dockerfile: Dockerfile
+    command: mvn package install -DskipTests --also-make --threads=2 && mvn spring-boot:run
+    ports:
+      - "8088:8088"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/postgres?searchPath=inn
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka
+    depends_on:
+      - eureka-server
+    networks:
+      - my-network
+
+  msvc-clients:
+    build:
+      context: ./msvc-clients
+      dockerfile: Dockerfile
+    command: mvn package install -DskipTests --also-make --threads=2 && mvn spring-boot:run
+    ports:
+      - "8089:8089"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/postgres?searchPath=inn
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka
+    depends_on:
+      - eureka-server
+    networks:
+      - my-network
+
+  msvc-address:
+    build:
+      context: ./msvc-address
+      dockerfile: Dockerfile
+    command: mvn package install -DskipTests --also-make --threads=2 && mvn spring-boot:run
+    ports:
+      - "8090:8090"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/postgres?searchPath=inn
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka
+    depends_on:
+      - eureka-server
+    networks:
+      - my-network
+
+  eureka-server:
+    build:
+      context: ./msvc-eureka-server
+      dockerfile: Dockerfile
+    command: mvn package install -DskipTests --also-make --threads=2 && mvn spring-boot:run
+    ports:
+      - "8761:8761"
+    networks:
+      - my-network
+
+  warehouse-service:
+    build:
+      context: ./msvc-warehouses
+      dockerfile: Dockerfile
+    command: mvn package install -DskipTests --also-make --threads=2 && mvn spring-boot:run
+    ports:
+      - "8004:8004"
+    networks:
+      - my-network
+
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5433:5432" # Cambiar el puerto de enlace a 5433
+    networks:
+      - my-network
+
+networks:
+  my-network:
+    driver: bridge

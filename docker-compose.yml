@@ -101,23 +101,6 @@ services:
     networks:
       - my-network
 
-  msvc-clients:
-    build:
-      context: ./msvc-clients
-      dockerfile: Dockerfile
-    command: mvn package install -DskipTests --also-make --threads=2 && mvn spring-boot:run
-    ports:
-      - "8089:8089"
-    environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/postgres?searchPath=inn
-      - SPRING_DATASOURCE_USERNAME=postgres
-      - SPRING_DATASOURCE_PASSWORD=postgres
-      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka
-    depends_on:
-      - eureka-server
-    networks:
-      - my-network
-
   msvc-address:
     build:
       context: ./msvc-address

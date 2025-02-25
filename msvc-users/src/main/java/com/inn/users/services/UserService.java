@@ -1,5 +1,9 @@
 package com.inn.users.services;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -10,12 +14,8 @@ import com.inn.users.entities.User;
 import com.inn.users.repositories.RoleRepository;
 import com.inn.users.repositories.UserRepository;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
 @Service
-public class UserService implements IUserService{
+public class UserService implements IUserService {
 
     @Autowired
     private UserRepository userRepository;
@@ -37,7 +37,7 @@ public class UserService implements IUserService{
     }
     
     @Transactional(readOnly = true)
-    public Iterable<User> findAll() {
+    public List<User> findAll() {
         return userRepository.findAll();
     }
 

@@ -20,33 +20,9 @@ resilience4j:
         base-config: defecto
         
 spring:
-#  security:
-#    oauth2:
-#      resourceserver:
-#        jwt:
-#          issuer-uri: http://127.0.0.1:9100
-#      client:
-#        registration:
-#          client-app:
-#            provider: spring
-#            client-id: gateway-app
-#            client-secret: 12345
-#            authorization-grant-type: authorization_code
-#            redirect-uri: http://127.0.0.1:8090/authorized
-#            scope:
-#            - openid
-#            - profile
-#            client-name: client-app
-#        provider:
-#          spring:
-#            issuer-uri: http://127.0.0.1:9100
   cloud:
     gateway:
       routes:
-#      - id: msvc-oauth
-#        uri: lb://msvc-oauth
-#        predicates:
-#        - Path=/**
       - id: msvc-users
         uri: lb://msvc-users
         predicates:
@@ -55,23 +31,35 @@ spring:
         uri: lb://msvc-warehouses
         predicates:
         - Path=/api/warehouses/**
+        filters:
+           - AuthenticationFilter
       - id: msvc-products
         uri: lb://msvc-products
         predicates:
         - Path=/api/products/**
+        filters:
+           - AuthenticationFilter
       - id: msvc-address
         uri: lb://msvc-address
         predicates:
         - Path=/api/addresses/**
+        filters:
+           - AuthenticationFilter
       - id: msvc-payments
         uri: lb://msvc-payments
         predicates:
         - Path=/api/payments/**
+        filters:
+           - AuthenticationFilter
       - id: msvc-entities
         uri: lb://msvc-entities
         predicates:
         - Path=/api/entities/**
+        filters:
+           - AuthenticationFilter
       - id: msvc-orders
         uri: lb://msvc-orders
         predicates:
         - Path=/api/orders/**
+        filters:
+           - AuthenticationFilter

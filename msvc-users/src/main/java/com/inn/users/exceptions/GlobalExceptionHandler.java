@@ -1,7 +1,8 @@
-package com.inn.warehouses.exceptions;
+package com.inn.users.exceptions;
 
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 import org.apache.coyote.BadRequestException;
 import org.slf4j.Logger;
@@ -12,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import lombok.Data;
@@ -77,20 +79,13 @@ public class GlobalExceptionHandler {
 		return new ResponseEntity<>(cr, HttpStatus.NOT_FOUND);
 	}
 
-    @ExceptionHandler(RoleAuthorizationException.class)
-	public ResponseEntity<CustomResponse> roleAuthorizationException(RoleAuthorizationException ex) {
-		LOGGER.warn("roleAuthorizationException - message: {}", ex.getMessage());
-		CustomResponse cr = new CustomResponse((HttpStatus.UNAUTHORIZED), ex.getMessage());
-		return new ResponseEntity<>(cr, HttpStatus.UNAUTHORIZED);
-	}
-    
     @ExceptionHandler(Exception.class)
-	public ResponseEntity<CustomResponse> exception(Exception ex) {
-		LOGGER.warn("exception - message: {}", ex.getMessage());
+	public ResponseEntity<CustomResponse> resourceNotFoundException(Exception ex) {
+		LOGGER.warn("noResourceFoundExceptionExceptionHandler - message: {}", ex.getMessage());
 		CustomResponse cr = new CustomResponse((HttpStatus.INTERNAL_SERVER_ERROR), ex.getMessage());
 		return new ResponseEntity<>(cr, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
-    
+
 	@Data
 	public static class CustomResponse {
 

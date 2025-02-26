@@ -10,12 +10,15 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.inn.products.clients.WarehouseClientRest;
 import com.inn.products.dtos.ProductMovementSummaryDTO;
 import com.inn.products.dtos.ProductMovementWeeklyDTO;
 import com.inn.products.dtos.WarehouseDTO;
 
+import jakarta.servlet.http.HttpServletRequest;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperExportManager;

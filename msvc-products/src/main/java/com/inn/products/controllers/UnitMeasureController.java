@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.inn.products.config.RequiresRoles;
 import com.inn.products.dtos.UnitMeasureDTO;
 import com.inn.products.entities.UnitMeasure;
 import com.inn.products.exceptions.ResourceNotFoundException;
@@ -33,6 +34,7 @@ public class UnitMeasureController {
     private ModelMapper modelMapper;
 
     @GetMapping
+    @RequiresRoles({"ROLE_ADMIN"})
     public List<UnitMeasureDTO> getAllUnitMeasure() {
         return unitMeasureService.findAll().stream()
                 .map(this::convertToDTO)
@@ -40,6 +42,7 @@ public class UnitMeasureController {
     }
 
     @GetMapping("/{id}")
+    @RequiresRoles({"ROLE_ADMIN"})
     public ResponseEntity<UnitMeasureDTO> getUnitMessureById(@PathVariable Long id) {
         UnitMeasure unitMessure = unitMeasureService.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Unit Messure not found for this id :: " + id));
@@ -47,12 +50,14 @@ public class UnitMeasureController {
     }
 
     @PostMapping
+    @RequiresRoles({"ROLE_ADMIN"})
     public UnitMeasureDTO createUnitMessure(@Valid @RequestBody UnitMeasureDTO unitMeasureDTO) {
         UnitMeasure unitMessure = convertToEntity(unitMeasureDTO);
         return convertToDTO(unitMeasureService.save(unitMessure));
     }
 
     @PutMapping("/{id}")
+    @RequiresRoles({"ROLE_ADMIN"})
     public ResponseEntity<UnitMeasureDTO> updateUnitMessure(@PathVariable Long id, @Valid @RequestBody UnitMeasureDTO unitMeasureDTO) {
         UnitMeasure unitMessure = unitMeasureService.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Unit Messure not found for this id :: " + id));
@@ -61,6 +66,7 @@ public class UnitMeasureController {
     }
 
     @DeleteMapping("/{id}")
+    @RequiresRoles({"ROLE_ADMIN"})
     public ResponseEntity<Void> deleteUnitMessure(@PathVariable Long id) {
         unitMeasureService.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Unit Messure not found for this id :: " + id));

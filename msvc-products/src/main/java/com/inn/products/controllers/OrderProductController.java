@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.inn.products.config.RequiresRoles;
 import com.inn.products.dtos.OrderProductDTO;
 import com.inn.products.entities.OrderProduct;
 import com.inn.products.exceptions.ResourceNotFoundException;
@@ -33,6 +34,7 @@ public class OrderProductController {
     private ModelMapper modelMapper;
 
     @GetMapping
+    @RequiresRoles({"ROLE_ADMIN"})
     public List<OrderProductDTO> getAllOrderProduct() {
         return orderProductService.findAll().stream()
                 .map(this::convertToDTO)
@@ -40,6 +42,7 @@ public class OrderProductController {
     }
     
     @GetMapping("/orders/{orderId}")
+    @RequiresRoles({"ROLE_ADMIN"})
     public List<OrderProductDTO> getAllOrderProductByOrderId(@PathVariable Long orderId) {
         return orderProductService.findAllByOrderId(orderId).stream()
                 .map(this::convertToDTO)
@@ -47,6 +50,7 @@ public class OrderProductController {
     }
 
     @GetMapping("/{id}")
+    @RequiresRoles({"ROLE_ADMIN"})
     public ResponseEntity<OrderProductDTO> getOrderProductById(@PathVariable Long id) {
         OrderProduct orderProduct = orderProductService.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Order Product not found for this id :: " + id));
@@ -54,12 +58,14 @@ public class OrderProductController {
     }
 
     @PostMapping
+    @RequiresRoles({"ROLE_ADMIN"})
     public OrderProductDTO createOrderProduct(@Valid @RequestBody OrderProductDTO orderProductDTO) {
         OrderProduct orderProduct = convertToEntity(orderProductDTO);
         return convertToDTO(orderProductService.save(orderProduct));
     }
 
     @PutMapping("/{id}")
+    @RequiresRoles({"ROLE_ADMIN"})
     public ResponseEntity<OrderProductDTO> updateOrderProduct(@PathVariable Long id, @Valid @RequestBody OrderProductDTO orderProductDTO) {
         OrderProduct orderProduct = orderProductService.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Order Product not found for this id :: " + id));
@@ -68,6 +74,7 @@ public class OrderProductController {
     }
 
     @DeleteMapping("/{id}")
+    @RequiresRoles({"ROLE_ADMIN"})
     public ResponseEntity<Void> deleteOrderProduct(@PathVariable Long id) {
         orderProductService.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Order Product not found for this id :: " + id));

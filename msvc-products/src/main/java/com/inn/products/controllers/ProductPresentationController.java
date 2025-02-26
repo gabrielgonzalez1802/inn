@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.inn.products.config.RequiresRoles;
 import com.inn.products.dtos.ProductPresentationDTO;
 import com.inn.products.entities.ProductPresentation;
 import com.inn.products.exceptions.ResourceNotFoundException;
@@ -33,6 +34,7 @@ public class ProductPresentationController {
     private ModelMapper modelMapper;
 
     @GetMapping
+    @RequiresRoles({"ROLE_ADMIN"})
     public List<ProductPresentationDTO> getAllProductPresentation() {
         return productPresentationService.findAll().stream()
                 .map(this::convertToDTO)
@@ -40,6 +42,7 @@ public class ProductPresentationController {
     }
 
     @GetMapping("/{id}")
+    @RequiresRoles({"ROLE_ADMIN"})
     public ResponseEntity<ProductPresentationDTO> getProductPresentationById(@PathVariable Long id) {
         ProductPresentation productPresentation = productPresentationService.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Product Presentation not found for this id :: " + id));
@@ -47,12 +50,14 @@ public class ProductPresentationController {
     }
 
     @PostMapping
+    @RequiresRoles({"ROLE_ADMIN"})
     public ProductPresentationDTO createProductPresentation(@Valid @RequestBody ProductPresentationDTO productPresentationDTO) {
         ProductPresentation productPresentation = convertToEntity(productPresentationDTO);
         return convertToDTO(productPresentationService.save(productPresentation));
     }
 
     @PutMapping("/{id}")
+    @RequiresRoles({"ROLE_ADMIN"})
     public ResponseEntity<ProductPresentationDTO> updateProductPresentation(@PathVariable Long id, @Valid @RequestBody ProductPresentationDTO productPresentationDTO) {
         ProductPresentation productPresentation = productPresentationService.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Product Presentation not found for this id :: " + id));
@@ -61,6 +66,7 @@ public class ProductPresentationController {
     }
 
     @DeleteMapping("/{id}")
+    @RequiresRoles({"ROLE_ADMIN"})
     public ResponseEntity<Void> deleteProductPresentation(@PathVariable Long id) {
         productPresentationService.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Product Presentation not found for this id :: " + id));

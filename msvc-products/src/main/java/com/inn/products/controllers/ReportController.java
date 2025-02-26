@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
+import com.inn.products.config.RequiresRoles;
 import com.inn.products.dtos.ProductMovementSummaryDTO;
 import com.inn.products.dtos.ProductMovementWeeklyDTO;
 import com.inn.products.services.MovementService;
@@ -33,6 +34,7 @@ public class ReportController {
     private MovementService movementService;
 
     @GetMapping("/weekly")
+    @RequiresRoles({"ROLE_ADMIN"})
     public ResponseEntity<?> generarReporteSemanal(
             @RequestParam("fechaInicio") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime fechaInicio,
             @RequestParam("fechaFin") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime fechaFin,
@@ -88,6 +90,7 @@ public class ReportController {
     }
     
     @GetMapping("/monthly")
+    @RequiresRoles({"ROLE_ADMIN"})
     public ResponseEntity<?> generarReporteMensual(
             @RequestParam("fechaInicio") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime fechaInicio,
             @RequestParam("fechaFin") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime fechaFin,
@@ -162,6 +165,7 @@ public class ReportController {
     }
     
     @GetMapping("/monthly_end")
+    @RequiresRoles({"ROLE_ADMIN"})
     public ResponseEntity<?> generarReporteCierreMes(
             @RequestParam("fechaInicio") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime fechaInicio,
             @RequestParam("fechaFin") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime fechaFin,

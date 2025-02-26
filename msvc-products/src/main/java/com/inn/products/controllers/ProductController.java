@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.inn.products.config.RequiresRoles;
 import com.inn.products.dtos.ProductDTO;
 import com.inn.products.entities.Product;
 import com.inn.products.exceptions.ResourceNotFoundException;
@@ -33,6 +34,7 @@ public class ProductController {
     private ModelMapper modelMapper;
 
     @GetMapping
+    @RequiresRoles({"ROLE_ADMIN"})
     public List<ProductDTO> getAllProduct() {
         return productService.findAll().stream()
                 .map(this::convertToDTO)
@@ -40,6 +42,7 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
+    @RequiresRoles({"ROLE_ADMIN"})
     public ResponseEntity<ProductDTO> getProductById(@PathVariable Long id) {
         Product product = productService.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found for this id :: " + id));
@@ -47,12 +50,14 @@ public class ProductController {
     }
 
     @PostMapping
+    @RequiresRoles({"ROLE_ADMIN"})
     public ProductDTO createProduct(@Valid @RequestBody ProductDTO productDTO) {
         Product product = convertToEntity(productDTO);
         return convertToDTO(productService.save(product));
     }
 
     @PutMapping("/{id}")
+    @RequiresRoles({"ROLE_ADMIN"})
     public ResponseEntity<ProductDTO> updateProduct(@PathVariable Long id, @Valid @RequestBody ProductDTO productDTO) {
         Product product = productService.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found for this id :: " + id));
@@ -61,6 +66,7 @@ public class ProductController {
     }
 
     @DeleteMapping("/{id}")
+    @RequiresRoles({"ROLE_ADMIN"})
     public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
         productService.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found for this id :: " + id));

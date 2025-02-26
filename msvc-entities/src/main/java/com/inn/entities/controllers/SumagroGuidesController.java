@@ -1,5 +1,6 @@
 package com.inn.entities.controllers;
 
+import com.inn.entities.config.RequiresRoles;
 import com.inn.entities.dtos.SumagroGuidesDTO;
 import com.inn.entities.entities.SumagroGuides;
 import com.inn.entities.exceptions.ResourceNotFoundException;
@@ -26,6 +27,7 @@ public class SumagroGuidesController {
     private ModelMapper modelMapper;
 
     @GetMapping
+    @RequiresRoles({"ROLE_ADMIN"})
     public List<SumagroGuidesDTO> getAllSumagroGuides() {
         return sumagroGuidesService.findAll().stream()
                 .map(this::convertToDTO)
@@ -33,6 +35,7 @@ public class SumagroGuidesController {
     }
 
     @GetMapping("/{id}")
+    @RequiresRoles({"ROLE_ADMIN"})
     public ResponseEntity<SumagroGuidesDTO> getSumagroGuideById(@PathVariable Long id) {
         SumagroGuides sumagroGuide = sumagroGuidesService.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Sumagro guide not found for this id :: " + id));
@@ -40,12 +43,14 @@ public class SumagroGuidesController {
     }
 
     @PostMapping
+    @RequiresRoles({"ROLE_ADMIN"})
     public SumagroGuidesDTO createSumagroGuide(@Valid @RequestBody SumagroGuidesDTO sumagroGuidesDTO) {
         SumagroGuides sumagroGuide = convertToEntity(sumagroGuidesDTO);
         return convertToDTO(sumagroGuidesService.save(sumagroGuide));
     }
 
     @PutMapping("/{id}")
+    @RequiresRoles({"ROLE_ADMIN"})
     public ResponseEntity<SumagroGuidesDTO> updateSumagroGuide(@PathVariable Long id, @Valid @RequestBody SumagroGuidesDTO sumagroGuidesDTO) {
         SumagroGuides sumagroGuide = sumagroGuidesService.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Sumagro guide not found for this id :: " + id));
@@ -54,6 +59,7 @@ public class SumagroGuidesController {
     }
 
     @DeleteMapping("/{id}")
+    @RequiresRoles({"ROLE_ADMIN"})
     public ResponseEntity<Void> deleteSumagroGuide(@PathVariable Long id) {
         sumagroGuidesService.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Sumagro guide not found for this id :: " + id));

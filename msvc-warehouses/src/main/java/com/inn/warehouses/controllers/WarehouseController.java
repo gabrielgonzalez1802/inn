@@ -16,11 +16,11 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.inn.warehouses.config.RequiresRoles;
 import com.inn.warehouses.dtos.WarehouseDTO;
 import com.inn.warehouses.entities.Warehouse;
 import com.inn.warehouses.exceptions.ResourceNotFoundException;
 import com.inn.warehouses.services.WarehouseService;
-import com.inn.warehouses.utils.RoleValidator;
 
 import jakarta.validation.Valid;
 
@@ -35,31 +35,31 @@ public class WarehouseController {
     private ModelMapper modelMapper;
 
     @GetMapping
-    public List<WarehouseDTO> getAllWarehouse(@RequestHeader("X-User-Roles") String roles) {
-        RoleValidator.validateRoles(roles, "ROLE_ADMIN");           
+    @RequiresRoles({"ROLE_ADMIN"})
+    public List<WarehouseDTO> getAllWarehouse() {
         return WarehouseService.findAll().stream()
                     .map(this::convertToDTO)
                     .collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<WarehouseDTO> getEntityById(@RequestHeader("X-User-Roles") String roles, @PathVariable Long id) {
-        RoleValidator.validateRoles(roles, "ROLE_ADMIN");           
+    @RequiresRoles({"ROLE_ADMIN"})
+    public ResponseEntity<WarehouseDTO> getEntityById(@PathVariable Long id) {
         Warehouse entity = WarehouseService.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Warehouse not found for this id :: " + id));
         return ResponseEntity.ok(convertToDTO(entity));
     }
 
     @PostMapping
-    public WarehouseDTO createEntity(@RequestHeader("X-User-Roles") String roles, @Valid @RequestBody WarehouseDTO WarehouseDTO) {
-        RoleValidator.validateRoles(roles, "ROLE_ADMIN");           
+    @RequiresRoles({"ROLE_ADMIN"})
+    public WarehouseDTO createEntity(@Valid @RequestBody WarehouseDTO WarehouseDTO) {
         Warehouse entity = convertToEntity(WarehouseDTO);
         return convertToDTO(WarehouseService.save(entity));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<WarehouseDTO> updateEntity(@RequestHeader("X-User-Roles") String roles, @PathVariable Long id, @Valid @RequestBody WarehouseDTO WarehouseDTO) {
-        RoleValidator.validateRoles(roles, "ROLE_ADMIN");       
+    @RequiresRoles({"ROLE_ADMIN"})
+    public ResponseEntity<WarehouseDTO> updateEntity(@PathVariable Long id, @Valid @RequestBody WarehouseDTO WarehouseDTO) {
     	Warehouse entity = WarehouseService.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Warehouse not found for this id :: " + id));
         modelMapper.map(WarehouseDTO, entity);
@@ -67,8 +67,7 @@ public class WarehouseController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteEntity(@RequestHeader("X-User-Roles") String roles, @PathVariable Long id) {
-        RoleValidator.validateRoles(roles, "ROLE_ADMIN");       
+    public ResponseEntity<Void> deleteEntity(@PathVariable Long id) {
         WarehouseService.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Warehouse not found for this id :: " + id));
         WarehouseService.deleteById(id);

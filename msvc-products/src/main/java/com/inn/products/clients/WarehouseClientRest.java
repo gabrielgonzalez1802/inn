@@ -9,6 +9,6 @@ import com.inn.products.dtos.WarehouseDTO;
 @FeignClient(name = "msvc-warehouses", url = "${warehouse.service.url}")
 public interface WarehouseClientRest {
 
-	@GetMapping("/api/warehouse/{id}")
+	@GetMapping("/api/warehouses/{id}")
 	public WarehouseDTO getEntityById(@PathVariable Long id);
 }

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.inn.payments.config.RequiresRoles;
 import com.inn.payments.dtos.CurrencyTypeDto;
 import com.inn.payments.services.CurrencyTypeService;
 
@@ -25,24 +26,28 @@ public class CurrencyTypeController {
     private CurrencyTypeService currencyTypeService;
 
     @GetMapping
+    @RequiresRoles({"ROLE_ADMIN"})
     public ResponseEntity<List<CurrencyTypeDto>> findAll() {
         List<CurrencyTypeDto> currencyTypes = currencyTypeService.findAll();
         return ResponseEntity.ok(currencyTypes);
     }
 
     @GetMapping("/{id}")
+    @RequiresRoles({"ROLE_ADMIN"})
     public ResponseEntity<CurrencyTypeDto> findById(@PathVariable Long id) {
         CurrencyTypeDto currencyTypeDto = currencyTypeService.findById(id);
         return ResponseEntity.ok(currencyTypeDto);
     }
 
     @PostMapping
+    @RequiresRoles({"ROLE_ADMIN"})
     public ResponseEntity<CurrencyTypeDto> save(@Valid @RequestBody CurrencyTypeDto currencyTypeDto) {
         CurrencyTypeDto savedCurrencyType = currencyTypeService.save(currencyTypeDto);
         return ResponseEntity.ok(savedCurrencyType);
     }
 
     @DeleteMapping("/{id}")
+    @RequiresRoles({"ROLE_ADMIN"})
     public ResponseEntity<Void> deleteById(@PathVariable Long id) {
         currencyTypeService.deleteById(id);
         return ResponseEntity.noContent().build();

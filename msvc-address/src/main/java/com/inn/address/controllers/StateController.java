@@ -1,5 +1,6 @@
 package com.inn.address.controllers;
 
+import com.inn.address.config.RequiresRoles;
 import com.inn.address.dtos.StateDTO;
 import com.inn.address.entities.State;
 import com.inn.address.exceptions.ResourceNotFoundException;
@@ -31,18 +32,21 @@ public class StateController {
     }
 
     @GetMapping("/{id}")
+    @RequiresRoles({"ROLE_ADMIN"})
     public ResponseEntity<StateDTO> getStateById(@PathVariable Long id) {
         State state = stateService.findById(id).orElseThrow(() -> new ResourceNotFoundException("State not found for this id :: " + id));
         return ResponseEntity.ok(convertToDTO(state));
     }
 
     @PostMapping
+    @RequiresRoles({"ROLE_ADMIN"})
     public StateDTO createState(@Valid @RequestBody StateDTO stateDTO) {
         State state = convertToEntity(stateDTO);
         return convertToDTO(stateService.save(state));
     }
 
     @PutMapping("/{id}")
+    @RequiresRoles({"ROLE_ADMIN"})
     public ResponseEntity<StateDTO> updateState(@PathVariable Long id, @Valid @RequestBody StateDTO stateDTO) {
         State state = stateService.findById(id).orElseThrow(() -> new ResourceNotFoundException("State not found for this id :: " + id));
         modelMapper.map(stateDTO, state);
@@ -50,6 +54,7 @@ public class StateController {
     }
 
     @DeleteMapping("/{id}")
+    @RequiresRoles({"ROLE_ADMIN"})
     public ResponseEntity<Void> deleteState(@PathVariable Long id) {
         stateService.findById(id).orElseThrow(() -> new ResourceNotFoundException("State not found for this id :: " + id));
         stateService.deleteById(id);

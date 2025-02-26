@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.inn.address.config.RequiresRoles;
 import com.inn.address.dtos.EntityAddressDTO;
 import com.inn.address.entities.EntityAddress;
 import com.inn.address.exceptions.ResourceNotFoundException;
@@ -33,28 +34,33 @@ public class EntityAddressController {
     private ModelMapper modelMapper;
 
     @GetMapping
+    @RequiresRoles({"ROLE_ADMIN"})
     public List<EntityAddressDTO> getAllEntityAddresses() {
         return entityAddressService.findAll().stream().map(this::convertToDTO).collect(Collectors.toList());
     }
     
     @GetMapping("/entities/{entityId}")
+    @RequiresRoles({"ROLE_ADMIN"})
     public List<EntityAddressDTO> getAllByEntityId(@PathVariable Long entityId) {
         return entityAddressService.findAllByEntityId(entityId).stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")
+    @RequiresRoles({"ROLE_ADMIN"})
     public ResponseEntity<EntityAddressDTO> getEntityAddressById(@PathVariable Long id) {
         EntityAddress entityAddress = entityAddressService.findById(id).orElseThrow(() -> new ResourceNotFoundException("EntityAddress not found for this id :: " + id));
         return ResponseEntity.ok(convertToDTO(entityAddress));
     }
 
     @PostMapping
+    @RequiresRoles({"ROLE_ADMIN"})
     public EntityAddressDTO createEntityAddress(@Valid @RequestBody EntityAddressDTO entityAddressDTO) {
         EntityAddress entityAddress = convertToEntity(entityAddressDTO);
         return convertToDTO(entityAddressService.save(entityAddress));
     }
 
     @PutMapping("/{id}")
+    @RequiresRoles({"ROLE_ADMIN"})
     public ResponseEntity<EntityAddressDTO> updateEntityAddress(@PathVariable Long id, @Valid @RequestBody EntityAddressDTO entityAddressDTO) {
         EntityAddress entityAddress = entityAddressService.findById(id).orElseThrow(() -> new ResourceNotFoundException("EntityAddress not found for this id :: " + id));
         modelMapper.map(entityAddressDTO, entityAddress);
@@ -62,6 +68,7 @@ public class EntityAddressController {
     }
 
     @DeleteMapping("/{id}")
+    @RequiresRoles({"ROLE_ADMIN"})
     public ResponseEntity<Void> deleteEntityAddress(@PathVariable Long id) {
         entityAddressService.findById(id).orElseThrow(() -> new ResourceNotFoundException("EntityAddress not found for this id :: " + id));
         entityAddressService.deleteById(id);

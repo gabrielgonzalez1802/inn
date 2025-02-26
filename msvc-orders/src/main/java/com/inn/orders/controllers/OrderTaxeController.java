@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.inn.orders.config.RequiresRoles;
 import com.inn.orders.dtos.OrderTaxeDTO;
 import com.inn.orders.entities.OrderTaxe;
 import com.inn.orders.exceptions.ResourceNotFoundException;
@@ -40,6 +41,7 @@ public class OrderTaxeController {
     }
 
     @GetMapping("/{id}")
+    @RequiresRoles({"ROLE_ADMIN"})
     public ResponseEntity<OrderTaxeDTO> getOrderTaxeById(@PathVariable Long id) {
         OrderTaxe orderTaxe = orderTaxesService.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("OrderTaxe not found for this id :: " + id));
@@ -47,12 +49,14 @@ public class OrderTaxeController {
     }
 
     @PostMapping
+    @RequiresRoles({"ROLE_ADMIN"})
     public OrderTaxeDTO createOrderTaxe(@Valid @RequestBody OrderTaxeDTO orderTaxesDTO) {
         OrderTaxe orderTaxe = convertToEntity(orderTaxesDTO);
         return convertToDTO(orderTaxesService.save(orderTaxe));
     }
 
     @PutMapping("/{id}")
+    @RequiresRoles({"ROLE_ADMIN"})
     public ResponseEntity<OrderTaxeDTO> updateOrderTaxe(@PathVariable Long id, @Valid @RequestBody OrderTaxeDTO orderTaxesDTO) {
         OrderTaxe orderTaxe = orderTaxesService.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("OrderTaxe not found for this id :: " + id));
@@ -61,6 +65,7 @@ public class OrderTaxeController {
     }
 
     @DeleteMapping("/{id}")
+    @RequiresRoles({"ROLE_ADMIN"})
     public ResponseEntity<Void> deleteOrderTaxe(@PathVariable Long id) {
         orderTaxesService.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("OrderTaxe not found for this id :: " + id));

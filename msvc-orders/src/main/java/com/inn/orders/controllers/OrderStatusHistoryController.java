@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.inn.orders.config.RequiresRoles;
 import com.inn.orders.dtos.OrderStatusHistoryDTO;
 import com.inn.orders.entities.OrderStatusHistory;
 import com.inn.orders.exceptions.ResourceNotFoundException;
@@ -33,6 +34,7 @@ public class OrderStatusHistoryController {
     private ModelMapper modelMapper;
 
     @GetMapping
+    @RequiresRoles({"ROLE_ADMIN"})
     public List<OrderStatusHistoryDTO> getAllOrderStatusHistories() {
         return orderStatusHistoryService.findAll().stream()
                 .map(this::convertToDTO)
@@ -40,6 +42,7 @@ public class OrderStatusHistoryController {
     }
 
     @GetMapping("/{id}")
+    @RequiresRoles({"ROLE_ADMIN"})
     public ResponseEntity<OrderStatusHistoryDTO> getOrderStatusHistoryById(@PathVariable Long id) {
         OrderStatusHistory orderStatusHistory = orderStatusHistoryService.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("OrderStatusHistory not found for this id :: " + id));
@@ -47,12 +50,14 @@ public class OrderStatusHistoryController {
     }
 
     @PostMapping
+    @RequiresRoles({"ROLE_ADMIN"})
     public OrderStatusHistoryDTO createOrderStatusHistory(@Valid @RequestBody OrderStatusHistoryDTO orderStatusHistoryDTO) {
         OrderStatusHistory orderStatusHistory = convertToEntity(orderStatusHistoryDTO);
         return convertToDTO(orderStatusHistoryService.save(orderStatusHistory));
     }
 
     @PutMapping("/{id}")
+    @RequiresRoles({"ROLE_ADMIN"})
     public ResponseEntity<OrderStatusHistoryDTO> updateOrderStatusHistory(@PathVariable Long id, @Valid @RequestBody OrderStatusHistoryDTO orderStatusHistoryDTO) {
         OrderStatusHistory orderStatusHistory = orderStatusHistoryService.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("OrderStatusHistory not found for this id :: " + id));
@@ -61,6 +66,7 @@ public class OrderStatusHistoryController {
     }
 
     @DeleteMapping("/{id}")
+    @RequiresRoles({"ROLE_ADMIN"})
     public ResponseEntity<Void> deleteOrderStatusHistory(@PathVariable Long id) {
         orderStatusHistoryService.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("OrderStatusHistory not found for this id :: " + id));

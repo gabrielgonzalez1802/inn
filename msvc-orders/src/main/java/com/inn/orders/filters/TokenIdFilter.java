@@ -1,0 +1,53 @@
+package com.inn.orders.filters;
+
+import java.io.IOException;
+import java.security.SignatureException;
+import java.util.HashMap;
+import java.util.Map;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.inn.orders.exceptions.JwtValidationException;
+import com.inn.orders.utils.JwtUtil;
+
+import jakarta.servlet.Filter;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+public class TokenIdFilter implements Filter {
+
+    @Override
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+            throws IOException, ServletException {
+    	
+    	final ObjectMapper objectMapper = new ObjectMapper();
+
+        HttpServletRequest httpRequest = (HttpServletRequest) request;
+        String tokenId = httpRequest.getHeader("X-TOKEN-ID");
+
+        if (tokenId != null && !tokenId.isEmpty()) {
+        	
+        	try {
+				JwtUtil.validateToken(tokenId);
+				
+				// Permite la solicitud
+				chain.doFilter(request, response);
+			} catch (JwtValidationException | SignatureException e) {
+				throw new JwtValidationException(e.getMessage(), e);
+			}
+        } else {
+            HttpServletResponse httpResponse = (HttpServletResponse) response;
+            httpResponse.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            httpResponse.setContentType("application/json"); // Configura el tipo de contenido
+
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("error", "Header X-TOKEN-ID requerido");
+
+            httpResponse.getWriter().write(objectMapper.writeValueAsString(errorResponse));
+        }
+    }
+
+}

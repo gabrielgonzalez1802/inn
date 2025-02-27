@@ -40,8 +40,6 @@ public class Movement {
     private Long sunagroGuideId;
     @Column(name = "delivery_note")
     private String deliveryNote;
-    @Column(name = "purchase_order")
-    private String purchaseOrder;
     @Column(name = "observations")
     private String observations;
     @Column(name = "responsible_user")
@@ -50,6 +48,8 @@ public class Movement {
     private LocalDateTime registrationDatetime;
     @Column(name = "movement_type_id", nullable = false)
     private Long movementTypeId;
+    @Column(name = "order_id")
+    private Long orderId;
     
     @ManyToOne
     @JoinColumn(name = "movement_type_id", nullable = false, insertable = false, updatable = false)

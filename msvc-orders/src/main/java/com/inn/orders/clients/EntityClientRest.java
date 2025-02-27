@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import com.inn.orders.dtos.EntitiesDTO;
 
-@FeignClient(name = "msvc-entities", url = "${entity.service.url}")
+@FeignClient(name = "msvc-entities")
 public interface EntityClientRest {
 
 	@GetMapping("/api/entities/{id}")

@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import com.inn.orders.dtos.OrderPaymentDetailDto;
 
-@FeignClient(name = "msvc-payments", url = "${payment.service.url}")
+@FeignClient(name = "msvc-payments")
 public interface PaymentClientRest {
 
     @GetMapping("/api/payments/order-details/order/{orderId}")

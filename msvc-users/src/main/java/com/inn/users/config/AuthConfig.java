@@ -28,8 +28,7 @@ public class AuthConfig {
         http.csrf(csrf -> csrf.disable())
                 .sessionManagement(management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(requests -> requests
-                        .requestMatchers("/api/users/auth/register", "/api/users/auth/token", "/api/users/auth/validate").permitAll()
-                        .anyRequest().authenticated());
+                        .anyRequest().permitAll());
       return http.build();
     }
 

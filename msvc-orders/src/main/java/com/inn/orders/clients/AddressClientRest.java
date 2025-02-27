@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import com.inn.orders.dtos.EntityAddressDTO;
 
-@FeignClient(name = "msvc-address", url = "${address.service.url}")
+@FeignClient(name = "msvc-address")
 public interface AddressClientRest {
 
 	@GetMapping("/api/addresses/entities-adrress/entities/{entityId}")

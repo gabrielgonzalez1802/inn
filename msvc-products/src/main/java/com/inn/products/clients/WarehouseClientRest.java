@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import com.inn.products.dtos.WarehouseDTO;
 
-@FeignClient(name = "msvc-warehouses", url = "${warehouse.service.url}")
+@FeignClient(name = "msvc-warehouses")
 public interface WarehouseClientRest {
 
 	@GetMapping("/api/warehouses/{id}")

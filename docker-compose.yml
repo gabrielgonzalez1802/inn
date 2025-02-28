@@ -9,14 +9,16 @@ services:
     ports:
       - "8009:8009"
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/postgres?searchPath=inn
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/system_users
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=postgres
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka
     depends_on:
       - eureka-server
+      - postgres
     networks:
       - my-network
+
   msvc-payments:
     build:
       context: ./msvc-payments
@@ -25,12 +27,13 @@ services:
     ports:
       - "8008:8008"
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/postgres?searchPath=inn
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/payments
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=postgres
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka
     depends_on:
       - eureka-server
+      - postgres
     networks:
       - my-network
 
@@ -42,12 +45,13 @@ services:
     ports:
       - "8006:8006"
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/postgres?searchPath=inn
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/products
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=postgres
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka
     depends_on:
       - eureka-server
+      - postgres
     networks:
       - my-network
 
@@ -59,12 +63,13 @@ services:
     ports:
       - "8007:8007"
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/postgres?searchPath=inn
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/orders
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=postgres
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka
     depends_on:
       - eureka-server
+      - postgres
     networks:
       - my-network
 
@@ -74,7 +79,7 @@ services:
       dockerfile: Dockerfile
     command: mvn package install -DskipTests --also-make --threads=2 && mvn spring-boot:run
     ports:
-      - "8086:8086"
+      - "8090:8090"
     environment:
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka
       - SPRING_CLOUD_GATEWAY_DISCOVERY_LOCATOR_ENABLED=true
@@ -92,12 +97,13 @@ services:
     ports:
       - "8003:8003"
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/postgres?searchPath=inn
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/entities
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=postgres
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka
     depends_on:
       - eureka-server
+      - postgres
     networks:
       - my-network
 
@@ -109,12 +115,13 @@ services:
     ports:
       - "8002:8002"
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/postgres?searchPath=inn
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/address
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=postgres
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka
     depends_on:
       - eureka-server
+      - postgres
     networks:
       - my-network
 
@@ -127,6 +134,7 @@ services:
       - "8761:8761"
     environment:
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka
+      - EUREKA_SERVER_ENABLESELFPRESERVATION=false # Deshabilitar la autoconservación para pruebas
     networks:
       - my-network
 
@@ -138,12 +146,19 @@ services:
     ports:
       - "8004:8004"
     environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/warehouses
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka
+    depends_on:
+      - eureka-server
+      - postgres
     networks:
       - my-network
 
   postgres:
     image: postgres:latest
+    restart: always
     environment:
       POSTGRES_DB: postgres
       POSTGRES_USER: postgres
@@ -152,6 +167,14 @@ services:
       - "5433:5432" # Cambiar el puerto de enlace a 5433
     networks:
       - my-network
+    container_name: postgresql-server
+    healthcheck:
+      test: ["CMD-SHELL", "sh -c 'pg_isready -U ${DB_USER} -d ${DB_PASSWORD}'"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
 
 networks:
   my-network:

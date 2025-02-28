@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.inn.products.config.RequiresRoles;
 import com.inn.products.dtos.MovementDTO;
 import com.inn.products.entities.Movement;
 import com.inn.products.exceptions.ResourceNotFoundException;
@@ -33,6 +34,7 @@ public class MovementController {
     private ModelMapper modelMapper;
 
     @GetMapping
+    @RequiresRoles({"ROLE_ADMIN"})
     public List<MovementDTO> getAllMovement() {
         return movementService.findAll().stream()
                 .map(this::convertToDTO)
@@ -40,6 +42,7 @@ public class MovementController {
     }
 
     @GetMapping("/{id}")
+    @RequiresRoles({"ROLE_ADMIN"})
     public ResponseEntity<MovementDTO> getMovementById(@PathVariable Long id) {
         Movement movement = movementService.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Movement not found for this id :: " + id));
@@ -47,12 +50,14 @@ public class MovementController {
     }
 
     @PostMapping
+    @RequiresRoles({"ROLE_ADMIN"})
     public MovementDTO createMovement(@Valid @RequestBody MovementDTO movementDTO) {
         Movement movement = convertToEntity(movementDTO);
         return convertToDTO(movementService.save(movement));
     }
 
     @PutMapping("/{id}")
+    @RequiresRoles({"ROLE_ADMIN"})
     public ResponseEntity<MovementDTO> updateMovement(@PathVariable Long id, @Valid @RequestBody MovementDTO movementDTO) {
         Movement movement = movementService.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Movement not found for this id :: " + id));
@@ -61,6 +66,7 @@ public class MovementController {
     }
 
     @DeleteMapping("/{id}")
+    @RequiresRoles({"ROLE_ADMIN"})
     public ResponseEntity<Void> deleteMovement(@PathVariable Long id) {
         movementService.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Movement not found for this id :: " + id));

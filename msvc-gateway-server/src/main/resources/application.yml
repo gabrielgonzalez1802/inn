@@ -23,31 +23,43 @@ spring:
   cloud:
     gateway:
       routes:
-        - id: msvc-users
-          uri: lb://msvc-users
-          predicates:
-            - Path=/api/users/**
-        - id: msvc-warehouses
-          uri: lb://msvc-warehouses
-          predicates:
-            - Path=/api/warehouses/**
-        - id: msvc-products
-          uri: lb://msvc-products
-          predicates:
-            - Path=/api/products/**
-        - id: msvc-address
-          uri: lb://msvc-address
-          predicates:
-            - Path=/api/addresses/**
-        - id: msvc-payments
-          uri: lb://msvc-payments
-          predicates:
-            - Path=/api/payments/**
-        - id: msvc-entities
-          uri: lb://msvc-entities
-          predicates:
-            - Path=/api/entities/**
-        - id: msvc-orders
-          uri: lb://msvc-orders
-          predicates:
-            - Path=/api/orders/**
+      - id: msvc-users
+        uri: lb://msvc-users
+        predicates:
+        - Path=/api/users/**
+      - id: msvc-warehouses
+        uri: lb://msvc-warehouses
+        predicates:
+        - Path=/api/warehouses/**
+        filters:
+           - AuthenticationFilter
+      - id: msvc-products
+        uri: lb://msvc-products
+        predicates:
+        - Path=/api/products/**
+        filters:
+           - AuthenticationFilter
+      - id: msvc-address
+        uri: lb://msvc-address
+        predicates:
+        - Path=/api/addresses/**
+        filters:
+           - AuthenticationFilter
+      - id: msvc-payments
+        uri: lb://msvc-payments
+        predicates:
+        - Path=/api/payments/**
+        filters:
+           - AuthenticationFilter
+      - id: msvc-entities
+        uri: lb://msvc-entities
+        predicates:
+        - Path=/api/entities/**
+        filters:
+           - AuthenticationFilter
+      - id: msvc-orders
+        uri: lb://msvc-orders
+        predicates:
+        - Path=/api/orders/**
+        filters:
+           - AuthenticationFilter

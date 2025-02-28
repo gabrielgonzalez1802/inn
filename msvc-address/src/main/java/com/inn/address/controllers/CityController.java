@@ -1,5 +1,6 @@
 package com.inn.address.controllers;
 
+import com.inn.address.config.RequiresRoles;
 import com.inn.address.dtos.CityDTO;
 import com.inn.address.entities.City;
 import com.inn.address.exceptions.ResourceNotFoundException;
@@ -26,23 +27,27 @@ public class CityController {
     private ModelMapper modelMapper;
 
     @GetMapping
+    @RequiresRoles({"ROLE_ADMIN"})
     public List<CityDTO> getAllCities() {
         return cityService.findAll().stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")
+    @RequiresRoles({"ROLE_ADMIN"})
     public ResponseEntity<CityDTO> getCityById(@PathVariable Long id) {
         City city = cityService.findById(id).orElseThrow(() -> new ResourceNotFoundException("City not found for this id :: " + id));
         return ResponseEntity.ok(convertToDTO(city));
     }
 
     @PostMapping
+    @RequiresRoles({"ROLE_ADMIN"})
     public CityDTO createCity(@Valid @RequestBody CityDTO cityDTO) {
         City city = convertToEntity(cityDTO);
         return convertToDTO(cityService.save(city));
     }
 
     @PutMapping("/{id}")
+    @RequiresRoles({"ROLE_ADMIN"})
     public ResponseEntity<CityDTO> updateCity(@PathVariable Long id, @Valid @RequestBody CityDTO cityDTO) {
         City city = cityService.findById(id).orElseThrow(() -> new ResourceNotFoundException("City not found for this id :: " + id));
         modelMapper.map(cityDTO, city);
@@ -50,6 +55,7 @@ public class CityController {
     }
 
     @DeleteMapping("/{id}")
+    @RequiresRoles({"ROLE_ADMIN"})
     public ResponseEntity<Void> deleteCity(@PathVariable Long id) {
         cityService.findById(id).orElseThrow(() -> new ResourceNotFoundException("City not found for this id :: " + id));
         cityService.deleteById(id);

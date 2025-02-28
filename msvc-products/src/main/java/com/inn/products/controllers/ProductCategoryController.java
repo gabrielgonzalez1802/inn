@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.inn.products.config.RequiresRoles;
 import com.inn.products.dtos.ProductCategoryDTO;
 import com.inn.products.entities.ProductCategory;
 import com.inn.products.exceptions.ResourceNotFoundException;
@@ -33,6 +34,7 @@ public class ProductCategoryController {
     private ModelMapper modelMapper;
 
     @GetMapping
+    @RequiresRoles({"ROLE_ADMIN"})
     public List<ProductCategoryDTO> getAllProductCategories() {
         return productCategoryService.findAll().stream()
                 .map(this::convertToDTO)
@@ -40,6 +42,7 @@ public class ProductCategoryController {
     }
 
     @GetMapping("/{id}")
+    @RequiresRoles({"ROLE_ADMIN"})
     public ResponseEntity<ProductCategoryDTO> getProductCategoryById(@PathVariable Long id) {
         ProductCategory productCategory = productCategoryService.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Product Category not found for this id :: " + id));
@@ -47,12 +50,14 @@ public class ProductCategoryController {
     }
 
     @PostMapping
+    @RequiresRoles({"ROLE_ADMIN"})
     public ProductCategoryDTO createProductCategory(@Valid @RequestBody ProductCategoryDTO productCategoryDTO) {
         ProductCategory productCategory = convertToEntity(productCategoryDTO);
         return convertToDTO(productCategoryService.save(productCategory));
     }
 
     @PutMapping("/{id}")
+    @RequiresRoles({"ROLE_ADMIN"})
     public ResponseEntity<ProductCategoryDTO> updateProductCategory(@PathVariable Long id, @Valid @RequestBody ProductCategoryDTO productCategoryDTO) {
         ProductCategory productCategory = productCategoryService.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Product Category not found for this id :: " + id));
@@ -61,6 +66,7 @@ public class ProductCategoryController {
     }
 
     @DeleteMapping("/{id}")
+    @RequiresRoles({"ROLE_ADMIN"})
     public ResponseEntity<Void> deleteProductCategory(@PathVariable Long id) {
         productCategoryService.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Product Category not found for this id :: " + id));

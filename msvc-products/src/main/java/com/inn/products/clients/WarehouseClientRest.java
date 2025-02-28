@@ -6,9 +6,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import com.inn.products.dtos.WarehouseDTO;
 
-@FeignClient(name = "msvc-warehouses", url = "http://msvc-warehouses:8004")
+@FeignClient(name = "msvc-warehouses")
 public interface WarehouseClientRest {
 
-	@GetMapping("/api/warehouse/{id}")
+	@GetMapping("/api/warehouses/{id}")
 	public WarehouseDTO getEntityById(@PathVariable Long id);
 }

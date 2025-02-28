@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.inn.warehouses.config.RequiresRoles;
 import com.inn.warehouses.dtos.WarehouseDTO;
 import com.inn.warehouses.entities.Warehouse;
 import com.inn.warehouses.exceptions.ResourceNotFoundException;
@@ -23,7 +24,7 @@ import com.inn.warehouses.services.WarehouseService;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/api/warehouse")
+@RequestMapping("/api/warehouses")
 public class WarehouseController {
 
     @Autowired
@@ -33,13 +34,15 @@ public class WarehouseController {
     private ModelMapper modelMapper;
 
     @GetMapping
+    @RequiresRoles({"ROLE_ADMIN"})
     public List<WarehouseDTO> getAllWarehouse() {
         return WarehouseService.findAll().stream()
-                .map(this::convertToDTO)
-                .collect(Collectors.toList());
+                    .map(this::convertToDTO)
+                    .collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")
+    @RequiresRoles({"ROLE_ADMIN"})
     public ResponseEntity<WarehouseDTO> getEntityById(@PathVariable Long id) {
         Warehouse entity = WarehouseService.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Warehouse not found for this id :: " + id));
@@ -47,14 +50,16 @@ public class WarehouseController {
     }
 
     @PostMapping
+    @RequiresRoles({"ROLE_ADMIN"})
     public WarehouseDTO createEntity(@Valid @RequestBody WarehouseDTO WarehouseDTO) {
         Warehouse entity = convertToEntity(WarehouseDTO);
         return convertToDTO(WarehouseService.save(entity));
     }
 
     @PutMapping("/{id}")
+    @RequiresRoles({"ROLE_ADMIN"})
     public ResponseEntity<WarehouseDTO> updateEntity(@PathVariable Long id, @Valid @RequestBody WarehouseDTO WarehouseDTO) {
-        Warehouse entity = WarehouseService.findById(id)
+    	Warehouse entity = WarehouseService.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Warehouse not found for this id :: " + id));
         modelMapper.map(WarehouseDTO, entity);
         return ResponseEntity.ok(convertToDTO(WarehouseService.save(entity)));

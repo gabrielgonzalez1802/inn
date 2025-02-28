@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import com.inn.orders.dtos.OrderProductDTO;
 
-@FeignClient(name = "msvc-products", url = "http://msvc-products:8006")
+@FeignClient(name = "msvc-products")
 public interface ProductsClientRest {
 
 	@GetMapping("/api/products/order-products/orders/{orderId}")

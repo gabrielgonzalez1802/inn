@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.inn.products.config.RequiresRoles;
 import com.inn.products.dtos.LotDTO;
 import com.inn.products.entities.Lot;
 import com.inn.products.exceptions.ResourceNotFoundException;
@@ -33,6 +34,7 @@ public class LotController {
     private ModelMapper modelMapper;
 
     @GetMapping
+    @RequiresRoles({"ROLE_ADMIN"})
     public List<LotDTO> getAllLot() {
         return lotService.findAll().stream()
                 .map(this::convertToDTO)
@@ -40,6 +42,7 @@ public class LotController {
     }
 
     @GetMapping("/{id}")
+    @RequiresRoles({"ROLE_ADMIN"})
     public ResponseEntity<LotDTO> getLotById(@PathVariable Long id) {
         Lot lot = lotService.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Lot not found for this id :: " + id));
@@ -47,12 +50,14 @@ public class LotController {
     }
 
     @PostMapping
+    @RequiresRoles({"ROLE_ADMIN"})
     public LotDTO createLot(@Valid @RequestBody LotDTO lotDTO) {
         Lot lot = convertToEntity(lotDTO);
         return convertToDTO(lotService.save(lot));
     }
 
     @PutMapping("/{id}")
+    @RequiresRoles({"ROLE_ADMIN"})
     public ResponseEntity<LotDTO> updateLot(@PathVariable Long id, @Valid @RequestBody LotDTO lotDTO) {
         Lot lot = lotService.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Lot not found for this id :: " + id));
@@ -61,6 +66,7 @@ public class LotController {
     }
 
     @DeleteMapping("/{id}")
+    @RequiresRoles({"ROLE_ADMIN"})
     public ResponseEntity<Void> deleteLot(@PathVariable Long id) {
         lotService.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Lot not found for this id :: " + id));

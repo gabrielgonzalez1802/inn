@@ -1,5 +1,6 @@
 package com.inn.entities.controllers;
 
+import com.inn.entities.config.RequiresRoles;
 import com.inn.entities.dtos.EntitiesTypeDTO;
 import com.inn.entities.entities.EntitiesType;
 import com.inn.entities.exceptions.ResourceNotFoundException;
@@ -26,6 +27,7 @@ public class EntitiesTypeController {
     private ModelMapper modelMapper;
 
     @GetMapping
+    @RequiresRoles({"ROLE_ADMIN"})
     public List<EntitiesTypeDTO> getAllEntitiesTypes() {
         return entitiesTypeService.findAll().stream()
                 .map(this::convertToDTO)
@@ -33,6 +35,7 @@ public class EntitiesTypeController {
     }
 
     @GetMapping("/{id}")
+    @RequiresRoles({"ROLE_ADMIN"})
     public ResponseEntity<EntitiesTypeDTO> getEntitiesTypeById(@PathVariable Long id) {
         EntitiesType entitiesType = entitiesTypeService.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("EntitiesType not found for this id :: " + id));
@@ -40,12 +43,14 @@ public class EntitiesTypeController {
     }
 
     @PostMapping
+    @RequiresRoles({"ROLE_ADMIN"})
     public EntitiesTypeDTO createEntitiesType(@Valid @RequestBody EntitiesTypeDTO entitiesTypeDTO) {
         EntitiesType entitiesType = convertToEntity(entitiesTypeDTO);
         return convertToDTO(entitiesTypeService.save(entitiesType));
     }
 
     @PutMapping("/{id}")
+    @RequiresRoles({"ROLE_ADMIN"})
     public ResponseEntity<EntitiesTypeDTO> updateEntitiesType(@PathVariable Long id, @Valid @RequestBody EntitiesTypeDTO entitiesTypeDTO) {
         EntitiesType entitiesType = entitiesTypeService.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("EntitiesType not found for this id :: " + id));
@@ -54,6 +59,7 @@ public class EntitiesTypeController {
     }
 
     @DeleteMapping("/{id}")
+    @RequiresRoles({"ROLE_ADMIN"})
     public ResponseEntity<Void> deleteEntitiesType(@PathVariable Long id) {
         entitiesTypeService.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("EntitiesType not found for this id :: " + id));

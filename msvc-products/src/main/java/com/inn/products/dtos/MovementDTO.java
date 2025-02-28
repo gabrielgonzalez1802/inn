@@ -1,10 +1,11 @@
 package com.inn.products.dtos;
 
+import java.time.LocalDateTime;
+import java.util.Date;
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
-
-import java.util.Date;
 
 @Data
 public class MovementDTO {
@@ -35,8 +36,9 @@ public class MovementDTO {
     private Long sunagroGuideId;
 
     private String deliveryNote;
-    private String purchaseOrder;
     private String observations;
     private String responsibleUser;
-    private Date registrationDatetime;
+    private LocalDateTime registrationDatetime;
+    
+    private Long orderId;
 }

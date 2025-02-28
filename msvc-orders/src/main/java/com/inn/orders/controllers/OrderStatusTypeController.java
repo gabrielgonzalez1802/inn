@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.inn.orders.config.RequiresRoles;
 import com.inn.orders.dtos.OrderStatusTypeDTO;
 import com.inn.orders.entities.OrderStatusType;
 import com.inn.orders.exceptions.ResourceNotFoundException;
@@ -33,6 +34,7 @@ public class OrderStatusTypeController {
     private ModelMapper modelMapper;
 
     @GetMapping
+    @RequiresRoles({"ROLE_ADMIN"})
     public List<OrderStatusTypeDTO> getAllOrderStatusType() {
         return orderStatusTypeService.findAll().stream()
                 .map(this::convertToDTO)
@@ -40,6 +42,7 @@ public class OrderStatusTypeController {
     }
 
     @GetMapping("/{id}")
+    @RequiresRoles({"ROLE_ADMIN"})
     public ResponseEntity<OrderStatusTypeDTO> getOrderStatusTypeById(@PathVariable Long id) {
         OrderStatusType orderStatusType = orderStatusTypeService.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Order Status Type not found for this id :: " + id));
@@ -47,12 +50,14 @@ public class OrderStatusTypeController {
     }
 
     @PostMapping
+    @RequiresRoles({"ROLE_ADMIN"})
     public OrderStatusTypeDTO createOrderStatusType(@Valid @RequestBody OrderStatusTypeDTO orderStatusTypeDTO) {
         OrderStatusType orderStatusType = convertToEntity(orderStatusTypeDTO);
         return convertToDTO(orderStatusTypeService.save(orderStatusType));
     }
 
     @PutMapping("/{id}")
+    @RequiresRoles({"ROLE_ADMIN"})
     public ResponseEntity<OrderStatusTypeDTO> updateOrderStatusType(@PathVariable Long id, @Valid @RequestBody OrderStatusTypeDTO orderStatusTypeDTO) {
         OrderStatusType orderStatusType = orderStatusTypeService.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Order Status Type not found for this id :: " + id));
@@ -61,6 +66,7 @@ public class OrderStatusTypeController {
     }
 
     @DeleteMapping("/{id}")
+    @RequiresRoles({"ROLE_ADMIN"})
     public ResponseEntity<Void> deleteOrderStatusType(@PathVariable Long id) {
         orderStatusTypeService.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Order Status Type not found for this id :: " + id));

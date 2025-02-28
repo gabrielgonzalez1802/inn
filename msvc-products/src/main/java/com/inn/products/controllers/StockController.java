@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.inn.products.config.RequiresRoles;
 import com.inn.products.dtos.StockDTO;
 import com.inn.products.entities.Stock;
 import com.inn.products.exceptions.ResourceNotFoundException;
@@ -33,6 +34,7 @@ public class StockController {
     private ModelMapper modelMapper;
 
     @GetMapping
+    @RequiresRoles({"ROLE_ADMIN"})
     public List<StockDTO> getAllStocks() {
         return stockService.findAll().stream()
                 .map(this::convertToDTO)
@@ -40,6 +42,7 @@ public class StockController {
     }
 
     @GetMapping("/{id}")
+    @RequiresRoles({"ROLE_ADMIN"})
     public ResponseEntity<StockDTO> getStockById(@PathVariable Long id) {
         Stock stock = stockService.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Stock not found for this id :: " + id));
@@ -47,12 +50,14 @@ public class StockController {
     }
 
     @PostMapping
+    @RequiresRoles({"ROLE_ADMIN"})
     public StockDTO createStock(@Valid @RequestBody StockDTO stockDTO) {
         Stock stock = convertToEntity(stockDTO);
         return convertToDTO(stockService.save(stock));
     }
 
     @PutMapping("/{id}")
+    @RequiresRoles({"ROLE_ADMIN"})
     public ResponseEntity<StockDTO> updateStock(@PathVariable Long id, @Valid @RequestBody StockDTO stockDTO) {
         Stock stock = stockService.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Stock not found for this id :: " + id));
@@ -61,6 +66,7 @@ public class StockController {
     }
 
     @DeleteMapping("/{id}")
+    @RequiresRoles({"ROLE_ADMIN"})
     public ResponseEntity<Void> deleteStock(@PathVariable Long id) {
         stockService.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Stock not found for this id :: " + id));

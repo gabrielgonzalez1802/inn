@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.inn.orders.config.RequiresRoles;
 import com.inn.orders.dtos.OrderDTO;
 import com.inn.orders.dtos.OrderEnrichedDTO;
 import com.inn.orders.entities.Order;
@@ -34,6 +35,7 @@ public class OrderController {
     private ModelMapper modelMapper;
 
     @GetMapping
+    @RequiresRoles({"ROLE_ADMIN"})
     public List<OrderDTO> getAllOrder() {
         return ordersService.findAll().stream()
                 .map(this::convertToDTO)
@@ -41,6 +43,7 @@ public class OrderController {
     }
     
     @GetMapping("/clients/{id}")
+    @RequiresRoles({"ROLE_ADMIN"})
     public List<OrderDTO> getAllOrderByClientId(@PathVariable Long clientId) {
         return ordersService.findAllByClientId(clientId).stream()
                 .map(this::convertToDTO)
@@ -48,6 +51,7 @@ public class OrderController {
     }
     
     @GetMapping("/{id}")
+    @RequiresRoles({"ROLE_ADMIN"})
     public ResponseEntity<OrderDTO> getOrderById(@PathVariable Long id) {
         Order order = ordersService.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Order not found for this id :: " + id));
@@ -55,6 +59,7 @@ public class OrderController {
     }
     
     @GetMapping("/{id}/enriched")
+    @RequiresRoles({"ROLE_ADMIN"})
     public ResponseEntity<OrderEnrichedDTO> getOrderEnrichedById(@PathVariable Long id) {
         OrderEnrichedDTO orderEnrichedDTO = ordersService.findOrderEnrichedById(id);
         
@@ -66,12 +71,14 @@ public class OrderController {
     }
 
     @PostMapping
+    @RequiresRoles({"ROLE_ADMIN"})
     public OrderDTO createOrder(@Valid @RequestBody OrderDTO ordersDTO) {
         Order order = convertToEntity(ordersDTO);
         return convertToDTO(ordersService.save(order));
     }
 
     @PutMapping("/{id}")
+    @RequiresRoles({"ROLE_ADMIN"})
     public ResponseEntity<OrderDTO> updateOrder(@PathVariable Long id, @Valid @RequestBody OrderDTO ordersDTO) {
         Order order = ordersService.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Order not found for this id :: " + id));
@@ -80,6 +87,7 @@ public class OrderController {
     }
 
     @DeleteMapping("/{id}")
+    @RequiresRoles({"ROLE_ADMIN"})
     public ResponseEntity<Void> deleteOrder(@PathVariable Long id) {
         ordersService.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Order not found for this id :: " + id));

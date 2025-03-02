@@ -18,7 +18,7 @@ resilience4j:
     instances:
       products:
         base-config: defecto
-        
+
 spring:
   cloud:
     gateway:

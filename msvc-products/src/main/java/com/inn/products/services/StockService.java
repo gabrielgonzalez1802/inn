@@ -18,6 +18,10 @@ public class StockService {
     public List<Stock> findAll() {
         return stockRepository.findAll();
     }
+    
+    public List<Stock> findAllByWarehouseId(Long warehouseId) {
+        return stockRepository.findByWarehouseId(warehouseId);
+    }
 
     public Optional<Stock> findById(Long id) {
         return stockRepository.findById(id);

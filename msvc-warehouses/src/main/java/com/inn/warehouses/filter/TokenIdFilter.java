@@ -23,9 +23,17 @@ public class TokenIdFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
     	
+         HttpServletRequest httpRequest = (HttpServletRequest) request;
+    	 String uri = httpRequest.getRequestURI();
+    	
+    	// Excluye swagger-ui.html
+        if (uri.endsWith("/swagger-ui.html")) {
+            chain.doFilter(request, response); // Permite la petición de Swagger
+            return;
+        }
+    	
     	final ObjectMapper objectMapper = new ObjectMapper();
 
-        HttpServletRequest httpRequest = (HttpServletRequest) request;
         String tokenId = httpRequest.getHeader("X-TOKEN-ID");
 
         if (tokenId != null && !tokenId.isEmpty()) {

@@ -1,7 +1,6 @@
 package com.inn.products.dtos;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -21,7 +20,7 @@ public class MovementDTO {
     @NotNull(message = "Lot ID is mandatory")
     private Long lotId;
 
-    private Date movementDate;
+    private LocalDateTime movementDate;
 
     @NotBlank(message = "Action description is mandatory")
     private String actionDescription;
@@ -39,6 +38,8 @@ public class MovementDTO {
     private String observations;
     private String responsibleUser;
     private LocalDateTime registrationDatetime;
+    
+    private TipoMovimiento movementType;
     
     private Long orderId;
 }

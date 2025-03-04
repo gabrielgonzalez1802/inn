@@ -40,6 +40,14 @@ public class StockController {
                 .map(this::convertToDTO)
                 .collect(Collectors.toList());
     }
+    
+    @GetMapping("/warehouses/{warehouseId}")
+    @RequiresRoles({"ROLE_ADMIN"})
+    public List<StockDTO> getAllStocksByWarehouseId(@PathVariable Long warehouseId) {
+        return stockService.findAllByWarehouseId(warehouseId).stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+    }
 
     @GetMapping("/{id}")
     @RequiresRoles({"ROLE_ADMIN"})

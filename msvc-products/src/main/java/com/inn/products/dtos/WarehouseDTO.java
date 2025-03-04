@@ -6,7 +6,7 @@ import jakarta.validation.constraints.*;
 
 @Data
 public class WarehouseDTO {
-    @NotNull(message = "El ID del almacén no puede ser nulo")
+	
     private Long warehouseId;
 
     @NotBlank(message = "El nombre del almacén no puede estar vacío")

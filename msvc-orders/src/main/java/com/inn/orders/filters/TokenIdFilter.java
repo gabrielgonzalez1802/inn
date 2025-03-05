@@ -27,7 +27,7 @@ public class TokenIdFilter implements Filter {
     	 String uri = httpRequest.getRequestURI();
     	
     	// Excluye swagger-ui.html
-        if (uri.endsWith("/swagger-ui.html")) {
+        if (uri.endsWith("/swagger-ui.html") || uri.endsWith("/swagger-ui/index.html")) {
             chain.doFilter(request, response); // Permite la petición de Swagger
             return;
         }

@@ -49,6 +49,7 @@ services:
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=postgres
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka
+      - JASPER_REPORTS_COMPILER=net.sf.jasperreports.engine.design.JRJdtCompiler
     depends_on:
       - eureka-server
       - postgres

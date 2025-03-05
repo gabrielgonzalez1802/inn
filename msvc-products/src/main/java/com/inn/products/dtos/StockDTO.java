@@ -11,8 +11,8 @@ public class StockDTO {
     @NotNull(message = "Product ID is mandatory")
     private Long productId;
 
-    @NotNull(message = "Quality is mandatory")
-    private Long quality;
+    @NotNull(message = "Quantity is mandatory")
+    private Long quantity;
 
     @NotNull(message = "Warehouse ID is mandatory")
     private Long warehouseId;

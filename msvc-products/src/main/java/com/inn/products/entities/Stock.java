@@ -15,8 +15,8 @@ public class Stock {
 
     @Column(name = "product_id")
     private Long productId;
-    @Column(name = "quality")
-    private Long quality;
+    @Column(name = "quantity")
+    private Long quantity;
     @Column(name = "warehouse_id")
     private Long warehouseId;
 }

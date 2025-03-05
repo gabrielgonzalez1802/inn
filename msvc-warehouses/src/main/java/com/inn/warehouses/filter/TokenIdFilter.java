@@ -28,33 +28,32 @@ public class TokenIdFilter implements Filter {
     	
     	// Excluye swagger-ui.html
         if (uri.endsWith("/swagger-ui.html") || uri.endsWith("/swagger-ui/index.html")) {
-            chain.doFilter(request, response); // Permite la petición de Swagger
-            return;
-        }
-    	
-    	final ObjectMapper objectMapper = new ObjectMapper();
+            chain.doFilter(request, response);
+        }else {
+        	final ObjectMapper objectMapper = new ObjectMapper();
 
-        String tokenId = httpRequest.getHeader("X-TOKEN-ID");
+            String tokenId = httpRequest.getHeader("X-TOKEN-ID");
 
-        if (tokenId != null && !tokenId.isEmpty()) {
-        	
-        	try {
-				JwtUtil.validateToken(tokenId);
-				
-				// Permite la solicitud
-				chain.doFilter(request, response);
-			} catch (JwtValidationException | SignatureException e) {
-				throw new JwtValidationException(e.getMessage(), e);
-			}
-        } else {
-            HttpServletResponse httpResponse = (HttpServletResponse) response;
-            httpResponse.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            httpResponse.setContentType("application/json"); // Configura el tipo de contenido
+            if (tokenId != null && !tokenId.isEmpty()) {
+            	
+            	try {
+    				JwtUtil.validateToken(tokenId);
+    				
+    				// Permite la solicitud
+    				chain.doFilter(request, response);
+    			} catch (JwtValidationException | SignatureException e) {
+    				throw new JwtValidationException(e.getMessage(), e);
+    			}
+            } else {
+                HttpServletResponse httpResponse = (HttpServletResponse) response;
+                httpResponse.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                httpResponse.setContentType("application/json"); // Configura el tipo de contenido
 
-            Map<String, String> errorResponse = new HashMap<>();
-            errorResponse.put("error", "Header X-TOKEN-ID requerido");
+                Map<String, String> errorResponse = new HashMap<>();
+                errorResponse.put("error", "Header X-TOKEN-ID requerido");
 
-            httpResponse.getWriter().write(objectMapper.writeValueAsString(errorResponse));
+                httpResponse.getWriter().write(objectMapper.writeValueAsString(errorResponse));
+            }
         }
     }
 

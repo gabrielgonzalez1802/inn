@@ -85,12 +85,14 @@ public class UserService implements IUserService {
         }else {
         	Optional<Role> adminRoleOptional = roleRepository.findByName("ROLE_USER");
             adminRoleOptional.ifPresent(roles::add);
+            
+            if(user.getRoles()!=null) {
+                for (Role role : user.getRoles()) {
+                    Optional<Role> roleOptional = roleRepository.findByName(role.getName().toUpperCase());
+                    roleOptional.ifPresent(roles::add);
+        		}
+            }
         }
-        
-        for (Role role : user.getRoles()) {
-            Optional<Role> roleOptional = roleRepository.findByName(role.getName().toUpperCase());
-            roleOptional.ifPresent(roles::add);
-		}
         
         return roles;
     }

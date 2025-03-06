@@ -18,7 +18,7 @@ public class OrderTaxe {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "order_taxe_id")
-    private Long orderId;
+    private Long orderTaxeId;
     
     @Column(name = "type_tax_id")
     private Long typeTaxId;

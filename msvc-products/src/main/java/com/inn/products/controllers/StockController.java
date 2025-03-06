@@ -15,10 +15,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.inn.commons.exceptions.ResourceNotFoundException;
 import com.inn.products.config.RequiresRoles;
 import com.inn.products.dtos.StockDTO;
 import com.inn.products.entities.Stock;
-import com.inn.products.exceptions.ResourceNotFoundException;
+import com.inn.products.entities.StockId;
 import com.inn.products.services.StockService;
 
 import jakarta.validation.Valid;
@@ -49,44 +50,59 @@ public class StockController {
                 .collect(Collectors.toList());
     }
 
-    @GetMapping("/{id}")
-    @RequiresRoles({"ROLE_ADMIN"})
-    public ResponseEntity<StockDTO> getStockById(@PathVariable Long id) {
-        Stock stock = stockService.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Stock not found for this id :: " + id));
-        return ResponseEntity.ok(convertToDTO(stock));
-    }
-
+	@GetMapping("/{productId}/{warehouseId}")
+	@RequiresRoles({ "ROLE_ADMIN" })
+	public ResponseEntity<StockDTO> getStockById(@Valid @RequestBody StockId stockId) {
+		Stock stock = stockService.findById(stockId).orElseThrow(() -> new ResourceNotFoundException(
+				"Stock not found for this productId and warehouseId :: " + stockId.getProductId() + ", " + stockId.getWarehouseId()));
+		return ResponseEntity.ok(convertToDTO(stock));
+	}
+	
     @PostMapping
     @RequiresRoles({"ROLE_ADMIN"})
     public StockDTO createStock(@Valid @RequestBody StockDTO stockDTO) {
         Stock stock = convertToEntity(stockDTO);
-        return convertToDTO(stockService.save(stock));
+        
+		try {
+			Stock stockEntity = stockService.save(stock);
+			
+        	return convertToDTO(stockEntity);
+		} catch (Exception e) {
+            throw new RuntimeException("Could not create stock - cause :: " + e.getMessage());
+	    }
     }
 
-    @PutMapping("/{id}")
+    @PutMapping
     @RequiresRoles({"ROLE_ADMIN"})
-    public ResponseEntity<StockDTO> updateStock(@PathVariable Long id, @Valid @RequestBody StockDTO stockDTO) {
-        Stock stock = stockService.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Stock not found for this id :: " + id));
-        modelMapper.map(stockDTO, stock);
+    public ResponseEntity<StockDTO> updateStock(@Valid @RequestBody StockDTO stockDTO) {
+    	
+        Stock stock = stockService.findById(new StockId(stockDTO.getProductId(), stockDTO.getWarehouseId()))
+                .orElseThrow(() -> new ResourceNotFoundException("Stock not found for this productId and warehouseId :: " + stockDTO.getProductId() + ", " + stockDTO.getWarehouseId()));
+
+        stock.setQuantity(stockDTO.getQuantity());
+
         return ResponseEntity.ok(convertToDTO(stockService.save(stock)));
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping
     @RequiresRoles({"ROLE_ADMIN"})
-    public ResponseEntity<Void> deleteStock(@PathVariable Long id) {
-        stockService.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Stock not found for this id :: " + id));
-        stockService.deleteById(id);
+    public ResponseEntity<Void> deleteStock(@Valid @RequestBody StockId stockId) {
+        Stock stock = stockService.findById(stockId)
+                .orElseThrow(() -> new ResourceNotFoundException("Stock not found for this productId and warehouseId :: " + stockId.getProductId() + ", " + stockId.getWarehouseId()));
+        stockService.deleteById(stock.getId());
         return ResponseEntity.noContent().build();
     }
 
     private StockDTO convertToDTO(Stock stock) {
-        return modelMapper.map(stock, StockDTO.class);
+    	StockDTO stockDTO = modelMapper.map(stock, StockDTO.class);
+    	stockDTO.setProductId(stock.getId().getProductId());
+    	stockDTO.setWarehouseId(stock.getId().getWarehouseId());
+        return stockDTO;
     }
 
     private Stock convertToEntity(StockDTO stockDTO) {
-        return modelMapper.map(stockDTO, Stock.class);
+    	Stock stockEnity = modelMapper.map(stockDTO, Stock.class);
+    	stockEnity.setId(new StockId(stockDTO.getProductId(), stockDTO.getWarehouseId()));
+        return stockEnity;
     }
 }

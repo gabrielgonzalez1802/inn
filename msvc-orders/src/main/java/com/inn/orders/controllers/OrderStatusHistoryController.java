@@ -15,10 +15,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.inn.commons.exceptions.ResourceNotFoundException;
 import com.inn.orders.config.RequiresRoles;
 import com.inn.orders.dtos.OrderStatusHistoryDTO;
 import com.inn.orders.entities.OrderStatusHistory;
-import com.inn.orders.exceptions.ResourceNotFoundException;
 import com.inn.orders.services.OrderStatusHistoryService;
 
 import jakarta.validation.Valid;
@@ -61,6 +61,7 @@ public class OrderStatusHistoryController {
     public ResponseEntity<OrderStatusHistoryDTO> updateOrderStatusHistory(@PathVariable Long id, @Valid @RequestBody OrderStatusHistoryDTO orderStatusHistoryDTO) {
         OrderStatusHistory orderStatusHistory = orderStatusHistoryService.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("OrderStatusHistory not found for this id :: " + id));
+        orderStatusHistoryDTO.setOrderStatusHistoryId(id);
         modelMapper.map(orderStatusHistoryDTO, orderStatusHistory);
         return ResponseEntity.ok(convertToDTO(orderStatusHistoryService.save(orderStatusHistory)));
     }

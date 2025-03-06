@@ -117,6 +117,13 @@
 		    <groupId>org.springframework.boot</groupId>
 		    <artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
+		
+		<!-- Local dependency -->
+		<dependency>
+			<groupId>com.inn</groupId>
+			<artifactId>msvc-libs-commons</artifactId>
+			<version>1.0.0</version>
+		</dependency>
     </dependencies>
 
 	<build>

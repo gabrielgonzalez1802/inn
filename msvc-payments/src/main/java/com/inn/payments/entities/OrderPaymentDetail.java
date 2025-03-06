@@ -22,16 +22,16 @@ public class OrderPaymentDetail {
     @Column(name = "payment_datail_id")
     private Long paymentDetailId;
 
-    @Column(name = "order_full_price")
+    @Column(name = "order_full_price", nullable = false)
     private BigDecimal orderFullPrice;
     
-    @Column(name = "order_id")
+    @Column(name = "order_id", unique = true, nullable = false)
     private Long orderId;
     
-    @Column(name = "currency_id")
+    @Column(name = "currency_id", nullable = false)
     private Long currencyId;
     
-    @Column(name = "payment_type_id")
+    @Column(name = "payment_type_id", nullable = false)
     private Long paymentTypeId;
 
     @ManyToOne

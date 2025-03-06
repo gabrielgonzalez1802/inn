@@ -15,10 +15,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.inn.commons.dtos.MovementDTO;
+import com.inn.commons.enums.TipoMovimiento;
+import com.inn.commons.exceptions.ResourceNotFoundException;
 import com.inn.products.config.RequiresRoles;
-import com.inn.products.dtos.MovementDTO;
+import com.inn.products.dtos.ProductList;
 import com.inn.products.entities.Movement;
-import com.inn.products.exceptions.ResourceNotFoundException;
 import com.inn.products.services.MovementService;
 
 import jakarta.validation.Valid;
@@ -55,6 +57,13 @@ public class MovementController {
         Movement movement = convertToEntity(movementDTO);
         return convertToDTO(movementService.save(movement));
     }
+    
+    @PostMapping("/list-products")
+    @RequiresRoles({"ROLE_ADMIN"})
+    public List<MovementDTO> createMovementByListProducts(@Valid @RequestBody ProductList listProducts) {
+		return movementService.saveByListProducts(listProducts).stream().map(this::convertToDTO)
+				.collect(Collectors.toList());
+    }
 
     @PutMapping("/{id}")
     @RequiresRoles({"ROLE_ADMIN"})
@@ -75,7 +84,9 @@ public class MovementController {
     }
 
     private MovementDTO convertToDTO(Movement movement) {
-        return modelMapper.map(movement, MovementDTO.class);
+    	MovementDTO movimentDTO = modelMapper.map(movement, MovementDTO.class);
+    	movimentDTO.setMovementType(TipoMovimiento.fromValor(movement.getMovementTypeId()));
+        return movimentDTO;
     }
 
     private Movement convertToEntity(MovementDTO movementDTO) {

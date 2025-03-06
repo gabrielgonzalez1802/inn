@@ -15,10 +15,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.inn.commons.exceptions.ResourceNotFoundException;
 import com.inn.orders.config.RequiresRoles;
 import com.inn.orders.dtos.OrderTaxeDTO;
 import com.inn.orders.entities.OrderTaxe;
-import com.inn.orders.exceptions.ResourceNotFoundException;
 import com.inn.orders.services.OrderTaxeService;
 
 import jakarta.validation.Valid;
@@ -60,6 +60,7 @@ public class OrderTaxeController {
     public ResponseEntity<OrderTaxeDTO> updateOrderTaxe(@PathVariable Long id, @Valid @RequestBody OrderTaxeDTO orderTaxesDTO) {
         OrderTaxe orderTaxe = orderTaxesService.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("OrderTaxe not found for this id :: " + id));
+        orderTaxesDTO.setOrderTaxeId(id);
         modelMapper.map(orderTaxesDTO, orderTaxe);
         return ResponseEntity.ok(convertToDTO(orderTaxesService.save(orderTaxe)));
     }

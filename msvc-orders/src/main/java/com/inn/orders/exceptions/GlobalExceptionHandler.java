@@ -2,7 +2,6 @@ package com.inn.orders.exceptions;
 
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 import org.apache.coyote.BadRequestException;
 import org.slf4j.Logger;
@@ -13,8 +12,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
+
+import com.inn.commons.exceptions.ResourceNotFoundException;
+import com.inn.commons.exceptions.ResourcesFoundException;
+import com.inn.commons.exceptions.ResourcesNotFoundException;
 
 import lombok.Data;
 
@@ -77,6 +79,13 @@ public class GlobalExceptionHandler {
 		LOGGER.warn("noResourceFoundExceptionExceptionHandler - message: {}", ex.getMessage());
 		CustomResponse cr = new CustomResponse((HttpStatus.NOT_FOUND), ex.getMessage());
 		return new ResponseEntity<>(cr, HttpStatus.NOT_FOUND);
+	}
+    
+    @ExceptionHandler(OrderNotCreatedException.class)
+	public ResponseEntity<CustomResponse> orderNotCreatedException(OrderNotCreatedException ex) {
+		LOGGER.warn("orderNotCreatedException - message: {}", ex.getMessage());
+		CustomResponse cr = new CustomResponse((HttpStatus.BAD_REQUEST), ex.getMessage());
+		return new ResponseEntity<>(cr, HttpStatus.BAD_REQUEST);
 	}
 
     @ExceptionHandler(Exception.class)

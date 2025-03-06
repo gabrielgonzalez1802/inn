@@ -1,5 +1,7 @@
 package com.inn.orders.dtos;
 
+import com.inn.commons.dtos.ProductDTO;
+
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
@@ -15,4 +17,10 @@ public class OrderProductDTO {
     private Long productId;
     
     private ProductDTO product;
+
+	public OrderProductDTO(Long orderId, Long productId) {
+		super();
+		this.orderId = orderId;
+		this.productId = productId;
+	}
 }

@@ -16,6 +16,11 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
+import com.inn.commons.exceptions.ErrorDetails;
+import com.inn.commons.exceptions.ResourceNotFoundException;
+import com.inn.commons.exceptions.ResourcesFoundException;
+import com.inn.commons.exceptions.ResourcesNotFoundException;
+
 import lombok.Data;
 
 @ControllerAdvice

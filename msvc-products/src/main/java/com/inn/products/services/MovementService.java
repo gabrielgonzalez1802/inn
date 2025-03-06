@@ -10,16 +10,32 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.inn.commons.dtos.OrderDTO;
+import com.inn.commons.enums.OrderStatus;
+import com.inn.products.clients.OrderClientRest;
+import com.inn.products.dtos.ProductList;
 import com.inn.products.dtos.ProductMovementSummaryDTO;
 import com.inn.products.dtos.ProductMovementWeeklyDTO;
 import com.inn.products.entities.Movement;
+import com.inn.products.entities.Stock;
+import com.inn.products.entities.StockId;
+import com.inn.products.exceptions.ProductsNotFoundException;
 import com.inn.products.repositories.MovementRepository;
+import com.inn.products.repositories.StockRepository;
+
+import jakarta.validation.Valid;
 
 @Service
 public class MovementService {
 
     @Autowired
     private MovementRepository movementRepository;
+  
+    @Autowired
+    private StockRepository stockRepository;
+    
+    @Autowired
+    private OrderClientRest orderClientFeing;
 
     public List<Movement> findAll() {
         return movementRepository.findAll();
@@ -108,5 +124,63 @@ public class MovementService {
 		}
     	
     	return listaMovimientosDTO;
+	}
+
+	/**
+	 * Saves a list of product movements.
+	 *
+	 * @param listProducts the list of products to be moved
+	 * @return a list of saved movements
+	 * @throws ProductsNotFoundException if any product does not have sufficient stock
+	 */
+	public List<Movement> saveByListProducts(@Valid ProductList listProducts) {
+		
+		//verificamos que la orden exista
+		OrderDTO orderDTO = orderClientFeing.getOrderById(listProducts.getOrderId());
+		
+		List<Long> listProductsNotFound = new LinkedList<>();
+		
+		// revisamos que los productos existan y tengan inventario suficiente en el almacen, de lo contratario se informa al usuario
+		listProducts.getProducts().forEach(product -> {
+			stockRepository.findById(new StockId(product.getId(), product.getWarehouseId())).ifPresent(stock -> {
+				if (stock.getQuantity() < product.getCantidad()) {
+					listProductsNotFound.add(product.getId());
+				}
+			});
+		});
+		
+		if (!listProductsNotFound.isEmpty()) {
+			throw new ProductsNotFoundException(listProductsNotFound);
+		}
+		
+		//creamos los movimientos
+		List<Movement> listaMovimientos = new LinkedList<>();
+		
+		listProducts.getProducts().forEach(product -> {
+			Movement movimiento = new Movement();
+			movimiento.setMovementDate(LocalDateTime.now());
+			movimiento.setMovementTypeId(product.getMovement_type_id());
+			movimiento.setProductId(product.getId());
+			movimiento.setQuantity(product.getCantidad());
+			movimiento.setWarehouseId(product.getWarehouseId());
+			movimiento.setOrderId(orderDTO.getOrderId());
+			movimiento.setActionDescription(null); //TODO.ggonzalez revisar si este campo es necesario
+			
+			Movement newMovement = movementRepository.save(movimiento); //guardamos el movimiento
+			if(newMovement!=null) {
+				//buscamos y actualizamos el stock
+				Stock stock = stockRepository.findById(new StockId(product.getId(), product.getWarehouseId())).get();
+				stock.setQuantity(stock.getQuantity() - product.getCantidad());
+				stockRepository.save(stock);
+				
+				listaMovimientos.add(newMovement);
+				//TODO.ggonzalez revisar guardado de auditoria
+			}
+		});
+		
+		//finalizamos la orden
+		orderClientFeing.updateOrderStatus(orderDTO.getOrderId(), OrderStatus.CERRADA.getValor());
+		
+		return listaMovimientos;
 	}
 }

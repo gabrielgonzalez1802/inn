@@ -5,7 +5,7 @@ import java.security.SignatureException;
 
 import org.springframework.stereotype.Component;
 
-import com.inn.products.exceptions.JwtValidationException;
+import com.inn.commons.exceptions.JwtValidationException;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;

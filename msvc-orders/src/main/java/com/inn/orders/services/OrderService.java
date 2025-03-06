@@ -1,5 +1,6 @@
 package com.inn.orders.services;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
@@ -7,18 +8,25 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.inn.commons.dtos.EntityAddressDTO;
+import com.inn.commons.dtos.OrderDTO;
+import com.inn.commons.dtos.ProductDTO;
+import com.inn.commons.enums.OrderStatus;
+import com.inn.commons.exceptions.ResourceNotFoundException;
 import com.inn.orders.clients.AddressClientRest;
 import com.inn.orders.clients.EntityClientRest;
 import com.inn.orders.clients.PaymentClientRest;
 import com.inn.orders.clients.ProductsClientRest;
 import com.inn.orders.dtos.EntitiesDTO;
-import com.inn.orders.dtos.EntityAddressDTO;
-import com.inn.orders.dtos.OrderDTO;
 import com.inn.orders.dtos.OrderEnrichedDTO;
 import com.inn.orders.dtos.OrderPaymentDetailDto;
 import com.inn.orders.dtos.OrderProductDTO;
+import com.inn.orders.dtos.PurchaseOrderDTO;
 import com.inn.orders.entities.Order;
+import com.inn.orders.exceptions.OrderNotCreatedException;
 import com.inn.orders.repositories.OrderRepository;
+
+import jakarta.validation.Valid;
 
 @Service
 public class OrderService {
@@ -52,7 +60,7 @@ public class OrderService {
     	OrderEnrichedDTO orderEnrichedDTO = new OrderEnrichedDTO();
     	
     	if(order!=null) {
-    		EntitiesDTO entityDTO = entityClientFeign.getEntityById(order.getClientId());
+    		EntitiesDTO entityDTO = entityClientFeign.getEntityById(order.getEntityId());
     		OrderPaymentDetailDto orderPaymentDetailDTO = paymentClientFeign.findByOrderId(order.getOrderId());
     		List<EntityAddressDTO> entityAddressListDTO = addressClientFeign.getAllByEntityId(order.getOrderId());
     		List<OrderProductDTO> ordersProductsListDTO = productClientFeign.getAllOrderProductByOrderId(order.getOrderId());
@@ -71,8 +79,8 @@ public class OrderService {
         return orderRepository.findAll();
     }
     
-    public List<Order> findAllByClientId(Long clientId) {
-        return orderRepository.findByClientId(clientId);
+    public List<Order> findAllByEntityId(Long entityId) {
+        return orderRepository.findByEntityId(entityId);
     }
 
     public Optional<Order> findById(Long id) {
@@ -86,4 +94,64 @@ public class OrderService {
     public void deleteById(Long id) {
         orderRepository.deleteById(id);
     }
+    
+    /**
+     * Method to change the status of an order.
+     * 
+     * @param id the ID of the order to be updated
+     * @param orderStatus the new status to be set for the order
+     * @throws ResourceNotFoundException if the order is not found
+     */
+	public void updateOrderStatus(Long id, Long orderStatus) {
+//		 TODO Se puede generar dato histórico de quen modifico el estado de la orden
+		Order order = orderRepository.findById(id).orElse(null);
+		
+		//revisamos si el estato de la orden es el correcto
+		OrderStatus.fromValor(orderStatus);
+		
+		if (order != null) {
+			order.setOrderStatusId(orderStatus);
+			orderRepository.save(order);
+		}else {
+			throw new ResourceNotFoundException("No se pudo cambiar el estado de la orden ya que la orden no existe");
+		}
+	}
+    
+	/**
+	 * Método para guardar una orden de compra, si no se pueden guardar todos los productos, se elimina la orden
+	 * @param purchaseOrderDTO
+	 * @return Order en caso de éxito, erro	r en caso contrario
+	 */
+	public Order savePurchaseOrder(@Valid PurchaseOrderDTO purchaseOrderDTO) {
+				
+		OrderDTO order = null;
+		List<Long> productsNotFound = new LinkedList<>();
+		
+		if(purchaseOrderDTO.getOrder()!=null) {
+			//primero creamos la orden
+			order = purchaseOrderDTO.getOrder();
+			order.setOrderStatusId(OrderStatus.POR_APROBAR.getValor());
+
+			Order orderEntity = orderRepository.save(modelMapper.map(purchaseOrderDTO.getOrder(), Order.class));
+	        if(orderEntity!=null) {
+	        	// guardamos los productos de la orden
+	        	for (ProductDTO productDTO : purchaseOrderDTO.getProducts()) {
+	        		try {
+		        		productClientFeign.createOrderProduct(new OrderProductDTO(orderEntity.getOrderId(), productDTO.getProductId()));
+					} catch (Exception e) {
+						productsNotFound.add(productDTO.getProductId());
+					}
+	        	}
+	        	
+				if (productsNotFound.size() > 0) {
+					// si no se pudieron guardar todos los productos, eliminamos la orden
+					orderRepository.deleteById(order.getOrderId());
+		    		throw new OrderNotCreatedException(productsNotFound);
+				}
+	        }
+		}
+		
+		order.setOrderId(order.getOrderId());
+		return modelMapper.map(order, Order.class);
+	}
 }

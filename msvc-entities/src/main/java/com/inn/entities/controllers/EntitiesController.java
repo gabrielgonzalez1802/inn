@@ -15,10 +15,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.inn.commons.exceptions.ResourceNotFoundException;
 import com.inn.entities.config.RequiresRoles;
 import com.inn.entities.dtos.EntitiesDTO;
 import com.inn.entities.entities.Entities;
-import com.inn.entities.exceptions.ResourceNotFoundException;
 import com.inn.entities.services.EntitiesService;
 
 import jakarta.validation.Valid;
@@ -61,6 +61,7 @@ public class EntitiesController {
     public ResponseEntity<EntitiesDTO> updateEntity(@PathVariable Long id, @Valid @RequestBody EntitiesDTO entitiesDTO) {
         Entities entities = entitiesService.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Entity not found for this id :: " + id));
+        entitiesDTO.setEntityId(id);
         modelMapper.map(entitiesDTO, entities);
         return ResponseEntity.ok(convertToDTO(entitiesService.save(entities)));
     }

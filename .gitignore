@@ -53,3 +53,9 @@ Thumbs.db
 *.classpath
 
 *.gz
+
+.metadata/
+.dbeaver/
+/logs/
+*.log
+.factorypath

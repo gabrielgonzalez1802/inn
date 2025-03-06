@@ -12,8 +12,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import com.inn.address.exceptions.RoleAuthorizationException;
-import com.inn.address.utils.JwtUtil;
+import com.inn.commons.config.RequiresRoles;
+import com.inn.commons.exceptions.RoleAuthorizationException;
+import com.inn.commons.util.JwtUtil;
 
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.http.HttpServletRequest;

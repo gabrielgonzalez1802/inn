@@ -15,10 +15,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.inn.commons.dtos.MovementDTO;
+import com.inn.commons.exceptions.ResourceNotFoundException;
 import com.inn.products.config.RequiresRoles;
-import com.inn.products.dtos.MovementDTO;
 import com.inn.products.entities.Movement;
-import com.inn.products.exceptions.ResourceNotFoundException;
 import com.inn.products.services.MovementService;
 
 import jakarta.validation.Valid;

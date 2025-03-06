@@ -6,7 +6,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import com.inn.orders.dtos.EntityAddressDTO;
+import com.inn.commons.dtos.EntityAddressDTO;
 
 @FeignClient(name = "msvc-address")
 public interface AddressClientRest {

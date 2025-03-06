@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.inn.users.dtos.AuthRequest;
+import com.inn.users.dtos.TokenResponse;
 import com.inn.users.entities.User;
 import com.inn.users.services.AuthService;
 
@@ -32,12 +33,13 @@ public class AuthController {
     }
 
     @PostMapping("/token")
-    public ResponseEntity<String> getToken(@RequestBody AuthRequest authRequest) {
+    public ResponseEntity<TokenResponse> getToken(@RequestBody AuthRequest authRequest) {
         Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
         if (authenticate.isAuthenticated()) {
-            return ResponseEntity.ok(service.generateToken(authRequest.getUsername()));
+            String token = service.generateToken(authRequest.getUsername());
+            return ResponseEntity.ok(new TokenResponse(token, "Bearer"));
         } else {
-            return ResponseEntity.status(HttpStatus.OK).body("invalid access");       
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
     }
 

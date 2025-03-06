@@ -1,5 +1,6 @@
 package com.inn.orders.services;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -7,18 +8,25 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.inn.commons.dtos.EntityAddressDTO;
+import com.inn.commons.dtos.MovementDTO;
+import com.inn.commons.dtos.ProductDTO;
+import com.inn.commons.enums.OrderStatus;
+import com.inn.commons.enums.TipoMovimiento;
 import com.inn.orders.clients.AddressClientRest;
 import com.inn.orders.clients.EntityClientRest;
 import com.inn.orders.clients.PaymentClientRest;
 import com.inn.orders.clients.ProductsClientRest;
 import com.inn.orders.dtos.EntitiesDTO;
-import com.inn.orders.dtos.EntityAddressDTO;
 import com.inn.orders.dtos.OrderDTO;
 import com.inn.orders.dtos.OrderEnrichedDTO;
 import com.inn.orders.dtos.OrderPaymentDetailDto;
 import com.inn.orders.dtos.OrderProductDTO;
+import com.inn.orders.dtos.PurchaseOrderDTO;
 import com.inn.orders.entities.Order;
 import com.inn.orders.repositories.OrderRepository;
+
+import jakarta.validation.Valid;
 
 @Service
 public class OrderService {
@@ -52,7 +60,7 @@ public class OrderService {
     	OrderEnrichedDTO orderEnrichedDTO = new OrderEnrichedDTO();
     	
     	if(order!=null) {
-    		EntitiesDTO entityDTO = entityClientFeign.getEntityById(order.getClientId());
+    		EntitiesDTO entityDTO = entityClientFeign.getEntityById(order.getEntityId());
     		OrderPaymentDetailDto orderPaymentDetailDTO = paymentClientFeign.findByOrderId(order.getOrderId());
     		List<EntityAddressDTO> entityAddressListDTO = addressClientFeign.getAllByEntityId(order.getOrderId());
     		List<OrderProductDTO> ordersProductsListDTO = productClientFeign.getAllOrderProductByOrderId(order.getOrderId());
@@ -86,4 +94,25 @@ public class OrderService {
     public void deleteById(Long id) {
         orderRepository.deleteById(id);
     }
+
+	public Order savePurchaseOrder(@Valid PurchaseOrderDTO purchaseOrderDTO) {
+				
+		OrderDTO order = null;
+		
+		if(purchaseOrderDTO.getOrder()!=null) {
+			//primero creamos la orden
+			order = purchaseOrderDTO.getOrder();
+			order.setOrderStatusId(OrderStatus.POR_APROBAR.getValor());
+
+	        orderRepository.save(modelMapper.map(purchaseOrderDTO.getOrder(), Order.class));
+	        if(order!=null) {
+	        	// guardamos los productos de la orden
+	        	for (ProductDTO productDTO : purchaseOrderDTO.getProducts()) {
+	        		productClientFeign.createOrderProduct(new OrderProductDTO(order.getOrderId(), productDTO.getProductId()));
+	        	}
+	        }
+		}
+		
+		return modelMapper.map(order, Order.class);
+	}
 }

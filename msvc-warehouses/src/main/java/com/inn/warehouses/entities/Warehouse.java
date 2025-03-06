@@ -18,8 +18,8 @@ public class Warehouse {
     @Column(nullable = false)
     private String warehouseName;
 
-    @Column(nullable = false)
-    private String warehouseAddress;
+    @Column(name = "address_id")
+    private Long addressId;
 
     @Column(nullable = false)
     private String warehousePhone;

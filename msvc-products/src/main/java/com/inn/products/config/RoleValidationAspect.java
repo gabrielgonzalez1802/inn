@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import com.inn.products.exceptions.RoleAuthorizationException;
+import com.inn.commons.exceptions.RoleAuthorizationException;
 import com.inn.products.utils.JwtUtil;
 
 import io.jsonwebtoken.Claims;

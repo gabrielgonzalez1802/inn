@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.inn.products.entities.Stock;
+import com.inn.products.entities.StockId;
 import com.inn.products.repositories.StockRepository;
 
 @Service
@@ -20,18 +21,18 @@ public class StockService {
     }
     
     public List<Stock> findAllByWarehouseId(Long warehouseId) {
-        return stockRepository.findByWarehouseId(warehouseId);
+        return stockRepository.findByIdWarehouseId(warehouseId);
     }
 
-    public Optional<Stock> findById(Long id) {
-        return stockRepository.findById(id);
+    public Optional<Stock> findById(StockId stockId) {
+        return stockRepository.findById(stockId);
     }
 
     public Stock save(Stock stock) {
         return stockRepository.save(stock);
     }
 
-    public void deleteById(Long id) {
-        stockRepository.deleteById(id);
+    public void deleteById(StockId stockId) {
+        stockRepository.deleteById(stockId);
     }
 }

@@ -2,6 +2,8 @@ package com.inn.orders.dtos;
 
 import java.util.List;
 
+import com.inn.commons.dtos.EntityAddressDTO;
+
 import lombok.Data;
 
 @Data

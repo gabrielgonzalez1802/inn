@@ -15,11 +15,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.inn.commons.exceptions.ResourceNotFoundException;
 import com.inn.orders.config.RequiresRoles;
 import com.inn.orders.dtos.OrderDTO;
 import com.inn.orders.dtos.OrderEnrichedDTO;
+import com.inn.orders.dtos.PurchaseOrderDTO;
 import com.inn.orders.entities.Order;
-import com.inn.orders.exceptions.ResourceNotFoundException;
 import com.inn.orders.services.OrderService;
 
 import jakarta.validation.Valid;
@@ -68,6 +69,12 @@ public class OrderController {
         }
         
         return ResponseEntity.ok(orderEnrichedDTO);
+    }
+    
+    @PostMapping("/purchase")
+    @RequiresRoles({"ROLE_ADMIN"})
+    public ResponseEntity<OrderDTO> createPurchaseOrder(@Valid @RequestBody PurchaseOrderDTO purchaseOrderDTO) {
+        return ResponseEntity.ok(convertToDTO(ordersService.savePurchaseOrder(purchaseOrderDTO)));
     }
 
     @PostMapping

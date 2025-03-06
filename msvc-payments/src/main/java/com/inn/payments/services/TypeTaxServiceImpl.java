@@ -7,9 +7,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.inn.commons.exceptions.ResourceNotFoundException;
 import com.inn.payments.dtos.TypeTaxDto;
 import com.inn.payments.entities.TypeTax;
-import com.inn.payments.exceptions.ResourceNotFoundException;
 import com.inn.payments.repositories.TypeTaxRepository;
 
 @Service

@@ -15,11 +15,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.inn.address.config.RequiresRoles;
-import com.inn.address.dtos.EntityAddressDTO;
 import com.inn.address.entities.EntityAddress;
-import com.inn.address.exceptions.ResourceNotFoundException;
 import com.inn.address.services.EntityAddressService;
+import com.inn.commons.config.RequiresRoles;
+import com.inn.commons.dtos.EntityAddressDTO;
+import com.inn.commons.exceptions.ResourceNotFoundException;
 
 import jakarta.validation.Valid;
 

@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.inn.commons.exceptions.ResourceNotFoundException;
 import com.inn.users.dtos.UserDto;
 import com.inn.users.entities.User;
-import com.inn.users.exceptions.ResourceNotFoundException;
 import com.inn.users.services.IUserService;
 
 import jakarta.validation.Valid;

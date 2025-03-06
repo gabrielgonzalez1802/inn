@@ -1,13 +1,14 @@
 package com.inn.address.services;
 
-import com.inn.address.entities.City;
-import com.inn.address.exceptions.ResourceNotFoundException;
-import com.inn.address.repositories.CityRepository;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import com.inn.address.entities.City;
+import com.inn.address.repositories.CityRepository;
+import com.inn.commons.exceptions.ResourceNotFoundException;
 
 @Service
 public class CityService {

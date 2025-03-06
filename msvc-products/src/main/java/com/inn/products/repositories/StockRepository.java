@@ -6,8 +6,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.inn.products.entities.Stock;
+import com.inn.products.entities.StockId;
 
 @Repository
-public interface StockRepository extends JpaRepository<Stock, Long> {
-	List<Stock> findByWarehouseId(Long warehouseId);
+public interface StockRepository extends JpaRepository<Stock, StockId> {
+    List<Stock> findByIdWarehouseId(Long warehouseId);
 }

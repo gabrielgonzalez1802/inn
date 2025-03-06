@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.inn.products.exceptions.JwtValidationException;
+import com.inn.commons.exceptions.JwtValidationException;
 import com.inn.products.utils.JwtUtil;
 
 import jakarta.servlet.Filter;

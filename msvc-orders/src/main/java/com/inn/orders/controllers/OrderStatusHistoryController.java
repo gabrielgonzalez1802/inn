@@ -15,10 +15,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.inn.commons.exceptions.ResourceNotFoundException;
 import com.inn.orders.config.RequiresRoles;
 import com.inn.orders.dtos.OrderStatusHistoryDTO;
 import com.inn.orders.entities.OrderStatusHistory;
-import com.inn.orders.exceptions.ResourceNotFoundException;
 import com.inn.orders.services.OrderStatusHistoryService;
 
 import jakarta.validation.Valid;

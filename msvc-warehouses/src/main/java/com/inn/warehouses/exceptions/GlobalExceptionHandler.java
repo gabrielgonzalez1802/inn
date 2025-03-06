@@ -14,6 +14,11 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
+import com.inn.commons.exceptions.ResourceNotFoundException;
+import com.inn.commons.exceptions.ResourcesFoundException;
+import com.inn.commons.exceptions.ResourcesNotFoundException;
+import com.inn.commons.exceptions.RoleAuthorizationException;
+
 import lombok.Data;
 
 @ControllerAdvice

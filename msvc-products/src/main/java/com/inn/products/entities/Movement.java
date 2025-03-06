@@ -16,40 +16,31 @@ import lombok.Data;
 @Table(name = "movements")
 @Data
 public class Movement {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "movement_id")
     private Long movementId;
 
-    @Column(name = "warehouse_id", nullable = false)
-    private Long warehouseId;
     @Column(name = "product_id", nullable = false)
     private Long productId;
-    @Column(name = "lot_id")
-    private Long lotId;
+ 
     @Column(name = "movement_date", nullable = false)
     private LocalDateTime movementDate;
+    
     @Column(name = "action_description")
     private String actionDescription;
-    @Column(name = "quantity")
+    
+    @Column(name = "quantity", nullable = false)
     private Integer quantity;
-    @Column(name = "entity_id")
-    private Long entityId;
-    @Column(name = "sunagro_guide_id")
-    private Long sunagroGuideId;
-    @Column(name = "delivery_note")
-    private String deliveryNote;
-    @Column(name = "observations")
-    private String observations;
-    @Column(name = "responsible_user")
-    private String responsibleUser;
-    @Column(name = "registration_datetime")
-    private LocalDateTime registrationDatetime;
+
     @Column(name = "movement_type_id", nullable = false)
     private Long movementTypeId;
+    
     @Column(name = "order_id")
     private Long orderId;
+    
+    @Column(name = "warehouse_id", nullable = false)
+    private Long warehouseId;
     
     @ManyToOne
     @JoinColumn(name = "movement_type_id", nullable = false, insertable = false, updatable = false)

@@ -3,20 +3,18 @@ package com.inn.products.entities;
 import jakarta.persistence.*;
 import lombok.Data;
 
+@Data
 @Entity
 @Table(name = "stock")
-@Data
 public class Stock {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "stock_id")
-    private Long stockId;
-
-    @Column(name = "product_id")
-    private Long productId;
+	
+    @EmbeddedId
+    private StockId id;
+    
     @Column(name = "quantity")
     private Long quantity;
-    @Column(name = "warehouse_id")
-    private Long warehouseId;
+
+    @ManyToOne
+	@JoinColumn(name = "product_id", referencedColumnName = "product_id", nullable = false, insertable = false, updatable = false)
+    private Product product;
 }

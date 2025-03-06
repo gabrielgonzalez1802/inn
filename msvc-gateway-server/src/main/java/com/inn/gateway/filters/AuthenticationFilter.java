@@ -15,9 +15,6 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
     @Autowired
     private RouteValidator validator;
 
-    @Autowired
-    private JwtUtil jwtUtil;
-
     public AuthenticationFilter() {
         super(Config.class);
     }
@@ -37,7 +34,7 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
                 }
 
                 try {
-                    jwtUtil.validateToken(authHeader);
+                	JwtUtil.validateToken(authHeader);
 
                     // Agregar token como header en los request
                     exchange.getRequest().mutate()

@@ -61,6 +61,7 @@ public class OrderStatusHistoryController {
     public ResponseEntity<OrderStatusHistoryDTO> updateOrderStatusHistory(@PathVariable Long id, @Valid @RequestBody OrderStatusHistoryDTO orderStatusHistoryDTO) {
         OrderStatusHistory orderStatusHistory = orderStatusHistoryService.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("OrderStatusHistory not found for this id :: " + id));
+        orderStatusHistoryDTO.setOrderStatusHistoryId(id);
         modelMapper.map(orderStatusHistoryDTO, orderStatusHistory);
         return ResponseEntity.ok(convertToDTO(orderStatusHistoryService.save(orderStatusHistory)));
     }

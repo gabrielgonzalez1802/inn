@@ -1,4 +1,4 @@
-package com.inn.orders.dtos;
+package com.inn.commons.dtos;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;

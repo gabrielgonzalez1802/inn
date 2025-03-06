@@ -80,6 +80,13 @@ public class GlobalExceptionHandler {
 		CustomResponse cr = new CustomResponse((HttpStatus.NOT_FOUND), ex.getMessage());
 		return new ResponseEntity<>(cr, HttpStatus.NOT_FOUND);
 	}
+    
+    @ExceptionHandler(OrderNotCreatedException.class)
+	public ResponseEntity<CustomResponse> orderNotCreatedException(OrderNotCreatedException ex) {
+		LOGGER.warn("orderNotCreatedException - message: {}", ex.getMessage());
+		CustomResponse cr = new CustomResponse((HttpStatus.BAD_REQUEST), ex.getMessage());
+		return new ResponseEntity<>(cr, HttpStatus.BAD_REQUEST);
+	}
 
     @ExceptionHandler(Exception.class)
 	public ResponseEntity<CustomResponse> resourceNotFoundException(Exception ex) {

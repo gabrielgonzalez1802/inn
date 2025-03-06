@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class OrderTaxeDTO {
 
-    private Long orderId;
+    private Long orderTaxeId;
     private Long typeTaxId;
     private Long paymentOrderDetailId;
     

@@ -87,7 +87,14 @@ public class GlobalExceptionHandler {
 		CustomResponse cr = new CustomResponse((HttpStatus.INTERNAL_SERVER_ERROR), ex.getMessage());
 		return new ResponseEntity<>(cr, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
-
+    
+    @ExceptionHandler(ProductsNotFoundException.class)
+	public ResponseEntity<CustomResponse> productsNotFoundException(ProductsNotFoundException ex) {
+		LOGGER.warn("productsNotFoundException - message: {}", ex.getMessage());
+		CustomResponse cr = new CustomResponse((HttpStatus.NOT_FOUND), ex.getMessage());
+		return new ResponseEntity<>(cr, HttpStatus.NOT_FOUND);
+	}
+    
 	@Data
 	public static class CustomResponse {
 

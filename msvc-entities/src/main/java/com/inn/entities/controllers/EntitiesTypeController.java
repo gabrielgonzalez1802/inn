@@ -61,6 +61,7 @@ public class EntitiesTypeController {
     public ResponseEntity<EntitiesTypeDTO> updateEntitiesType(@PathVariable Long id, @Valid @RequestBody EntitiesTypeDTO entitiesTypeDTO) {
         EntitiesType entitiesType = entitiesTypeService.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("EntitiesType not found for this id :: " + id));
+        entitiesTypeDTO.setEntityTypeId(id);
         modelMapper.map(entitiesTypeDTO, entitiesType);
         return ResponseEntity.ok(convertToDTO(entitiesTypeService.save(entitiesType)));
     }

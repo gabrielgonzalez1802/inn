@@ -61,6 +61,7 @@ public class SumagroGuidesController {
     public ResponseEntity<SumagroGuidesDTO> updateSumagroGuide(@PathVariable Long id, @Valid @RequestBody SumagroGuidesDTO sumagroGuidesDTO) {
         SumagroGuides sumagroGuide = sumagroGuidesService.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Sumagro guide not found for this id :: " + id));
+        sumagroGuidesDTO.setSumagroGuidesId(id);
         modelMapper.map(sumagroGuidesDTO, sumagroGuide);
         return ResponseEntity.ok(convertToDTO(sumagroGuidesService.save(sumagroGuide)));
     }

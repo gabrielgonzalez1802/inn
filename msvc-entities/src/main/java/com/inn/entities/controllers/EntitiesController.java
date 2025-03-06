@@ -61,6 +61,7 @@ public class EntitiesController {
     public ResponseEntity<EntitiesDTO> updateEntity(@PathVariable Long id, @Valid @RequestBody EntitiesDTO entitiesDTO) {
         Entities entities = entitiesService.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Entity not found for this id :: " + id));
+        entitiesDTO.setEntityId(id);
         modelMapper.map(entitiesDTO, entities);
         return ResponseEntity.ok(convertToDTO(entitiesService.save(entities)));
     }

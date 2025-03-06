@@ -1,21 +1,20 @@
 package com.inn.commons.enums;
 
 public enum TipoMovimiento {
-    DEPOSITO(1, "RECEPCION"),
-    RETIRO(2, "DESPACHO"),
-    TRANSFERENCIA(3, "MERMA"),
-    PAGO_SERVICIO(4, "INV_INICIAL"),
-    COMPRA(5, "COMPRA");
+	RECEPCION(1L, "RECEPCION"),
+	DESPACHO(2L, "DESPACHO"),
+	MERMA(3L, "MERMA"),
+	INV_INICIAL(4L, "INV_INICIAL");
 
-    private final int valor;
+    private final Long valor;
     private final String nombre;
 
-    TipoMovimiento(int valor, String nombre) {
+    TipoMovimiento(Long valor, String nombre) {
         this.valor = valor;
         this.nombre = nombre;
     }
 
-    public int getValor() {
+    public Long getValor() {
         return valor;
     }
 
@@ -23,7 +22,7 @@ public enum TipoMovimiento {
         return nombre;
     }
 
-    public static TipoMovimiento fromValor(int valor) {
+    public static TipoMovimiento fromValor(Long valor) {
         for (TipoMovimiento tipo : values()) {
             if (tipo.getValor() == valor) {
                 return tipo;

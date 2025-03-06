@@ -60,6 +60,7 @@ public class OrderTaxeController {
     public ResponseEntity<OrderTaxeDTO> updateOrderTaxe(@PathVariable Long id, @Valid @RequestBody OrderTaxeDTO orderTaxesDTO) {
         OrderTaxe orderTaxe = orderTaxesService.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("OrderTaxe not found for this id :: " + id));
+        orderTaxesDTO.setOrderTaxeId(id);
         modelMapper.map(orderTaxesDTO, orderTaxe);
         return ResponseEntity.ok(convertToDTO(orderTaxesService.save(orderTaxe)));
     }

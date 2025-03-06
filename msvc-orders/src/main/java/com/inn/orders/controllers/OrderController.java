@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -15,9 +16,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.inn.commons.dtos.OrderDTO;
 import com.inn.commons.exceptions.ResourceNotFoundException;
 import com.inn.orders.config.RequiresRoles;
-import com.inn.orders.dtos.OrderDTO;
 import com.inn.orders.dtos.OrderEnrichedDTO;
 import com.inn.orders.dtos.PurchaseOrderDTO;
 import com.inn.orders.entities.Order;
@@ -43,10 +44,10 @@ public class OrderController {
                 .collect(Collectors.toList());
     }
     
-    @GetMapping("/clients/{id}")
+    @GetMapping("/clients/{clientId}")
     @RequiresRoles({"ROLE_ADMIN"})
-    public List<OrderDTO> getAllOrderByClientId(@PathVariable Long clientId) {
-        return ordersService.findAllByClientId(clientId).stream()
+    public List<OrderDTO> getAllOrderByEntityId(@PathVariable Long entityId) {
+        return ordersService.findAllByEntityId(entityId).stream()
                 .map(this::convertToDTO)
                 .collect(Collectors.toList());
     }
@@ -89,9 +90,17 @@ public class OrderController {
     public ResponseEntity<OrderDTO> updateOrder(@PathVariable Long id, @Valid @RequestBody OrderDTO ordersDTO) {
         Order order = ordersService.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Order not found for this id :: " + id));
+        ordersDTO.setOrderId(id);
         modelMapper.map(ordersDTO, order);
         return ResponseEntity.ok(convertToDTO(ordersService.save(order)));
     }
+    
+    @PutMapping("/{id}/status/{orderStatusId}")
+    @RequiresRoles({"ROLE_ADMIN"})
+	public ResponseEntity<String> updateOrderStatus(@PathVariable Long id, @PathVariable Long orderStatusId) {
+    	ordersService.updateOrderStatus(id, orderStatusId);
+		return ResponseEntity.ok("Order status updated successfully");
+	}
 
     @DeleteMapping("/{id}")
     @RequiresRoles({"ROLE_ADMIN"})

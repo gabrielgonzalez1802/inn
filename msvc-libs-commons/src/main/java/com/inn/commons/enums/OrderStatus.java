@@ -5,7 +5,9 @@ public enum OrderStatus {
     VALIDANDO_PAGO(2L, "VALIDANDO PAGO"),
     EN_PROCESO(3L, "EN PROCESO"),
     APROBADA(4L, "APROBADA"),
-    RECHAZADA(5L, "RECHAZADA");
+    RECHAZADA(5L, "RECHAZADA"),
+    CERRADA(6L, "CERRADA"),
+    PENDIENTE(6L, "PENDIENTE");
 
     private final long valor;
     private final String nombre;
@@ -23,7 +25,7 @@ public enum OrderStatus {
         return nombre;
     }
 
-    public static OrderStatus fromValor(int valor) {
+    public static OrderStatus fromValor(long valor) {
         for (OrderStatus orderStatus : values()) {
             if (orderStatus.getValor() == valor) {
                 return orderStatus;

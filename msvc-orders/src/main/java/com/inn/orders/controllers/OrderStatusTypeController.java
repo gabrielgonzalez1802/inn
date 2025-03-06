@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.inn.commons.dtos.OrderStatusTypeDTO;
 import com.inn.commons.exceptions.ResourceNotFoundException;
 import com.inn.orders.config.RequiresRoles;
-import com.inn.orders.dtos.OrderStatusTypeDTO;
 import com.inn.orders.entities.OrderStatusType;
 import com.inn.orders.services.OrderStatusTypeService;
 
@@ -61,6 +61,7 @@ public class OrderStatusTypeController {
     public ResponseEntity<OrderStatusTypeDTO> updateOrderStatusType(@PathVariable Long id, @Valid @RequestBody OrderStatusTypeDTO orderStatusTypeDTO) {
         OrderStatusType orderStatusType = orderStatusTypeService.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Order Status Type not found for this id :: " + id));
+        orderStatusTypeDTO.setOrderStatusTypeId(id);
         modelMapper.map(orderStatusTypeDTO, orderStatusType);
         return ResponseEntity.ok(convertToDTO(orderStatusTypeService.save(orderStatusType)));
     }

@@ -44,7 +44,7 @@ public class OrderController {
                 .collect(Collectors.toList());
     }
     
-    @GetMapping("/clients/{clientId}")
+    @GetMapping("/entities/{entityId}")
     @RequiresRoles({"ROLE_ADMIN"})
     public List<OrderDTO> getAllOrderByEntityId(@PathVariable Long entityId) {
         return ordersService.findAllByEntityId(entityId).stream()

@@ -17,11 +17,11 @@ import com.inn.orders.clients.AddressClientRest;
 import com.inn.orders.clients.EntityClientRest;
 import com.inn.orders.clients.PaymentClientRest;
 import com.inn.orders.clients.ProductsClientRest;
+import com.inn.orders.dtos.EnrichedOrderDTO;
 import com.inn.orders.dtos.EntitiesDTO;
 import com.inn.orders.dtos.OrderEnrichedDTO;
 import com.inn.orders.dtos.OrderPaymentDetailDto;
 import com.inn.orders.dtos.OrderProductDTO;
-import com.inn.orders.dtos.PurchaseOrderDTO;
 import com.inn.orders.entities.Order;
 import com.inn.orders.exceptions.OrderNotCreatedException;
 import com.inn.orders.repositories.OrderRepository;
@@ -118,24 +118,25 @@ public class OrderService {
 	}
     
 	/**
-	 * Método para guardar una orden de compra, si no se pueden guardar todos los productos, se elimina la orden
-	 * @param purchaseOrderDTO
+	 * Método para guardar una orden, si no se pueden guardar todos los productos, se elimina la orden
+	 * @param enrichedOrderDTO
 	 * @return Order en caso de éxito, erro	r en caso contrario
 	 */
-	public Order savePurchaseOrder(@Valid PurchaseOrderDTO purchaseOrderDTO) {
+	public Order saveEnrichedOrder(@Valid EnrichedOrderDTO enrichedOrderDTO) {
 				
 		OrderDTO order = null;
+		Order orderEntity = null;
 		List<Long> productsNotFound = new LinkedList<>();
 		
-		if(purchaseOrderDTO.getOrder()!=null) {
+		if(enrichedOrderDTO.getOrder()!=null) {
 			//primero creamos la orden
-			order = purchaseOrderDTO.getOrder();
+			order = enrichedOrderDTO.getOrder();
 			order.setOrderStatusId(OrderStatus.POR_APROBAR.getValor());
 
-			Order orderEntity = orderRepository.save(modelMapper.map(purchaseOrderDTO.getOrder(), Order.class));
+			orderEntity = orderRepository.save(modelMapper.map(enrichedOrderDTO.getOrder(), Order.class));
 	        if(orderEntity!=null) {
 	        	// guardamos los productos de la orden
-	        	for (ProductDTO productDTO : purchaseOrderDTO.getProducts()) {
+	        	for (ProductDTO productDTO : enrichedOrderDTO.getProducts()) {
 	        		try {
 		        		productClientFeign.createOrderProduct(new OrderProductDTO(orderEntity.getOrderId(), productDTO.getProductId()));
 					} catch (Exception e) {
@@ -151,7 +152,7 @@ public class OrderService {
 	        }
 		}
 		
-		order.setOrderId(order.getOrderId());
+		order.setOrderId(orderEntity.getOrderId());
 		return modelMapper.map(order, Order.class);
 	}
 }

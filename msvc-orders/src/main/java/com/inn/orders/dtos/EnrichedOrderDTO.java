@@ -8,7 +8,7 @@ import com.inn.commons.dtos.ProductDTO;
 import lombok.Data;
 
 @Data
-public class PurchaseOrderDTO {
+public class EnrichedOrderDTO {
 
 	OrderDTO order;
 	List<ProductDTO> products;

@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -19,8 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.inn.commons.dtos.OrderDTO;
 import com.inn.commons.exceptions.ResourceNotFoundException;
 import com.inn.orders.config.RequiresRoles;
+import com.inn.orders.dtos.EnrichedOrderDTO;
 import com.inn.orders.dtos.OrderEnrichedDTO;
-import com.inn.orders.dtos.PurchaseOrderDTO;
 import com.inn.orders.entities.Order;
 import com.inn.orders.services.OrderService;
 
@@ -72,10 +71,10 @@ public class OrderController {
         return ResponseEntity.ok(orderEnrichedDTO);
     }
     
-    @PostMapping("/purchase")
+    @PostMapping("/enriched")
     @RequiresRoles({"ROLE_ADMIN"})
-    public ResponseEntity<OrderDTO> createPurchaseOrder(@Valid @RequestBody PurchaseOrderDTO purchaseOrderDTO) {
-        return ResponseEntity.ok(convertToDTO(ordersService.savePurchaseOrder(purchaseOrderDTO)));
+    public ResponseEntity<OrderDTO> createOrderEnriched(@Valid @RequestBody EnrichedOrderDTO enrichedOrderDTO) {
+        return ResponseEntity.ok(convertToDTO(ordersService.saveEnrichedOrder(enrichedOrderDTO)));
     }
 
     @PostMapping

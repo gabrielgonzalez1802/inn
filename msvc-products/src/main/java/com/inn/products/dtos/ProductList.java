@@ -15,6 +15,6 @@ public class ProductList {
         private Long id;
         private Integer cantidad;
         private Long warehouseId;
-        private Long Movement_type_id;
+        private Long movementTypeId;
     }
 }

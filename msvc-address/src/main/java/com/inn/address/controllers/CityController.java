@@ -38,6 +38,12 @@ public class CityController {
     public List<CityDTO> getAllCities() {
         return cityService.findAll().stream().map(this::convertToDTO).collect(Collectors.toList());
     }
+    
+    @GetMapping("/states/{stateId}")
+    @RequiresRoles({"ROLE_ADMIN"})
+    public List<CityDTO> getAllCitiesByStateId(Long stateId) {
+        return cityService.findAllByStateId(stateId).stream().map(this::convertToDTO).collect(Collectors.toList());
+    }
 
     @GetMapping("/{id}")
     @RequiresRoles({"ROLE_ADMIN"})

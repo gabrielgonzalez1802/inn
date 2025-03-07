@@ -19,6 +19,10 @@ public class CityService {
     public List<City> findAll() {
         return cityRepository.findAll();
     }
+    
+    public List<City> findAllByStateId(Long stateId) {
+        return cityRepository.findByStateId(stateId);
+    }
 
     public Optional<City> findById(Long id) {
         return cityRepository.findById(id);

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.inn.commons.dtos.OrderDTO;
 import com.inn.commons.enums.OrderStatus;
+import com.inn.commons.enums.TipoMovimiento;
 import com.inn.products.clients.OrderClientRest;
 import com.inn.products.dtos.ProductList;
 import com.inn.products.dtos.ProductMovementSummaryDTO;
@@ -134,7 +135,7 @@ public class MovementService {
 	 * @throws ProductsNotFoundException if any product does not have sufficient stock
 	 */
 	public List<Movement> saveByListProducts(@Valid ProductList listProducts) {
-		
+				
 		//verificamos que la orden exista
 		OrderDTO orderDTO = orderClientFeing.getOrderById(listProducts.getOrderId());
 		
@@ -157,9 +158,12 @@ public class MovementService {
 		List<Movement> listaMovimientos = new LinkedList<>();
 		
 		listProducts.getProducts().forEach(product -> {
+			
+			TipoMovimiento tipoMovimiento = TipoMovimiento.fromValor(product.getMovementTypeId());
+			
 			Movement movimiento = new Movement();
 			movimiento.setMovementDate(LocalDateTime.now());
-			movimiento.setMovementTypeId(product.getMovement_type_id());
+			movimiento.setMovementTypeId(product.getMovementTypeId());
 			movimiento.setProductId(product.getId());
 			movimiento.setQuantity(product.getCantidad());
 			movimiento.setWarehouseId(product.getWarehouseId());
@@ -170,7 +174,11 @@ public class MovementService {
 			if(newMovement!=null) {
 				//buscamos y actualizamos el stock
 				Stock stock = stockRepository.findById(new StockId(product.getId(), product.getWarehouseId())).get();
-				stock.setQuantity(stock.getQuantity() - product.getCantidad());
+				if (tipoMovimiento == TipoMovimiento.RECEPCION || tipoMovimiento == TipoMovimiento.INV_INICIAL) {
+					stock.setQuantity(stock.getQuantity() + product.getCantidad());
+				} else if (tipoMovimiento == TipoMovimiento.DESPACHO || tipoMovimiento == TipoMovimiento.MERMA) {
+					stock.setQuantity(stock.getQuantity() - product.getCantidad());
+				}
 				stockRepository.save(stock);
 				
 				listaMovimientos.add(newMovement);

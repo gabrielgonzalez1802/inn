@@ -34,7 +34,6 @@ public class ProductCategoryController {
     private ModelMapper modelMapper;
 
     @GetMapping
-    @RequiresRoles({"ROLE_ADMIN"})
     public List<ProductCategoryDTO> getAllProductCategories() {
         return productCategoryService.findAll().stream()
                 .map(this::convertToDTO)

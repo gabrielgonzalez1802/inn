@@ -40,7 +40,7 @@ public class CityController {
     
     @GetMapping("/states/{stateId}")
     @RequiresRoles({"ROLE_ADMIN"})
-    public List<CityDTO> getAllCitiesByStateId(Long stateId) {
+    public List<CityDTO> getAllCitiesByStateId(@PathVariable Long stateId) {
         return cityService.findAllByStateId(stateId).stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 

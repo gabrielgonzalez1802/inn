@@ -1,7 +1,5 @@
 package com.inn.commons.dtos;
 
-import com.inn.commons.dtos.ProductDTO;
-
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
 import lombok.AllArgsConstructor;

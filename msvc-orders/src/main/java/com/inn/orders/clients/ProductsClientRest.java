@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.inn.commons.dtos.MovementDTO;
-import com.inn.orders.dtos.OrderProductDTO;
+import com.inn.commons.dtos.OrderProductDTO;
 
 import jakarta.validation.Valid;
 

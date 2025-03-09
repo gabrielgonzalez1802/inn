@@ -10,7 +10,8 @@ import org.springframework.stereotype.Service;
 
 import com.inn.commons.dtos.EntityAddressDTO;
 import com.inn.commons.dtos.OrderDTO;
-import com.inn.commons.dtos.ProductDTO;
+import com.inn.commons.dtos.OrderProductDTO;
+import com.inn.commons.dtos.ProductSimpleDTO;
 import com.inn.commons.enums.OrderStatus;
 import com.inn.commons.exceptions.ResourceNotFoundException;
 import com.inn.orders.clients.AddressClientRest;
@@ -21,7 +22,6 @@ import com.inn.orders.dtos.EnrichedOrderDTO;
 import com.inn.orders.dtos.EntitiesDTO;
 import com.inn.orders.dtos.OrderEnrichedDTO;
 import com.inn.orders.dtos.OrderPaymentDetailDto;
-import com.inn.orders.dtos.OrderProductDTO;
 import com.inn.orders.entities.Order;
 import com.inn.orders.exceptions.OrderNotCreatedException;
 import com.inn.orders.repositories.OrderRepository;
@@ -152,11 +152,15 @@ public class OrderService {
 			orderEntity = orderRepository.save(modelMapper.map(enrichedOrderDTO.getOrder(), Order.class));
 	        if(orderEntity!=null) {
 	        	// guardamos los productos de la orden
-	        	for (ProductDTO productDTO : enrichedOrderDTO.getProducts()) {
+	        	for (ProductSimpleDTO productSimpleDTO : enrichedOrderDTO.getProducts()) {
 	        		try {
-		        		productClientFeign.createOrderProduct(new OrderProductDTO(orderEntity.getOrderId(), productDTO.getProductId()));
+	        			OrderProductDTO orderProductDTO = new OrderProductDTO();
+	        			orderProductDTO.setOrderId(orderEntity.getOrderId());
+	        			orderProductDTO.setProductId(productSimpleDTO.getProductId());
+	        			orderProductDTO.setQuantity(productSimpleDTO.getQuantity());
+		        		productClientFeign.createOrderProduct(orderProductDTO);
 					} catch (Exception e) {
-						productsNotFound.add(productDTO.getProductId());
+						productsNotFound.add(productSimpleDTO.getProductId());
 					}
 	        	}
 	        	

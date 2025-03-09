@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.inn.commons.dtos.EntityAddressDTO;
 import com.inn.commons.dtos.OrderDTO;
+import com.inn.commons.dtos.OrderProductDTO;
 
 import lombok.Data;
 

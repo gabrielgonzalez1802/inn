@@ -19,6 +19,9 @@ public class OrderProduct {
     @Column(name = "product_id", nullable = false)
     private Long productId;
     
+    @Column(name = "quantity", nullable = false)
+    private Integer quantity;
+    
     @ManyToOne
 	@JoinColumn(name = "product_id", referencedColumnName = "product_id", nullable = false, insertable = false, updatable = false)
     private Product product;

@@ -66,10 +66,10 @@ public class OrderService {
     		List<OrderProductDTO> ordersProductsListDTO = productClientFeign.getAllOrderProductByOrderId(order.getOrderId());
     		
     		orderEnrichedDTO.setOrder(modelMapper.map(order, OrderDTO.class));
-    		orderEnrichedDTO.setEntity(entityDTO);
-    		orderEnrichedDTO.setOrderPaymentDetail(orderPaymentDetailDTO);
-    		orderEnrichedDTO.setEntitesAddress(entityAddressListDTO);
-    		orderEnrichedDTO.setOrdersProducts(ordersProductsListDTO);
+    		orderEnrichedDTO.setEntity(entityDTO!=null?entityDTO:new EntitiesDTO());
+    		orderEnrichedDTO.setOrderPaymentDetail(orderPaymentDetailDTO!=null?orderPaymentDetailDTO:new OrderPaymentDetailDto());
+    		orderEnrichedDTO.setEntitesAddress(entityAddressListDTO!=null?entityAddressListDTO:new LinkedList<>());
+    		orderEnrichedDTO.setOrdersProducts(ordersProductsListDTO!=null?ordersProductsListDTO:new LinkedList<>());
     	}
     	
         return orderEnrichedDTO;

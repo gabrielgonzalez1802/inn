@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.inn.users.entities.User;
@@ -16,7 +17,9 @@ import io.jsonwebtoken.security.Keys;
 
 @Component
 public class JwtService {
-
+	
+	@Value("${jwt.expiration.time}")
+	private Integer expirationTime;
 
     public static final String SECRET = "5367566B59703373367639792F423F4528482B4D6251655468576D5A71347437";
 
@@ -37,7 +40,7 @@ public class JwtService {
                 .setClaims(claims)
                 .setSubject(userName)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 30))
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * expirationTime))
                 .signWith(getSignKey(), SignatureAlgorithm.HS256).compact();
     }
 

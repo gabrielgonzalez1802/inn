@@ -25,10 +25,12 @@ public class TokenIdFilter implements Filter {
     	
          HttpServletRequest httpRequest = (HttpServletRequest) request;
     	 String uri = httpRequest.getRequestURI();
+    	 String method = httpRequest.getMethod();
     	
     	// Excluye swagger-ui.html
-        if (uri.endsWith("/swagger-ui.html") || uri.endsWith("/swagger-ui/index.html")) {
-            chain.doFilter(request, response);
+    	if (uri.endsWith("/swagger-ui.html") || uri.endsWith("/swagger-ui/index.html") 
+         		|| (uri.equals("/api/entities") && method.equals("POST"))) {
+             chain.doFilter(request, response);
         }else {
         	final ObjectMapper objectMapper = new ObjectMapper();
 

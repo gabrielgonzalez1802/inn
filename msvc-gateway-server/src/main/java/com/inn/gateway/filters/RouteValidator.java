@@ -17,7 +17,8 @@ public class RouteValidator {
             Map.entry("/api/products", "GET"),
             Map.entry("/api/products/categories", "GET"),
             Map.entry("/api/addresses/states", "GET"),
-            Map.entry("/api/addresses/cities", "GET")
+            Map.entry("/api/addresses/cities", "GET"),
+            Map.entry("/api/entities", "POST")
     );
 
     public Predicate<ServerHttpRequest> isSecured = request ->

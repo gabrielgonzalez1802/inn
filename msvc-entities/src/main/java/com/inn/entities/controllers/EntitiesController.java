@@ -50,7 +50,6 @@ public class EntitiesController {
     }
 
     @PostMapping
-    @RequiresRoles({"ROLE_ADMIN"})
     public EntitiesDTO createEntity(@Valid @RequestBody EntitiesDTO entitiesDTO) {
         Entities entities = convertToEntity(entitiesDTO);
         return convertToDTO(entitiesService.save(entities));

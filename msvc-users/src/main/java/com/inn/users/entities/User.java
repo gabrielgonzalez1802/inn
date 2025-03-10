@@ -52,6 +52,7 @@ public class User {
     @Column(unique = true)
     private String email;
     
-    @Column(name = "entity_id")
+    @NotBlank
+    @Column(name = "entity_id", nullable = false)
     private Long entityId;
 }
